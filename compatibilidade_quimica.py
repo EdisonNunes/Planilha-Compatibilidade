@@ -4,10 +4,11 @@ import datetime
 
 #base = carregar_dados()
 
+
+
 format_1casa='%0.1f'
 format_2casas='%0.2f'
 format_3casas='%0.3f'
-
 st.write('## Planilha de Compatibilidade Química')
 container1 = st.container(border=True)
 with container1:
@@ -53,7 +54,7 @@ with container3:
 container4 = st.container(border=True)
 with container4:
     produto = st.text_input('Produto', max_chars= 50)
-       
+    
 container5 = st.container(border=True)
 with container5:
     coluna_esquerda, coluna_meio, coluna_direita = st.columns([1,1,1])
@@ -183,4 +184,8 @@ with container13:
         hr_inicial = st.time_input('Hora Inicial',value='now', step=60) 
     with col2:   
         dt_final = st.date_input('Data Final',hoje, format='DD-MM-YYYY')
-        hr_final = st.time_input('Hora Final',value='now', step=60)                 
+        hr_final = st.time_input('Hora Final',value='now', step=60) 
+
+
+
+                          
