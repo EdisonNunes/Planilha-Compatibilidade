@@ -2,8 +2,6 @@ import streamlit as st
 #from data_loader import carregar_dados
 import datetime
 
-#base = carregar_dados()
-
 
 
 format_1casa='%0.1f'
@@ -16,14 +14,23 @@ with container1:
     col1, col2, col3 = st.columns(3)
     with col1:
         cat_membr = st.text_input('Categoria da Membrana', max_chars= 12)
+        dict_dados = {'cat_membr': cat_membr}
     with col2:   
         lote1 = st.text_input('Lote 1', max_chars= 10) 
         lote2 = st.text_input('Lote 2', max_chars= 10) 
         lote3 = st.text_input('Lote 3', max_chars= 10) 
+        dict_dados = {'lote1': lote1,
+                      'lote2': lote2,
+                      'lote3': lote3
+                      }
     with col3:   
         serial1 = st.text_input('Serial 1', max_chars= 5) 
         serial2 = st.text_input('Serial 2', max_chars= 5) 
-        serial3 = st.text_input('Serial 3', max_chars= 5)   
+        serial3 = st.text_input('Serial 3', max_chars= 5) 
+        dict_dados = {'serial1': serial1,
+                      'serial2': serial2,
+                      'serial3': serial3
+                      }  
 
 container2 = st.container(border=True)
 with container2:
@@ -31,10 +38,13 @@ with container2:
     col1, col2, col3 = st.columns(3)
     with col1:
         poro_cat_membr = st.text_input('Poro', max_chars= 12)
+        dict_dados = {'poro_cat_membr': poro_cat_membr}
     with col2:   
         fabri = st.text_input('Fabricante', max_chars= 10) 
+        dict_dados = {'fabri': fabri}
     with col3:   
         linha = st.text_input('Linha', max_chars= 15) 
+        dict_dados = {'linha': linha}
         
 
 container3 = st.container(border=True)
@@ -44,16 +54,26 @@ with container3:
     with col1:
         cat_disp = st.text_input('Categoria Dispositivo', max_chars= 12)
         poro_cat_disp = st.text_input('Poro Dispositivo µm', max_chars= 12)
+        dict_dados = {'cat_disp': cat_disp,
+                      'poro_cat_disp': poro_cat_disp
+                      } 
     with col2:
         lote_disp = st.text_input('Lote Dispositivo', max_chars= 10)   
         fabri_disp = st.text_input('Fabricante Dispositivo', max_chars= 10) 
+        dict_dados = {'lote_disp': lote_disp,
+                      'fabri_disp': fabri_disp
+                      }
     with col3: 
         serial_cat_disp = st.text_input('Serial Dispositivo', max_chars= 6)  
         linha_cat_disp = st.text_input('Linha Dispositivo', max_chars= 15) 
+        dict_dados = {'serial_cat_disp': serial_cat_disp,
+                      'linha_cat_disp': linha_cat_disp
+                      }
 
 container4 = st.container(border=True)
 with container4:
     produto = st.text_input('Produto', max_chars= 50)
+    dict_dados = {'produto': produto}
     
 container5 = st.container(border=True)
 with container5:
@@ -61,10 +81,13 @@ with container5:
     col1, col2, col3 = st.columns(3)
     with col1:
         temp_filtra = st.text_input('Temperatura de Filtração', max_chars= 12)
+        dict_dados = {'temp_filtra': temp_filtra}
     with col2:   
-        manu_temp = st.text_input('Manutenção de Temperatura', max_chars= 20) 
+        manu_temp = st.text_input('Manutenção de Temperatura', max_chars= 20)
+        dict_dados = {'manu_temp': manu_temp} 
     with col3:   
-        tmp_contato = st.text_input('Tempo de contato', max_chars= 10)   
+        tmp_contato = st.text_input('Tempo de contato', max_chars= 10)
+        dict_dados = {'tmp_contato': tmp_contato}   
 
 container6 = st.container(border=True)
 with container6:
@@ -72,10 +95,13 @@ with container6:
     col1, col2, col3 = st.columns(3)
     with col1:
         id_sala = st.text_input('ID Sala', max_chars= 10)
+        dict_dados = {'id_sala': id_sala}
     with col2:   
         sala_temp = st.text_input('Temperatura', max_chars= 20) 
+        dict_dados = {'sala_temp': sala_temp}
     with col3:   
-        sala_umid = st.text_input('Umidade', max_chars= 10)      
+        sala_umid = st.text_input('Umidade', max_chars= 10)
+        dict_dados = {'sala_umid': sala_umid}      
 
 
 st.markdown('<div style="text-align: center;"><h3>Pesagem Membrana 47 mm</h3></div>', unsafe_allow_html=True)
@@ -90,13 +116,21 @@ with container7:
         pi_memb_1 = st.number_input('Membrana Inicial 1', format=format_3casas)   
         pi_memb_2 = st.number_input('Membrana Inicial 2', format=format_3casas) 
         pi_memb_3 = st.number_input('Membrana Inicial 3', format=format_3casas)
+        dict_dados = {'pi_memb_1': pi_memb_1,
+                      'pi_memb_2': pi_memb_2,
+                      'pi_memb_3': pi_memb_3
+                      }  
     with col3:   
         st.markdown('<div style="text-align: center;"><h5>Peso Final(g)</h5></div>', unsafe_allow_html=True,
                     help='Pesar as membranas após a realização dos testes') 
     with col4:   
         pf_memb_1 = st.number_input('Membrana Final 1', format=format_3casas)
         pf_memb_2 = st.number_input('Membrana Final 2', format=format_3casas) 
-        pf_memb_3 = st.number_input('Membrana Final 3', format=format_3casas) 
+        pf_memb_3 = st.number_input('Membrana Final 3', format=format_3casas)
+        dict_dados = {'pf_memb_1': pf_memb_1,
+                      'pf_memb_2': pf_memb_2,
+                      'pf_memb_3': pf_memb_3
+                      }   
 
 
 st.markdown('<div style="text-align: center;"><h3>Cálculo de Fluxo - Pré molhagem 100 ml</h3></div>', unsafe_allow_html=True)
@@ -112,6 +146,10 @@ with container8:
         fli_memb_1 = st.number_input('Membr 1 Inic - 100 ml', format=format_2casas)
         fli_memb_2 = st.number_input('Membr 2 Inic - 100 ml', format=format_2casas) 
         fli_memb_3 = st.number_input('Membr 3 Inic - 100 ml', format=format_2casas)
+        dict_dados = {'fli_memb_1': fli_memb_1,
+                      'fli_memb_2': fli_memb_2,
+                      'fli_memb_3': fli_memb_3
+                      }  
     with col3:   
         st.markdown('<div style="text-align: center;"><h5>Fluxo Final Tempo do Cronometro</h5></div>', unsafe_allow_html=True,
                     help='Após o enxague e calculo de fluxo final, realizar teste de Integridade final') 
@@ -119,6 +157,10 @@ with container8:
         flf_memb_1 = st.number_input('Membr 1 Final - 100 ml', format=format_2casas)
         flf_memb_2 = st.number_input('Membr 2 Final - 100 ml', format=format_2casas) 
         flf_memb_3 = st.number_input('Membr 3 Final - 100 ml', format=format_2casas)
+        dict_dados = {'flf_memb_1': flf_memb_1,
+                      'flf_memb_2': flf_memb_2,
+                      'flf_memb_3': flf_memb_3
+                      }  
 
 st.markdown('<div style="text-align: center;"><h3>Teste de Integridade</h3></div>', unsafe_allow_html=True) 
 container9 = st.container(border=True)
@@ -126,7 +168,8 @@ with container9:
     coluna_1, coluna_2, coluna_3 = st.columns([1,1,1])
     col1, col2, col3 = st.columns(3)
     with col1:
-        pb_padrao = st.number_input('PB Padrão', format=format_2casas)  
+        pb_padrao = st.number_input('PB Padrão', format=format_2casas) 
+        dict_dados = {'pb_padrao': pb_padrao} 
 
 container10 = st.container(border=True)
 with container10:
@@ -140,20 +183,29 @@ with container10:
         memb_1_fr = st.number_input('Membr 1 Fluido Padrão', format=format_1casa, step=0.1)
         memb_2_fr = st.number_input('Membr 2 Fluido Padrão', format=format_1casa, step=0.1) 
         memb_3_fr = st.number_input('Membr 3 Fluido Padrão', format=format_1casa, step=0.1)
+        dict_dados = {'memb_1_fr': memb_1_fr,
+                      'memb_2_fr': memb_2_fr,
+                      'memb_3_fr': memb_3_fr
+                      }
     with col3:   
         st.markdown('<div style="text-align: center;"><h5>PB Produto</h5></div>', unsafe_allow_html=True,
                     help='Criar um teste de PB para o teste com Produto (<10psi >10PSI), calcular o RPB - Ao final realizar Analise Visual') 
     with col4:   
         memb_1_pr = st.number_input('Membr 1 Produto', format=format_1casa, step=0.1)
         memb_2_pr = st.number_input('Membr 2 Produto', format=format_1casa, step=0.1) 
-        memb_3_pr = st.number_input('Membr 3 Produto', format=format_1casa, step=0.1)             
+        memb_3_pr = st.number_input('Membr 3 Produto', format=format_1casa, step=0.1) 
+        dict_dados = {'memb_1_pr': memb_1_pr,
+                      'memb_2_pr': memb_2_pr,
+                      'memb_3_pr': memb_3_pr
+                      }            
         
 container11 = st.container(border=True)
 with container11:
     coluna_1, coluna_2 = st.columns([1,1])
     col1, col2 = st.columns(2)
     with col1:
-        pb_prod = st.number_input('PB Produto > PB estimado', format=format_1casa, step=0.1)    
+        pb_prod = st.number_input('PB Produto > PB estimado', format=format_1casa, step=0.1)
+        dict_dados = {'pb_prod': pb_prod}     
 
 container12 = st.container(border=True)
 with container12:
@@ -166,7 +218,11 @@ with container12:
     with col2:   
         fp_memb_1 = st.number_input('Membrana 1 Fluido Padrão', format=format_1casa, step=0.1)
         fp_memb_2 = st.number_input('Membrana 2 Fluido Padrão', format=format_1casa, step=0.1) 
-        fp_memb_3 = st.number_input('Membrana 3 Fluido Padrão', format=format_1casa, step=0.1)    
+        fp_memb_3 = st.number_input('Membrana 3 Fluido Padrão', format=format_1casa, step=0.1)
+        dict_dados = {'fp_memb_1': fp_memb_1,
+                      'fp_memb_2': fp_memb_2,
+                      'fp_memb_3': fp_memb_3
+                      }    
 
 
 st.markdown('<div style="text-align: center;"><h3>Contato com o Produto</h3></div>', 
@@ -181,11 +237,17 @@ with container13:
     
     with col1:
         dt_inicial = st.date_input('Data Inicial',hoje, format='DD-MM-YYYY')
-        hr_inicial = st.time_input('Hora Inicial',value='now', step=60) 
+        hr_inicial = st.time_input('Hora Inicial',value='now', step=60)
+        dict_dados = {'dt_inicial': dt_inicial,
+                      'hr_inicial': hr_inicial
+                      } 
     with col2:   
         dt_final = st.date_input('Data Final',hoje, format='DD-MM-YYYY')
-        hr_final = st.time_input('Hora Final',value='now', step=60) 
+        hr_final = st.time_input('Hora Final',value='now', step=60)
+        dict_dados = {'dt_final': dt_final,
+                      'hr_final': hr_final
+                      } 
 
 
 
-                          
+                         

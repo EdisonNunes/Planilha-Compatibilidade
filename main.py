@@ -1,8 +1,13 @@
 import streamlit as st
 import pandas as pd
 #import streamlit_authenticator as stauth
-#from models import session, Usuario
+from ModelSAS import *
 ##### Aula https://portalhashtag.com/cursos/1728736353758x643060883862200700
+
+# -------- Banco de dados compartilhado --------- st.secrets['sqlite']
+# [sqlite]
+# database/SASOLUTION.db
+# https://discuss.streamlit.io/t/help-with-accessing-sqlite-database-in-github-repo/16661
 # lista_usuarios = session.query(Usuario).all()
 
 
@@ -44,7 +49,7 @@ import pandas as pd
 # # 
 # dados_usuario = autenticar_usuario(autenticator)    
 
-
+dict_dados = {}
 dados_usuario = {
     'username' : 'Edison'
 
@@ -63,6 +68,7 @@ pg = st.navigation(
         'Planilhas': [st.Page('compatibilidade_quimica.py', title='Planilhas'), 
                     st.Page('relat_compatibilidade.py', title='Prévia Relatório')
                     ],
+        'Clientes': [st.Page('clientes.py', title='Clientes Cadastrados')],            
         # 'Conta': [st.Page(logout, title='Sair'),
         #         st.Page('criar_conta.py', title='Criar Conta')
         #         ]
