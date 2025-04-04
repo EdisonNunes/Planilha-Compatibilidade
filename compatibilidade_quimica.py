@@ -1,6 +1,7 @@
 import streamlit as st
 from ModelSAS import *
 import datetime
+from calculos import *
 # --------------------------- CHATGPT
 # import sqlite3
 
@@ -190,6 +191,7 @@ def DadoVazio() -> Integer:
 format_1casa='%0.1f'
 format_2casas='%0.2f'
 format_3casas='%0.3f'
+
 st.write('## Planilha de Compatibilidade Química')
 container1 = st.container(border=True)
 dict_dados={}
@@ -268,17 +270,17 @@ with container7:
         st.markdown('<div style="text-align: center;"><h5>Peso Inicial(g)</h5></div>', unsafe_allow_html=True,
                     help='Pesar as membranas antes da realização dos testes iniciais')
     with col2:
-        pi_memb_1 = st.number_input('Membrana Inicial 1', format=format_3casas)   
-        pi_memb_2 = st.number_input('Membrana Inicial 2', format=format_3casas) 
-        pi_memb_3 = st.number_input('Membrana Inicial 3', format=format_3casas)
+        pi_memb_1 = st.number_input('Membrana Inicial 1', format=format_3casas, value=float('0.146'))   
+        pi_memb_2 = st.number_input('Membrana Inicial 2', format=format_3casas, value=float('0.148')) 
+        pi_memb_3 = st.number_input('Membrana Inicial 3', format=format_3casas, value=float('0.142'))
     
     with col3:   
         st.markdown('<div style="text-align: center;"><h5>Peso Final(g)</h5></div>', unsafe_allow_html=True,
                     help='Pesar as membranas após a realização dos testes') 
     with col4:   
-        pf_memb_1 = st.number_input('Membrana Final 1', format=format_3casas)
-        pf_memb_2 = st.number_input('Membrana Final 2', format=format_3casas) 
-        pf_memb_3 = st.number_input('Membrana Final 3', format=format_3casas)
+        pf_memb_1 = st.number_input('Membrana Final 1', format=format_3casas, value=float('0.155'))
+        pf_memb_2 = st.number_input('Membrana Final 2', format=format_3casas, value=float('0.149')) 
+        pf_memb_3 = st.number_input('Membrana Final 3', format=format_3casas, value=float('0.145'))
 
 
 st.markdown('<div style="text-align: center;"><h3>Cálculo de Fluxo - Pré molhagem 100 ml</h3></div>', unsafe_allow_html=True)
@@ -291,16 +293,16 @@ with container8:
                     help='Pré molhar as membranas com 100mL de WFI, em seguida com + 100mL cronometrar o tempo de filtragem\nBomba de vácuo a 20Hg'
                     )
     with col2:   
-        fli_memb_1 = st.number_input('Membr 1 Inic - 100 ml', format=format_2casas)
-        fli_memb_2 = st.number_input('Membr 2 Inic - 100 ml', format=format_2casas) 
-        fli_memb_3 = st.number_input('Membr 3 Inic - 100 ml', format=format_2casas)
+        fli_memb_1 = st.number_input('Membr 1 Inic - 100 ml', format=format_2casas, value=float('1.07'))
+        fli_memb_2 = st.number_input('Membr 2 Inic - 100 ml', format=format_2casas, value=float('0.59')) 
+        fli_memb_3 = st.number_input('Membr 3 Inic - 100 ml', format=format_2casas, value=float('0.57'))
     with col3:   
         st.markdown('<div style="text-align: center;"><h5>Fluxo Final Tempo do Cronometro</h5></div>', unsafe_allow_html=True,
                     help='Após o enxague e calculo de fluxo final, realizar teste de Integridade final') 
     with col4:   
-        flf_memb_1 = st.number_input('Membr 1 Final - 100 ml', format=format_2casas)
-        flf_memb_2 = st.number_input('Membr 2 Final - 100 ml', format=format_2casas) 
-        flf_memb_3 = st.number_input('Membr 3 Final - 100 ml', format=format_2casas)
+        flf_memb_1 = st.number_input('Membr 1 Final - 100 ml', format=format_2casas, value=float('1.09'))
+        flf_memb_2 = st.number_input('Membr 2 Final - 100 ml', format=format_2casas, value=float('1.02')) 
+        flf_memb_3 = st.number_input('Membr 3 Final - 100 ml', format=format_2casas, value=float('0.59'))
          
 
 st.markdown('<div style="text-align: center;"><h3>Teste de Integridade</h3></div>', unsafe_allow_html=True) 
@@ -309,7 +311,7 @@ with container9:
     coluna_1, coluna_2, coluna_3 = st.columns([1,1,1])
     col1, col2, col3 = st.columns(3)
     with col1:
-        pb_padrao = st.number_input('PB Padrão', format=format_2casas) 
+        pb_padrao = st.number_input('PB Padrão', format=format_1casa, value=float('50.0')) 
          
 
 container10 = st.container(border=True)
@@ -321,23 +323,23 @@ with container10:
                     help='Após a etapa anterior realizar diretamente o teste de PB ou molhar a membrana com 200mL de WFI e realizar o PB'
                     )
     with col2:   
-        memb_1_fr = st.number_input('Membr 1 Fluido Padrão', format=format_1casa, step=0.1)
-        memb_2_fr = st.number_input('Membr 2 Fluido Padrão', format=format_1casa, step=0.1) 
-        memb_3_fr = st.number_input('Membr 3 Fluido Padrão', format=format_1casa, step=0.1)
+        memb_1_fr = st.number_input('Membr 1 Fluido Padrão', format=format_1casa, step=0.1, value=float('52.3'))
+        memb_2_fr = st.number_input('Membr 2 Fluido Padrão', format=format_1casa, step=0.1, value=float('51.1')) 
+        memb_3_fr = st.number_input('Membr 3 Fluido Padrão', format=format_1casa, step=0.1, value=float('53.4'))
     with col3:   
         st.markdown('<div style="text-align: center;"><h5>PB Produto</h5></div>', unsafe_allow_html=True,
                     help='Criar um teste de PB para o teste com Produto (<10psi >10PSI), calcular o RPB - Ao final realizar Analise Visual') 
     with col4:   
-        memb_1_pr = st.number_input('Membr 1 Produto', format=format_1casa, step=0.1)
-        memb_2_pr = st.number_input('Membr 2 Produto', format=format_1casa, step=0.1) 
-        memb_3_pr = st.number_input('Membr 3 Produto', format=format_1casa, step=0.1) 
+        memb_1_pr = st.number_input('Membr 1 Produto', format=format_1casa, step=0.1, value=float('48.6'))
+        memb_2_pr = st.number_input('Membr 2 Produto', format=format_1casa, step=0.1, value=float('47.9')) 
+        memb_3_pr = st.number_input('Membr 3 Produto', format=format_1casa, step=0.1, value=float('48.1')) 
         
 container11 = st.container(border=True)
 with container11:
     coluna_1, coluna_2 = st.columns([1,1])
     col1, col2 = st.columns(2)
     with col1:
-        pb_prod = st.number_input('PB Produto > PB estimado', format=format_1casa, step=0.1)
+        pb_prod = st.number_input('PB Produto > PB estimado', format=format_1casa, step=0.1, value=float('48.5'))
              
 
 container12 = st.container(border=True)
@@ -349,9 +351,9 @@ with container12:
                     help='Após o teste de integridade final, secar a membrana e realizar a pesagem final'
                     )  
     with col2:   
-        fp_memb_1 = st.number_input('Membrana 1 Fluido Padrão', format=format_1casa, step=0.1)
-        fp_memb_2 = st.number_input('Membrana 2 Fluido Padrão', format=format_1casa, step=0.1) 
-        fp_memb_3 = st.number_input('Membrana 3 Fluido Padrão', format=format_1casa, step=0.1)
+        fp_memb_1 = st.number_input('Membrana 1 Fluido Padrão', format=format_1casa, step=0.1, value=float('50.1'))
+        fp_memb_2 = st.number_input('Membrana 2 Fluido Padrão', format=format_1casa, step=0.1, value=float('52.1')) 
+        fp_memb_3 = st.number_input('Membrana 3 Fluido Padrão', format=format_1casa, step=0.1, value=float('50.7'))
 
 st.markdown('<div style="text-align: center;"><h3>Contato com o Produto</h3></div>', 
             help='Molhagem em looping de todos os elementos (5min para cada um) e iniciar a contagem de contato',
@@ -372,12 +374,90 @@ with container13:
         hr_final = st.time_input('Hora Final',value='now', step=60)
 
 
-if st.button('Salvar Planilha'):
+if st.button('Salvar Planilha', type='primary'):
     dados_digitados = Monta_Dicionario()
     erro = DadoVazio()
     if erro == 0:
-        print(f'Tudo certo = {erro}')
+        df = Previsao_Relat(dados_digitados)
+
         #st.warning(f' ##### Campo :point_right: {message} INVÁLIDO !  :mag_right: Erro: {erro}') 
+        st.markdown('<div style="text-align: center;"><h3>Prévia de Resultado</h3></div>', unsafe_allow_html=True) 
+        #st.dataframe(df, hide_index=True)
+        
+        df_RPB = df[['RPB Membrana 1','RPB Membrana 2','RPB Membrana 3', 'Média RPB']]
+        st.dataframe(df_RPB, hide_index=True)
+
+        df_PBEstimado = df['PB Estimado']   
+        st.dataframe(df_PBEstimado, hide_index=True, use_container_width=False, width= 185 )
+
+        # ------------------------- % Variação de Peso ------------------------------------- 
+        st.markdown('<div style="text-align: center;"><h5>% Variação Peso - Critério <= 10%</h5></div>', unsafe_allow_html=True)
+
+        df_VarPeso = df[['% Variação Peso - Membrana 1',
+                         '% Variação Peso - Membrana 2',
+                         '% Variação Peso - Membrana 3', 
+                         'ResultadoP Membrana 1',
+                         'ResultadoP Membrana 2',
+                         'ResultadoP Membrana 3',
+                         'Média % Variação Peso']]
+        
+        if df_VarPeso['ResultadoP Membrana 1'][0] == 0.0:
+            Resultado_1 = 'Membrana 1 - APROVADA'
+        else:
+            Resultado_1 = 'Membrana 1 - REPROVADA'    
+        if df_VarPeso['ResultadoP Membrana 2'][0] == 0.0:
+            Resultado_2 = 'Membrana 2 - APROVADA'
+        else:
+            Resultado_2 = 'Membrana 2 - REPROVADA'
+        if df_VarPeso['ResultadoP Membrana 3'][0] == 0.0:
+            Resultado_3 = 'Membrana 3 - APROVADA'
+        else:
+            Resultado_3 = 'Membrana 3 - REPROVADA'  
+
+        df_VarPeso = df_VarPeso.drop(columns=['ResultadoP Membrana 1','ResultadoP Membrana 2','ResultadoP Membrana 3'])          
+        st.dataframe(df_VarPeso, 
+                     column_config={
+                            "% Variação Peso - Membrana 1": Resultado_1, 
+                            "% Variação Peso - Membrana 2": Resultado_2,
+                            "% Variação Peso - Membrana 3": Resultado_3,
+                            
+                       },
+                      
+                        
+                     hide_index=True)
+          # ------------------------- % Variação de Vazão ------------------------------------- 
+        st.markdown('<div style="text-align: center;"><h5>% Variação Vazão - Critério <= 10%</h5></div>', unsafe_allow_html=True)
+
+        df_VarVazao = df[['% Variação Vazao - Membrana 1',
+                          '% Variação Vazao - Membrana 2',
+                          '% Variação Vazao - Membrana 3',
+                          'ResultadoV Membrana 1',
+                          'ResultadoV Membrana 2',
+                          'ResultadoV Membrana 3', 
+                          'Média % Variação Vazão']]
+        if df_VarVazao['ResultadoV Membrana 1'][0] == 0.0:
+            Resultado_4 = 'Membrana 1 - APROVADA'
+        else:
+            Resultado_4 = 'Membrana 1 - REPROVADA'    
+        if df_VarVazao['ResultadoV Membrana 2'][0] == 0.0:
+            Resultado_5 = 'Membrana 2 - APROVADA'
+        else:
+            Resultado_5 = 'Membrana 2 - REPROVADA'
+        if df_VarVazao['ResultadoV Membrana 3'][0] == 0.0:
+            Resultado_6 = 'Membrana 3 - APROVADA'
+        else:
+            Resultado_6 = 'Membrana 3 - REPROVADA'
+        df_VarVazao = df_VarVazao.drop(columns=['ResultadoV Membrana 1','ResultadoV Membrana 2','ResultadoV Membrana 3'])          
+        st.dataframe(df_VarVazao, 
+                     column_config={
+                            "% Variação Vazao - Membrana 1": Resultado_4, 
+                            "% Variação Vazao - Membrana 2": Resultado_5,
+                            "% Variação Vazao - Membrana 3": Resultado_6,
+                            
+                       },
+                        
+                     hide_index=True)
+        
         #Salva_Planilha(dados=dados_digitados)
     else: 
         match(erro):

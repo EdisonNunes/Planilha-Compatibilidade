@@ -12,5 +12,9 @@ def load_clientes(database):
             return df
 
 
+import streamlit as st
+import pandas as pd
+
+
 
     
