@@ -62,6 +62,11 @@ dados_usuario = {
     # usuario =  session.query(Usuario).filter_by(email=email_usuario).first()
 
 # if usuario.admin:
+
+# Estilizando com style.css 
+with open('style.css') as f:
+    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
 pg = st.navigation(
     {   #     st.Page([ pagina/função, titulo])           
         'Home': [st.Page('homepage.py', title='Compatibilidade Química')],

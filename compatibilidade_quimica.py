@@ -192,6 +192,7 @@ format_1casa='%0.1f'
 format_2casas='%0.2f'
 format_3casas='%0.3f'
 
+
 st.write('## Planilha de Compatibilidade Química')
 container1 = st.container(border=True)
 dict_dados={}

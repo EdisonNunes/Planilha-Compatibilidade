@@ -1,0 +1,59 @@
+PERGUNTA:
+No streamlit, se o programa não for acessado por um período de tempo ele entra no modo sleep. 
+Isso será resolvido se contratar a versão PRO do snowflake?
+
+RESPOSTA:
+Ótima pergunta — mas tem uma confusão de conceitos aí. A hibernação (sleep) do app não tem nada a ver 
+com a versão do Snowflake, mesmo que você contrate a versão PRO ou Enterprise. 
+Vamos separar as duas coisas:
+1. Hibernação no Streamlit (App Web)
+	Se você está usando o Streamlit Cloud (streamlit.io) para hospedar seu app:
+	Apps entram em modo sleep (hibernação) se não forem acessados por um tempo (geralmente 1 hora).
+	Isso acontece independente do banco de dados usado (Snowflake, SQLite, BigQuery, etc).
+	A hibernação é um recurso do Streamlit Cloud Free Tier para economizar recursos
+	Como resolver isso?
+	Upgrade para o plano pago (Streamlit Team/Pro/Enterprise) resolve esse problema.
+	Ou você pode hospedar seu app por conta própria (ex: usando um servidor, 
+	EC2, Heroku, Azure, etc) — aí você tem controle total.
+2. Hibernação no Snowflake (Virtual Warehouse)	
+	No Snowflake, o que pode hibernar é o Virtual Warehouse, que executa queries.
+	Ele entra em "Suspended" quando não está em uso.
+	Isso economiza custo, já que o Snowflake cobra pelo tempo ativo do warehouse.
+	Quando uma query é feita, ele automaticamente acorda (resume)
+	Isso não é um problema:
+	O "wake up" é rápido (1-2 segundos)
+	Você pode configurar o auto-resume e auto-suspend no warehouse.
+	-- Exemplo: suspender após 5 min e ativar automaticamente
+	ALTER WAREHOUSE MEU_WH SET AUTO_SUSPEND = 300;
+	ALTER WAREHOUSE MEU_WH SET AUTO_RESUME = TRUE;
+
+
+PERGUNTA: 
+Se eu Contratar plano pago (Streamlit Pro), posso deixar o meu banco de dados sqlite na mesma pasta da minha aplicação?
+
+RESPOSTA:
+Se você contratar um plano pago do Streamlit Cloud (como o Pro):
+Atualmente, o Streamlit Cloud (gratuito ou pago) não permite o uso direto de arquivos persistentes locais, 
+como um banco de dados SQLite salvo em disco na mesma pasta da aplicação.
+Isso acontece porque:
+	O sistema de arquivos do Streamlit Cloud é efêmero (ou seja, não é persistente entre sessões).
+	Você pode incluir um arquivo .db (como o meubanco.db) no repositório do GitHub, mas:
+		Ele será recarregado do zero toda vez que o app reiniciar.
+		Alterações feitas no banco durante o uso do app não serão salvas permanentemente.
+		
+O que funciona?
+Se você quer usar SQLite no Streamlit Cloud, essas são as opções:
+Leitura apenas de um banco .db incluído no GitHub:	
+	Serve para apps onde os dados são apenas consultados.
+Escrita / edição do banco em tempo real não é recomendada:
+	Porque o app vai resetar e perder tudo após hibernação ou redeploy.
+	
+Alternativas viáveis para persistência real:
+Se você precisa salvar dados de forma persistente (leitura e escrita confiável), use:		
+Opção					Vantagens									Observações	
+Snowflake				Escalável, integrado, seguro				Ideal para projetos mais robustos
+PostgreSQL (Cloud)		Ótimo custo-benefício, persistente			Pode usar Heroku, Supabase, etc
+SQLite + Server próprio	Funciona se você hospedar o app você mesmo	Ex: EC2, VPS, etc.
+
+
+

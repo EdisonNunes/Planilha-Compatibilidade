@@ -1,0 +1,116 @@
+Project name : SAS_Planilha
+Database Password: S46BgnbjWtXAV2ly
+Name: supabase_realtime
+System ID: 16420
+Project ID: paiumevgqnprrgthcapn
+
+CONEXÃO Em Python:
+
+
+1. pip install python-dotenv psycopg2
+
+EM main.py:
+2. import psycopg2
+    from dotenv import load_dotenv
+    import os
+    # Load environment variables from .env
+    load_dotenv()
+
+    # Fetch variables
+    USER = os.getenv("user")
+    PASSWORD = os.getenv("password")
+    HOST = os.getenv("host")
+    PORT = os.getenv("port")
+    DBNAME = os.getenv("dbname")
+
+    # Connect to the database
+    try:
+        connection = psycopg2.connect(
+        user=USER,
+        password=PASSWORD,
+        host=HOST,
+        port=PORT,
+        dbname=DBNAME
+        )
+    print("Connection successful!")
+    
+    # Create a cursor to execute SQL queries
+    cursor = connection.cursor()
+    
+    # Example query
+    cursor.execute("SELECT NOW();")
+    result = cursor.fetchone()
+    print("Current Time:", result)
+
+    # Close the cursor and connection
+    cursor.close()
+    connection.close()
+    print("Connection closed.")
+
+    except Exception as e:
+        print(f"Failed to connect: {e}")
+
+Em .env
+3. Choose type of connection (.env)
+     DATABASE_URL=postgresql://postgres:[YOUR-PASSWORD]@db.paiumevgqnprrgthcapn.supabase.co:5432/postgres
+     host: db.paiumevgqnprrgthcapn.supabase.co
+     port: 5432
+     database: postgres
+     user: postgres
+
+Connecting to SQL ALchemy:
+Please use:     postgresql:// instead of postgres:// as your dialect when connecting via SQLAlchemy.
+Example:create_engine("postgresql+psycopg2://...")
+
+--------------------------------------------------------------------
+
+CONEXÃO Em SQLAlchemy:
+1. pip install python-dotenv sqlalchemy psycopg2
+EM main.py:
+2. from sqlalchemy import create_engine
+     # from sqlalchemy.pool import NullPool
+     from dotenv import load_dotenv
+     import os
+
+     # Load environment variables from .env
+     load_dotenv()
+
+     # Fetch variables
+     USER = os.getenv("user")
+     PASSWORD = os.getenv("password")
+     HOST = os.getenv("host")
+     PORT = os.getenv("port")
+     DBNAME = os.getenv("dbname")
+
+     # Construct the SQLAlchemy connection string
+     DATABASE_URL = f"postgresql+psycopg2://{USER}:{PASSWORD}@{HOST}:{PORT}/{DBNAME}?sslmode=require"
+
+     # Create the SQLAlchemy engine
+     engine = create_engine(DATABASE_URL)
+     # If using Transaction Pooler or Session Pooler, we want to ensure we disable SQLAlchemy client side pooling -
+     # https://docs.sqlalchemy.org/en/20/core/pooling.html#switching-pool-implementations
+     # engine = create_engine(DATABASE_URL, poolclass=NullPool)
+
+     # Test the connection
+    try:
+        with engine.connect() as connection:
+            print("Connection successful!")
+    except Exception as e:
+        print(f"Failed to connect: {e}")
+
+3. Choose type of connection
+Direct connection
+Ideal for applications with persistent, long-lived connections, such as those running on virtual machines or long-standing containers.
+-------  Em .env
+user=postgres 
+password=[YOUR-PASSWORD] 
+host=db.paiumevgqnprrgthcapn.supabase.co 
+port=5432 
+dbname=postgres
+Parameters:
+  host: db.paiumevgqnprrgthcapn.supabase.co
+  port: 5432
+  database: postgres
+  user: postgres
+
+
