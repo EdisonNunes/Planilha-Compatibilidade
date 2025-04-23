@@ -449,8 +449,8 @@ if st.button('Salvar Planilha', type='primary'):
         df_RPB = df[['RPB Membrana 1','RPB Membrana 2','RPB Membrana 3', 'Média RPB']]
         st.dataframe(df_RPB, hide_index=True)
 
-        df_PBEstimado = df['PB Estimado']   
-        st.dataframe(df_PBEstimado, hide_index=True, use_container_width=False, width= 185 )
+        #df_PBEstimado = df['PB Estimado']   
+        #st.dataframe(df_PBEstimado, hide_index=True, use_container_width=False, width= 185 )
 
         # ------------------------- % Variação de Peso ------------------------------------- 
         st.markdown('<div style="text-align: center;"><h5>% Variação Peso - Critério <= 10%</h5></div>', unsafe_allow_html=True)

@@ -18,7 +18,7 @@ from st_supabase_connection import SupabaseConnection, execute_query
 #   "user": {...}
 #   "session": {...}
 
-
+#st.write(st.secrets)
 
 url = st.secrets['supabase']['SUPABASE_URL']
 key = st.secrets['supabase']['SUPABASE_KEY']
