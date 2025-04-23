@@ -1,0 +1,58 @@
+crie 2 tabelas no supabase com os seguintes campos:
+tabela planilha: id como chave primária, campo1, campo2 e campo3
+tabela resultado: id como chave primária, resultado1, resultado2 e  resultado3
+
+Sendo que deverá ter uma relação de 1 para 1 entra as 2 tabelas, portanto criar
+uma chave estrangeira na tabela planilha para pegar o id da tabela resultado
+crie a chave primária da planilha para que seja a própria chave estrangeira
+
+-- Criação da tabela resultado
+CREATE TABLE resultado (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  resultado1 TEXT,
+  resultado2 TEXT,
+  resultado3 TEXT
+);
+
+-- Criação da tabela planilha, usando o mesmo ID da tabela resultado
+CREATE TABLE planilha (
+  id UUID PRIMARY KEY REFERENCES resultado(id),
+  campo1 TEXT,
+  campo2 TEXT,
+  campo3 TEXT
+);
+Resultado:
+primeiro insere um registro na resultado, que gera um id
+Depois, insere na planilha usando esse mesmo id, garantindo a relação 1:1
+
+==============================================================================
+# Inserir em resultado
+resultado_data = {
+    'resultado1': 'valor1',
+    'resultado2': 'valor2',
+    'resultado3': 'valor3'
+}
+
+resultado_resp = supabase.table('resultado').insert(resultado_data).execute()
+
+if resultado_resp.error:
+    print("Erro ao inserir em resultado:", resultado_resp.error)
+else:
+    resultado = resultado_resp.data[0]  # pegar o resultado inserido
+    print("Resultado inserido:", resultado)
+
+# Inserir em planilha usando o mesmo ID
+planilha_data = {
+    'id': resultado['id'],  # mesmo id da tabela resultado
+    'campo1': 'valor1',
+    'campo2': 'valor2',
+    'campo3': 'valor3'
+}
+
+planilha_resp = supabase.table('planilha').insert(planilha_data).execute()
+
+if planilha_resp.error:
+    print("Erro ao inserir em planilha:", planilha_resp.error)
+else:
+    planilha = planilha_resp.data[0]
+    print("Planilha inserida:", planilha)

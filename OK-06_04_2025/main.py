@@ -1,20 +1,7 @@
 import streamlit as st
 import pandas as pd
 #import streamlit_authenticator as stauth
-from data_loader import *
-# meu_projeto/
-# ├── .gitignore
-# ├── .streamlit/
-# │   └── config.toml              # Configurações de layout do Streamlit (ok versionar)
-# │   └── secrets.toml             # Arquivo local com segredos (NÃO versionar!)
-# ├── app.py                       # Arquivo principal do Streamlit
-# ├── requirements.txt             # Dependências do projeto
-# ├── supabase_client.py           # Código para conexão com Supabase
-# ├── utils.py                     # Funções auxiliares
-# └── README.md
-
-
-
+from ModelSAS import *
 ##### Aula https://portalhashtag.com/cursos/1728736353758x643060883862200700
 
 # -------- Banco de dados compartilhado --------- st.secrets['sqlite']
@@ -82,12 +69,11 @@ with open('style.css') as f:
 
 pg = st.navigation(
     {   #     st.Page([ pagina/função, titulo])           
-        'Home':      [st.Page('homepage.py',                title='Compatibilidade Química', icon=':material/filter_alt:')],
-        'Planilhas': [st.Page('compatibilidade_quimica.py', title='Inserir Planilhas',       icon=':material/thumb_up:'), 
-                      st.Page('relat_compatibilidade.py',   title='Prévia Relatório',        icon=':material/visibility:')
-                     ],
-        'Clientes':  [st.Page('clientes.py',                title='Clientes Cadastrados',    icon=':material/groups:')],   
-
+        'Home': [st.Page('homepage.py', title='Compatibilidade Química')],
+        'Planilhas': [st.Page('compatibilidade_quimica.py', title='Planilhas'), 
+                    st.Page('relat_compatibilidade.py', title='Prévia Relatório')
+                    ],
+        'Clientes': [st.Page('clientes.py', title='Clientes Cadastrados')],            
         # 'Conta': [st.Page(logout, title='Sair'),
         #         st.Page('criar_conta.py', title='Criar Conta')
         #         ]

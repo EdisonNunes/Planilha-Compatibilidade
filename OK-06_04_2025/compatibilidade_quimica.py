@@ -1,5 +1,5 @@
 import streamlit as st
-from data_loader import *
+from ModelSAS import *
 import datetime
 from calculos import *
 # --------------------------- CHATGPT
@@ -47,18 +47,29 @@ from calculos import *
 
 
 
-def Salva_Planilha(dados, resultado):
+def Salva_Planilha(dados):
     
     """
-    Grava os dados de um dicionário na tabela comp_quimica e resultado no banco de dados SASOLUTIONS usando API Supabase.
+    Grava os dados de um dicionário na tabela comp_quimica do banco de dados SASOLUTIONS usando SQLAlchemy.
     Cada chave do dicionário deve corresponder a um campo da tabela.
     
-    :param dados: Dicionário contendo os dados a serem inseridos na tabela comp_quimica.
-    :param dados: Dicionário contendo os dados a serem inseridos na tabela resultado.
+    :param dados: Dicionário contendo os dados a serem inseridos na tabela.
     """
-    resp = inserir_planilha_e_resultado(dados, resultado)
-    # print(resp)
-    
+    print(dados.keys())
+    if isinstance(dados, dict):
+        try:
+            novo_registro = Planilha(**dados)
+            with Session(db) as session:
+                session.add(novo_registro)
+                session.commit()
+                print("Dados inseridos com sucesso!")
+        except Exception as e:
+            #session.rollback()
+            st.warning(f"Erro ao inserir dados: {e}")
+            #print(f"Erro ao inserir dados: {e}")
+        # finally:
+        #     session.close()
+
 def Monta_Dicionario():
     dict_dados = {}
     dict_dados['cat_membr']= cat_membr
@@ -70,7 +81,7 @@ def Monta_Dicionario():
     dict_dados['serial3']= serial3
     dict_dados['poro_cat_membr']= poro_cat_membr
     dict_dados['fabri']= fabri
-    dict_dados['tipo']= tipo
+    dict_dados['linha']= linha
     dict_dados['cat_disp']= cat_disp
     dict_dados['poro_cat_disp']= poro_cat_disp
     dict_dados['lote_disp']= lote_disp
@@ -83,9 +94,7 @@ def Monta_Dicionario():
     dict_dados['tmp_contato']= tmp_contato
     dict_dados['id_sala']= id_sala
     dict_dados['sala_temp']= sala_temp
-    dict_dados['sala_tempf']= sala_tempf
     dict_dados['sala_umid']= sala_umid
-    dict_dados['sala_umidf']= sala_umidf
 
     dict_dados['pi_memb_1']= pi_memb_1      # Membrana Inicial 1 0.000
     dict_dados['pi_memb_2']= pi_memb_2      # Membrana Inicial 2
@@ -113,20 +122,20 @@ def Monta_Dicionario():
     dict_dados['memb_2_pr']= memb_2_pr      # Membr 2 Produto 0.0
     dict_dados['memb_3_pr']= memb_3_pr      # Membr 3 Produto 0.0
 
-    # --------------------------- dict_dados['pb_prod']= pb_prod          # PB Produto > PB estimado 0.0
+    dict_dados['pb_prod']= pb_prod          # PB Produto > PB estimado 0.0
 
     dict_dados['fp_memb_1']= fp_memb_1      # Membrana 1 Fluido Padrão 0.0
     dict_dados['fp_memb_2']= fp_memb_2      # Membrana 2 Fluido Padrão 0.0
     dict_dados['fp_memb_3']= fp_memb_3      # Membrana 3 Fluido Padrão 0.0 
 
-    dict_dados['dt_inicial']= dt_inicial.strftime('%d/%m/%Y')
-    dict_dados['hr_inicial']= hr_inicial.strftime('%H:%M')
-    dict_dados['dt_final']= dt_final.strftime('%d/%m/%Y')
-    dict_dados['hr_final']= hr_final.strftime('%H:%M')
+    dict_dados['dt_inicial']= dt_inicial
+    dict_dados['hr_inicial']= hr_inicial
+    dict_dados['dt_final']= dt_final
+    dict_dados['hr_final']= hr_final
 
     return dict_dados
 
-def DadoVazio() -> int:
+def DadoVazio() -> Integer:
     erro = 0
     if pi_memb_1 == 0.0:        # Membrana Inicial 1 0.000
         erro =  1
@@ -166,8 +175,8 @@ def DadoVazio() -> int:
         erro =  18
     elif memb_3_pr == 0.0:      # Membr 3 Produto 0.0
         erro =  19
-    # elif pb_prod == 0.0:        # PB Produto > PB estimado 0.0
-    #     erro =  20
+    elif pb_prod == 0.0:        # PB Produto > PB estimado 0.0
+        erro =  20
     elif fp_memb_1 == 0.0:      # Membrana 1 Fluido Padrão 0.0
         erro =  21 
     elif fp_memb_2 == 0.0:      # Membrana 1 Fluido Padrão 0.0
@@ -177,52 +186,7 @@ def DadoVazio() -> int:
     
     return erro
 
-def ShowErro(erro):
-    match(erro):
-            case 1: message = 'Membrana Inicial 1'
-            case 2: message = 'Membrana Inicial 2'
-            case 3: message = 'Membrana Inicial 3'
-            case 4: message = 'Membrana Final 1'
-            case 5: message = 'Membrana Final 2'
-            case 6: message = 'Membrana Final 3'
-            case 7: message = 'Membr 1 Inic - 100 ml'
-            case 8: message = 'Membr 2 Inic - 100 ml'
-            case 9: message = 'Membr 3 Inic - 100 ml'
-            case 10: message = 'Membr 1 Final - 100 ml'
-            case 11: message = 'Membr 2 Final - 100 ml'
-            case 12: message = 'Membr 3 Final - 100 ml'
-            case 13: message = 'PB Padrão'
-            case 14: message = 'Membr 1 Fluido Padrão'
-            case 15: message = 'Membr 2 Fluido Padrão'
-            case 16: message = 'Membr 3 Fluido Padrão'
-            case 17: message = 'Membr 1 Produto'
-            case 18: message = 'Membr 2 Produto'
-            case 19: message = 'Membr 3 Produto'
-            case 20: message = 'PB Produto > PB estimado'
-            case 21: message = 'Membrana 1 Fluido Padrão'
-            case 22: message = 'Membrana 2 Fluido Padrão'
-            case 23: message = 'Membrana 3 Fluido Padrão'
-    return message        
 
-def CalculaPBEstimado():
-    erro = DadoVazio()
-    if erro < 14 or erro > 19:
-        # CALCULADORA
-        # RPB Membrana 1	=G29/D29	Célula K3		ETAPA 7		3 casas
-        rpb_membr_1 = memb_1_fr / memb_1_pr
-        # RPB Membrana 2	=G30/D30	Célula K4		ETAPA 7		3 casas
-        rpb_membr_2 = memb_2_fr / memb_2_pr
-        # RPB Membrana 3	=G31/D31	Célula K5		ETAPA 7		3 casas
-        rpb_membr_3 = memb_3_fr / memb_3_pr
-        # Média RPB	=MÉDIA(K3:K5)	Célula L3				3 casas
-        rpb_media = (rpb_membr_1 + rpb_membr_2 + rpb_membr_3) / 3   # ETAPA 7	
-
-
-        # PB Estimado	=C28*L3		Célula J7		ETAPA 8		2 casas
-        pb_estimado = pb_padrao * rpb_media
-        return round(pb_estimado,1), 0
-    else:
-        return 0.0, erro    
 
 format_1casa='%0.1f'
 format_2casas='%0.2f'
@@ -232,73 +196,70 @@ format_3casas='%0.3f'
 st.write('## Planilha de Compatibilidade Química')
 container1 = st.container(border=True)
 dict_dados={}
-fp_memb_1 = 0.0
 with container1:
     coluna_esquerda, coluna_meio, coluna_direita = st.columns([1,1,1])
     col1, col2, col3 = st.columns(3)
     with col1:
-        cat_membr = st.text_input('Catálogo da Membrana', max_chars= 12, value='CVWW000047')
+        cat_membr = st.text_input('Categoria da Membrana', max_chars= 12)
     with col2:   
-        lote1 = st.text_input('Lote 1', max_chars= 10, value= 'CVW000002') 
-        lote2 = st.text_input('Lote 2', max_chars= 10, value= 'CVW000003') 
-        lote3 = st.text_input('Lote 3', max_chars= 10, value= 'CVW000004') 
+        lote1 = st.text_input('Lote 1', max_chars= 10) 
+        lote2 = st.text_input('Lote 2', max_chars= 10) 
+        lote3 = st.text_input('Lote 3', max_chars= 10) 
     with col3:   
-        serial1 = st.text_input('Serial 1', max_chars= 5, value= '234') 
-        serial2 = st.text_input('Serial 2', max_chars= 5, value= '235') 
-        serial3 = st.text_input('Serial 3', max_chars= 5, value= '236') 
+        serial1 = st.text_input('Serial 1', max_chars= 5) 
+        serial2 = st.text_input('Serial 2', max_chars= 5) 
+        serial3 = st.text_input('Serial 3', max_chars= 5) 
  
 container2 = st.container(border=True)
 with container2:
     coluna_esquerda, coluna_meio, coluna_direita = st.columns([1,1,1])
     col1, col2, col3 = st.columns(3)
     with col1:
-        poro_cat_membr = st.text_input('Poro', max_chars= 12, value='***')
+        poro_cat_membr = st.text_input('Poro', max_chars= 12)
     with col2:   
-        fabri = st.text_input('Fabricante', max_chars= 10, value= '***') 
+        fabri = st.text_input('Fabricante', max_chars= 10) 
     with col3:   
-        tipo = st.text_input('Tipo de Membrana', max_chars= 15, value= '***') 
+        linha = st.text_input('Linha', max_chars= 15) 
 
 container3 = st.container(border=True)
 with container3:
     coluna_esquerda, coluna_meio, coluna_direita = st.columns([1,1,1])
     col1, col2, col3 = st.columns(3)
     with col1:
-        cat_disp = st.text_input('Catálogo do Dispositivo', max_chars= 12, value= 'KAVGLA04TT3')
-        poro_cat_disp = st.text_input('Poro Dispositivo µm', max_chars= 12, value= '0,22µm')
+        cat_disp = st.text_input('Categoria Dispositivo', max_chars= 12)
+        poro_cat_disp = st.text_input('Poro Dispositivo µm', max_chars= 12)
     with col2:
-        lote_disp = st.text_input('Lote Dispositivo', max_chars= 10, value= '4000000CW')   
-        fabri_disp = st.text_input('Fabricante Dispositivo', max_chars= 10, value= 'MERCK') 
+        lote_disp = st.text_input('Lote Dispositivo', max_chars= 10)   
+        fabri_disp = st.text_input('Fabricante Dispositivo', max_chars= 10) 
     with col3: 
-        serial_cat_disp = st.text_input('Serial Dispositivo', max_chars= 6, value= '12356')  
-        linha_cat_disp = st.text_input('Linha Dispositivo', max_chars= 15, value= 'DURAPORE') 
+        serial_cat_disp = st.text_input('Serial Dispositivo', max_chars= 6)  
+        linha_cat_disp = st.text_input('Linha Dispositivo', max_chars= 15) 
 
 container4 = st.container(border=True)
 with container4:
-    produto = st.text_input('Produto', max_chars= 50, value= 'CABOTOBIEL 5%')
+    produto = st.text_input('Produto', max_chars= 50)
     
 container5 = st.container(border=True)
 with container5:
     coluna_esquerda, coluna_meio, coluna_direita = st.columns([1,1,1])
     col1, col2, col3 = st.columns(3)
     with col1:
-        temp_filtra = st.text_input('Temperatura de Filtração °C', max_chars= 12, value= '13-28 ºC')
+        temp_filtra = st.text_input('Temperatura de Filtração', max_chars= 12)
     with col2:   
-        manu_temp = st.text_input('Manutenção de Temperatura', max_chars= 20, value= 'caixa de isopor')
+        manu_temp = st.text_input('Manutenção de Temperatura', max_chars= 20)
     with col3:   
-        tmp_contato = st.text_input('Tempo de contato', max_chars= 10, value= '24 horas')
+        tmp_contato = st.text_input('Tempo de contato', max_chars= 10)
     
 container6 = st.container(border=True)
 with container6:
     coluna_esquerda, coluna_meio, coluna_direita = st.columns([1,1,1])
     col1, col2, col3 = st.columns(3)
     with col1:
-        id_sala = st.text_input('ID Sala', max_chars= 10, value= 'SP0001')
+        id_sala = st.text_input('ID Sala', max_chars= 10)
     with col2:   
-        sala_temp  = st.text_input('Temperatura Inicial', max_chars= 20, value= '17,7ºC') 
-        sala_tempf = st.text_input('Temperatura Final',   max_chars= 20, value= '17,7ºC')
+        sala_temp = st.text_input('Temperatura', max_chars= 20) 
     with col3:   
-        sala_umid  = st.text_input('Umidade Inicial', max_chars= 10, value= '48,9%')
-        sala_umidf = st.text_input('Umidade Final', max_chars= 10, value= '48,9%')
+        sala_umid = st.text_input('Umidade', max_chars= 10)
              
 
 st.markdown('<div style="text-align: center;"><h3>Pesagem Membrana 47 mm</h3></div>', unsafe_allow_html=True)
@@ -346,10 +307,16 @@ with container8:
          
 
 st.markdown('<div style="text-align: center;"><h3>Teste de Integridade</h3></div>', unsafe_allow_html=True) 
-
-
 container9 = st.container(border=True)
 with container9:
+    coluna_1, coluna_2, coluna_3 = st.columns([1,1,1])
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        pb_padrao = st.number_input('PB Padrão', format=format_1casa, value=float('50.0')) 
+         
+
+container10 = st.container(border=True)
+with container10:
     coluna_1, coluna_2, coluna_3, coluna_4 = st.columns([1,1,1,1])
     col1, col2, col3, col4 = st.columns(4)
     with col1:
@@ -367,41 +334,13 @@ with container9:
         memb_1_pr = st.number_input('Membr 1 Produto', format=format_1casa, step=0.1, value=float('48.6'))
         memb_2_pr = st.number_input('Membr 2 Produto', format=format_1casa, step=0.1, value=float('47.9')) 
         memb_3_pr = st.number_input('Membr 3 Produto', format=format_1casa, step=0.1, value=float('48.1')) 
-
-container10 = st.container(border=True)
-with container10:
-    coluna_1, coluna_2, coluna_3 = st.columns([1,1,1])
-    col1, col2, col3 = st.columns(3)
+        
+container11 = st.container(border=True)
+with container11:
+    coluna_1, coluna_2 = st.columns([1,1])
+    col1, col2 = st.columns(2)
     with col1:
-        pb_padrao = st.number_input('PB Padrão', format=format_1casa, value=float('50.0'), step=0.1) 
-    with col2:
-        estimado, erro = CalculaPBEstimado()
-        if erro == 0:
-            texto = f'PB Estimado : {estimado}'
-            if estimado >= pb_padrao:
-                #st.badge(texto, icon=":material/check:", color="green")
-                st.markdown(f"# :green-badge[<h6>{texto}</h6>]", unsafe_allow_html=True)
-                #st.markdown(":violet-badge[:material/star: Favorite] :orange-badge[⚠️ Needs review] :gray-badge[Deprecated]")
-            else:
-                #st.badge(texto, icon=":material/check:", color="green")
-                st.markdown(f"# :orange-badge[<h6>{texto}</h6>]", unsafe_allow_html=True)
-                #st.markdown(":violet-badge[:material/star: Favorite] :orange-badge[⚠️ Needs review] :gray-badge[Deprecated]") 
-                #st.warning('PB Produto abaixo do valor esperado')  
-        else:
-            if erro >= 14 and erro <= 19:
-                message = ShowErro(erro=erro)
-                st.warning(f' ###### :point_right: {message} \n:warning: INVÁLIDO ! \n :mag_right: Erro: {erro}') 
-    with col3:
-        if estimado < pb_padrao:
-            st.warning('PB Produto abaixo do valor esperado')
-
-
-# container11 = st.container(border=True)
-# with container11:
-#     coluna_1, coluna_2 = st.columns([1,1])
-#     col1, col2 = st.columns(2)
-#     with col1:
-#         pb_prod = st.number_input('PB Produto > PB estimado', format=format_1casa, step=0.1, value=float('48.5'))
+        pb_prod = st.number_input('PB Produto > PB estimado', format=format_1casa, step=0.1, value=float('48.5'))
              
 
 container12 = st.container(border=True)
@@ -487,7 +426,7 @@ if st.button('Salvar Planilha', type='primary'):
                       
                         
                      hide_index=True)
-        # ------------------------- % Variação de Vazão ------------------------------------- 
+          # ------------------------- % Variação de Vazão ------------------------------------- 
         st.markdown('<div style="text-align: center;"><h5>% Variação Vazão - Critério <= 10%</h5></div>', unsafe_allow_html=True)
 
         df_VarVazao = df[['% Variação Vazao - Membrana 1',
@@ -520,9 +459,33 @@ if st.button('Salvar Planilha', type='primary'):
                         
                      hide_index=True)
         
-        # ------------------- Salva_Planilha(dados=dados_digitados, resultado=df)
+        #Salva_Planilha(dados=dados_digitados)
     else: 
-        message = ShowErro(erro)
+        match(erro):
+            case 1: message = 'Membrana Inicial 1'
+            case 2: message = 'Membrana Inicial 2'
+            case 3: message = 'Membrana Inicial 3'
+            case 4: message = 'Membrana Final 1'
+            case 5: message = 'Membrana Final 2'
+            case 6: message = 'Membrana Final 3'
+            case 7: message = 'Membr 1 Inic - 100 ml'
+            case 8: message = 'Membr 2 Inic - 100 ml'
+            case 9: message = 'Membr 3 Inic - 100 ml'
+            case 10: message = 'Membr 1 Final - 100 ml'
+            case 11: message = 'Membr 2 Final - 100 ml'
+            case 12: message = 'Membr 3 Final - 100 ml'
+            case 13: message = 'PB Padrão'
+            case 14: message = 'Membr 1 Fluido Padrão'
+            case 15: message = 'Membr 2 Fluido Padrão'
+            case 16: message = 'Membr 3 Fluido Padrão'
+            case 17: message = 'Membr 1 Produto'
+            case 18: message = 'Membr 2 Produto'
+            case 19: message = 'Membr 3 Produto'
+            case 20: message = 'PB Produto > PB estimado'
+            case 21: message = 'Membrana 1 Fluido Padrão'
+            case 22: message = 'Membrana 2 Fluido Padrão'
+            case 23: message = 'Membrana 3 Fluido Padrão'
+
         st.warning(f' ##### Campo :point_right: {message} :warning: INVÁLIDO !  :mag_right: Erro: {erro}')    
            
 

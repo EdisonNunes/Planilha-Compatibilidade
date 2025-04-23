@@ -1,6 +1,6 @@
 import streamlit as st
 
-#st.write('Criar Conta')
+st.write('Criar Conta')
 # import streamlit as st
 # from models import session, Usuario
 # import streamlit_authenticator as stauth
@@ -28,25 +28,5 @@ import streamlit as st
 #         session.commit()
 #         st.write('Usuário criado com sucesso')
 #         st.switch_page('homepage.py')
-
-from supabase import create_client
-import pandas as pd
-
-url = st.secrets['supabase']['SUPABASE_URL']
-key = st.secrets['supabase']['SUPABASE_KEY']
-db = create_client(url, key)
-
-
-def load_clientes():
-    response = db.table("Clientes").select("*").execute()
-    df = pd.DataFrame.from_dict(response.data)
-    df = df.sort_values(['empresa'])
-    df = df[['empresa', 'cidade','contato','telefone']]
-    return df
-
-
-df = load_clientes()
-print(df)
-
 
 

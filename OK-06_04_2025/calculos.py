@@ -151,7 +151,7 @@ def Previsao_Relat(dados):
         'PB Estimado': round(pb_estimado,2),
 
         '% Variação Peso - Membrana 1': round(var_peso_perc_memb_1,2),
-        'Critério Peso': criterio_peso,
+        txt_Crit1: criterio_peso,
         'ResultadoP Membrana 1': var_peso_result_mem_1,
         '% Variação Peso - Membrana 2': round(var_peso_perc_memb_2,2),
         'ResultadoP Membrana 2': var_peso_result_mem_2,
@@ -160,7 +160,7 @@ def Previsao_Relat(dados):
         'Média % Variação Peso': round(var_peso_media,2),
 
         '% Variação Vazao - Membrana 1': round(var_vazao_perc_memb_1,2),
-        'Critério Vazão': criterio_vazao,
+        txt_Crit2: criterio_vazao,
         'ResultadoV Membrana 1': var_vazao_result_mem_1,
         '% Variação Vazao - Membrana 2': round(var_vazao_perc_memb_2,2),
         'ResultadoV Membrana 2': var_vazao_result_mem_2,
