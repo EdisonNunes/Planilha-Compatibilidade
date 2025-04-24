@@ -23,4 +23,5 @@ if botao_indicadores:
 
 conteiner = coluna_direita.container(border=False)
 #conteiner.image('imagens/logo.png')   
-conteiner.image('logo.png')    
+conteiner.image('logo.png') 
+conteiner.markdown('Versão 3.00')   

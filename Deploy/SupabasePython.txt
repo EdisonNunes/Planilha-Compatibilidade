@@ -1,0 +1,65 @@
+ Para implementar autenticação em um aplicativo Streamlit usando a biblioteca Supabase em Python, siga os passos abaixo:
+
+1.    Instalar Dependências: Primeiro, instale as bibliotecas necessárias:
+    pip install streamlit supabase
+
+2.    Criar o Cliente Supabase: No seu arquivo Python, inicie o cliente Supabase com a URL do projeto e a chave anônima
+
+3.    Implementar a Autenticação: Aqui está um exemplo básico de como configurar a autenticação no Streamlit:
+
+import streamlit as st
+from supabase import create_client
+
+# Configurações do Supabase
+supabase_url = "sua-url-supabase"
+supabase_key = "sua-chave-anonima"
+supabase = create_client(supabase_url, supabase_key)
+
+# Função para registro
+def sign_up(email, password):
+    response = supabase.auth.sign_up(email=email, password=password)
+    return response
+
+# Função para login
+def sign_in(email, password):
+    response = supabase.auth.sign_in(email=email, password=password)
+    return response
+
+# Função de logout
+def sign_out():
+    response = supabase.auth.sign_out()
+    return response
+
+# Interface do Streamlit
+st.title("Autenticação com Supabase")
+
+# Formulário de registro
+with st.form("register_form"):
+    st.subheader("Registrar")
+    email = st.text_input("E-mail")
+    password = st.text_input("Senha", type='password')
+    submitted = st.form_submit_button("Registrar")
+    if submitted:
+        result = sign_up(email, password)
+        st.write(result)
+
+# Formulário de login
+with st.form("login_form"):
+    st.subheader("Login")
+    email = st.text_input("E-mail")
+    password = st.text_input("Senha", type='password')
+    submitted = st.form_submit_button("Login")
+    if submitted:
+        result = sign_in(email, password)
+        st.write(result)
+
+# Opção de logout
+if st.button("Logout"):
+    sign_out()
+    st.write("Você foi desconectado.")
+
+4.  Executar o Aplicativo: Salve o código em um arquivo, por exemplo, app.py, e execute:  
+    streamlit run app.py
+
+    Esse código fornece uma interface básica para registro e login usando o Supabase. 
+    Você pode expandi-lo conforme necessário.

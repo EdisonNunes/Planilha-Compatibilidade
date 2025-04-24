@@ -229,7 +229,7 @@ format_2casas='%0.2f'
 format_3casas='%0.3f'
 
 
-st.write('## Planilha de Compatibilidade Química')
+st.markdown('<div style="text-align: center;"><h2>Planilha de Compatibilidade Química</h2></div>', unsafe_allow_html=True)
 container1 = st.container(border=True)
 dict_dados={}
 fp_memb_1 = 0.0
@@ -238,14 +238,19 @@ with container1:
     col1, col2, col3 = st.columns(3)
     with col1:
         cat_membr = st.text_input('Catálogo da Membrana', max_chars= 12, value='CVWW000047')
+        a= st.text_input('a', label_visibility= 'hidden', disabled=True)
+        b= st.text_input('b', label_visibility= 'hidden', disabled=True)
+        cat_disp = st.text_input('Catálogo do Dispositivo', max_chars= 12, value= 'KAVGLA04TT3')
     with col2:   
         lote1 = st.text_input('Lote 1', max_chars= 10, value= 'CVW000002') 
         lote2 = st.text_input('Lote 2', max_chars= 10, value= 'CVW000003') 
         lote3 = st.text_input('Lote 3', max_chars= 10, value= 'CVW000004') 
+        lote_disp = st.text_input('Lote Dispositivo', max_chars= 10, value= '4000000CW')
     with col3:   
         serial1 = st.text_input('Serial 1', max_chars= 5, value= '234') 
         serial2 = st.text_input('Serial 2', max_chars= 5, value= '235') 
         serial3 = st.text_input('Serial 3', max_chars= 5, value= '236') 
+        serial_cat_disp = st.text_input('Serial Dispositivo', max_chars= 6, value= '12356')
  
 container2 = st.container(border=True)
 with container2:
@@ -263,13 +268,13 @@ with container3:
     coluna_esquerda, coluna_meio, coluna_direita = st.columns([1,1,1])
     col1, col2, col3 = st.columns(3)
     with col1:
-        cat_disp = st.text_input('Catálogo do Dispositivo', max_chars= 12, value= 'KAVGLA04TT3')
-        poro_cat_disp = st.text_input('Poro Dispositivo µm', max_chars= 12, value= '0,22µm')
+        #cat_disp = st.text_input('Catálogo do Dispositivo', max_chars= 12, value= 'KAVGLA04TT3')
+        poro_cat_disp = st.text_input('Poro Dispositivo (µm)', max_chars= 12, value= '0,22')
     with col2:
-        lote_disp = st.text_input('Lote Dispositivo', max_chars= 10, value= '4000000CW')   
+        #lote_disp = st.text_input('Lote Dispositivo', max_chars= 10, value= '4000000CW')   
         fabri_disp = st.text_input('Fabricante Dispositivo', max_chars= 10, value= 'MERCK') 
     with col3: 
-        serial_cat_disp = st.text_input('Serial Dispositivo', max_chars= 6, value= '12356')  
+        #serial_cat_disp = st.text_input('Serial Dispositivo', max_chars= 6, value= '12356')  
         linha_cat_disp = st.text_input('Linha Dispositivo', max_chars= 15, value= 'DURAPORE') 
 
 container4 = st.container(border=True)
@@ -281,11 +286,11 @@ with container5:
     coluna_esquerda, coluna_meio, coluna_direita = st.columns([1,1,1])
     col1, col2, col3 = st.columns(3)
     with col1:
-        temp_filtra = st.text_input('Temperatura de Filtração °C', max_chars= 12, value= '13-28 ºC')
+        temp_filtra = st.text_input('Temperatura de Filtração (°C)', max_chars= 12, value= '13-28')
     with col2:   
         manu_temp = st.text_input('Manutenção de Temperatura', max_chars= 20, value= 'caixa de isopor')
     with col3:   
-        tmp_contato = st.text_input('Tempo de contato', max_chars= 10, value= '24 horas')
+        tmp_contato = st.text_input('Tempo de contato (horas)', max_chars= 10, value= '24')
     
 container6 = st.container(border=True)
 with container6:
@@ -294,11 +299,11 @@ with container6:
     with col1:
         id_sala = st.text_input('ID Sala', max_chars= 10, value= 'SP0001')
     with col2:   
-        sala_temp  = st.text_input('Temperatura Inicial', max_chars= 20, value= '17,7ºC') 
-        sala_tempf = st.text_input('Temperatura Final',   max_chars= 20, value= '17,7ºC')
+        sala_temp  = st.text_input('Temperatura Inicial (ºC)', max_chars= 20, value= '17,7') 
+        sala_tempf = st.text_input('Temperatura Final (ºC)',   max_chars= 20, value= '17,7')
     with col3:   
-        sala_umid  = st.text_input('Umidade Inicial', max_chars= 10, value= '48,9%')
-        sala_umidf = st.text_input('Umidade Final', max_chars= 10, value= '48,9%')
+        sala_umid  = st.text_input('Umidade Inicial (%)', max_chars= 10, value= '48,9')
+        sala_umidf = st.text_input('Umidade Final (%)', max_chars= 10, value= '48,9')
              
 
 st.markdown('<div style="text-align: center;"><h3>Pesagem Membrana 47 mm</h3></div>', unsafe_allow_html=True)
@@ -315,7 +320,7 @@ with container7:
         pi_memb_3 = st.number_input('Membrana Inicial 3', format=format_3casas, value=float('0.142'))
     
     with col3:   
-        st.markdown('<div style="text-align: center;"><h5>Peso Final(g)</h5></div>', unsafe_allow_html=True,
+        st.markdown('<div style="text-align: left;"><h5>Peso Final(g)</h5></div>', unsafe_allow_html=True,
                     help='Pesar as membranas após a realização dos testes') 
     with col4:   
         pf_memb_1 = st.number_input('Membrana Final 1', format=format_3casas, value=float('0.155'))
@@ -329,7 +334,7 @@ with container8:
     coluna_1, coluna_2, coluna_3, coluna_4 = st.columns([1,1,1,1])
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        st.markdown('<div style="text-align: center;"><h5>Fluxo Inicial Tempo do Cronometro</h5></div>', unsafe_allow_html=True,
+        st.markdown('<div style="text-align: center;"><h5>Fluxo Inicial Tempo do Cronometro (min)</h5></div>', unsafe_allow_html=True,
                     help='Pré molhar as membranas com 100mL de WFI, em seguida com + 100mL cronometrar o tempo de filtragem\nBomba de vácuo a 20Hg'
                     )
     with col2:   
@@ -337,7 +342,7 @@ with container8:
         fli_memb_2 = st.number_input('Membr 2 Inic - 100 ml', format=format_2casas, value=float('0.59')) 
         fli_memb_3 = st.number_input('Membr 3 Inic - 100 ml', format=format_2casas, value=float('0.57'))
     with col3:   
-        st.markdown('<div style="text-align: center;"><h5>Fluxo Final Tempo do Cronometro</h5></div>', unsafe_allow_html=True,
+        st.markdown('<div style="text-align: center;"><h5>Fluxo Final Tempo do Cronometro (min)</h5></div>', unsafe_allow_html=True,
                     help='Após o enxague e calculo de fluxo final, realizar teste de Integridade final') 
     with col4:   
         flf_memb_1 = st.number_input('Membr 1 Final - 100 ml', format=format_2casas, value=float('1.09'))
@@ -417,10 +422,22 @@ with container12:
         fp_memb_2 = st.number_input('Membrana 2 Fluido Padrão', format=format_1casa, step=0.1, value=float('52.1')) 
         fp_memb_3 = st.number_input('Membrana 3 Fluido Padrão', format=format_1casa, step=0.1, value=float('50.7'))
 
-st.markdown('<div style="text-align: center;"><h3>Contato com o Produto</h3></div>', 
-            help='Molhagem em looping de todos os elementos (5min para cada um) e iniciar a contagem de contato',
-            unsafe_allow_html=True) 
 
+container121 = st.container(border=True)
+with container121:
+    coluna_1, coluna_2 = st.columns([1,1])
+    col1, col2 = st.columns(2)
+    with col1:
+        crit_var_peso = st.number_input('Critério Variação Peso <= (%)', format=format_1casa, step=0.1, value=float('10')) 
+    with col2:   
+        crit_var_vazao = st.number_input('Critério Variação Vazão <= (%)', format=format_1casa, step=0.1, value=float('10'))
+      
+# st.markdown('<div style="text-align: center;"><h3>Contato com o Produto</h3></div>', unsafe_allow_html=True, 
+#             help='Molhagem em looping de todos os elementos (5min para cada um) e iniciar a contagem de contato'
+#            ) 
+
+st.markdown(body='', help='Molhagem em looping de todos os elementos (5min para cada um) e iniciar a contagem de contato')
+st.markdown('<div style="text-align: center;"><h3>Contato com o Produto</h3></div>', unsafe_allow_html=True)
 container13 = st.container(border=True)
 with container13:
     coluna_1, coluna_2 = st.columns([1,1])
@@ -453,7 +470,7 @@ if st.button('Salvar Planilha', type='primary'):
         #st.dataframe(df_PBEstimado, hide_index=True, use_container_width=False, width= 185 )
 
         # ------------------------- % Variação de Peso ------------------------------------- 
-        st.markdown('<div style="text-align: center;"><h5>% Variação Peso - Critério <= 10%</h5></div>', unsafe_allow_html=True)
+        st.markdown(f'<div style="text-align: center;"><h5>% Variação Peso - Critério <= {crit_var_peso:.1f}%</h5></div>', unsafe_allow_html=True)
 
         df_VarPeso = df[['% Variação Peso - Membrana 1',
                          '% Variação Peso - Membrana 2',
@@ -488,7 +505,7 @@ if st.button('Salvar Planilha', type='primary'):
                         
                      hide_index=True)
         # ------------------------- % Variação de Vazão ------------------------------------- 
-        st.markdown('<div style="text-align: center;"><h5>% Variação Vazão - Critério <= 10%</h5></div>', unsafe_allow_html=True)
+        st.markdown(f'<div style="text-align: center;"><h5>% Variação Vazão - Critério <= {crit_var_vazao:.1f}%</h5></div>', unsafe_allow_html=True)
 
         df_VarVazao = df[['% Variação Vazao - Membrana 1',
                           '% Variação Vazao - Membrana 2',
