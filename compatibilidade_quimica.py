@@ -422,6 +422,7 @@ with container12:
         fp_memb_2 = st.number_input('Membrana 2 Fluido Padrão', format=format_1casa, step=0.1, value=float('52.1')) 
         fp_memb_3 = st.number_input('Membrana 3 Fluido Padrão', format=format_1casa, step=0.1, value=float('50.7'))
 
+st.markdown('<div style="text-align: center;"><h3>Critérios de Avaliação</h3></div>', unsafe_allow_html=True) 
 
 container121 = st.container(border=True)
 with container121:
