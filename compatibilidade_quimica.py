@@ -113,6 +113,9 @@ def Monta_Dicionario():
     dict_dados['memb_2_pr']= memb_2_pr      # Membr 2 Produto 0.0
     dict_dados['memb_3_pr']= memb_3_pr      # Membr 3 Produto 0.0
 
+    dict_dados['crit_var_peso']= crit_var_peso      # Critério de avaliação % Variação Peso
+    dict_dados['crit_var_vazao']= crit_var_vazao    # Critério de avaliação % Variação Vazão
+
     # --------------------------- dict_dados['pb_prod']= pb_prod          # PB Produto > PB estimado 0.0
 
     dict_dados['fp_memb_1']= fp_memb_1      # Membrana 1 Fluido Padrão 0.0
@@ -219,7 +222,16 @@ def CalculaPBEstimado():
 
 
         # PB Estimado	=C28*L3		Célula J7		ETAPA 8		2 casas
-        pb_estimado = pb_padrao * rpb_media
+        pb_estimado = pb_padrao / rpb_media
+
+        # print('================= CalculaPBEstimado ====================================================')
+        # print('RPB Membrana 1 : ', rpb_membr_1,'   ',memb_1_fr,'   ',memb_1_pr)
+        # print('RPB Membrana 2 : ', rpb_membr_2,'   ',memb_2_fr,'   ',memb_2_pr)
+        # print('RPB Membrana 3 : ', rpb_membr_3,'   ',memb_3_fr,'   ',memb_3_pr)
+        # print('rpb_media : ', rpb_media)
+        # print('pb_padrao : ', pb_padrao)
+        # print('pb_estimado : ', pb_estimado)
+
         return round(pb_estimado,1), 0
     else:
         return 0.0, erro    
@@ -358,20 +370,46 @@ with container9:
     coluna_1, coluna_2, coluna_3, coluna_4 = st.columns([1,1,1,1])
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        st.markdown('<div style="text-align: center;"><h5>PB Fluido Padrão</h5></div>', unsafe_allow_html=True,
+        st.markdown('<div style="text-align: center;"><h6>PB Fluido Padrão (psi)</h6></div>', unsafe_allow_html=True,
                     help='Após a etapa anterior realizar diretamente o teste de PB ou molhar a membrana com 200mL de WFI e realizar o PB'
                     )
-    with col2:   
         memb_1_fr = st.number_input('Membr 1 Fluido Padrão', format=format_1casa, step=0.1, value=float('52.3'))
         memb_2_fr = st.number_input('Membr 2 Fluido Padrão', format=format_1casa, step=0.1, value=float('51.1')) 
         memb_3_fr = st.number_input('Membr 3 Fluido Padrão', format=format_1casa, step=0.1, value=float('53.4'))
+    with col2:   
+        st.markdown('<div style="text-align: center;"><h6>Identifica Fluido Padrão</h6></div>', unsafe_allow_html=True)
+        id_1_fr = st.text_input('ID 1 Padrão', max_chars= 14, value= '20250428154010')
+        id_2_fr = st.text_input('ID 2 Padrão', max_chars= 14, value= '20250428154010') 
+        id_3_fr = st.text_input('ID 3 Padrão', max_chars= 14, value= '20250428154010')
     with col3:   
-        st.markdown('<div style="text-align: center;"><h5>PB Produto</h5></div>', unsafe_allow_html=True,
+        st.markdown('<div style="text-align: center;"><h6>PB Produto (psi)</h6></div>', unsafe_allow_html=True,
                     help='Criar um teste de PB para o teste com Produto (<10psi >10PSI), calcular o RPB - Ao final realizar Analise Visual') 
-    with col4:   
         memb_1_pr = st.number_input('Membr 1 Produto', format=format_1casa, step=0.1, value=float('48.6'))
         memb_2_pr = st.number_input('Membr 2 Produto', format=format_1casa, step=0.1, value=float('47.9')) 
-        memb_3_pr = st.number_input('Membr 3 Produto', format=format_1casa, step=0.1, value=float('48.1')) 
+        memb_3_pr = st.number_input('Membr 3 Produto', format=format_1casa, step=0.1, value=float('48.1'))
+    with col4:   
+        st.markdown('<div style="text-align: center;"><h6>Identifica Fluido Produto</h6></div>', unsafe_allow_html=True)
+        id_1_pr = st.text_input('ID 1 Produto', max_chars= 14, value= '20250428154010')
+        id_2_pr = st.text_input('ID 2 Produto', max_chars= 14, value= '20250428154010') 
+        id_3_pr = st.text_input('ID 3 Produto', max_chars= 14, value= '20250428154010') 
+# with container9:
+#     coluna_1, coluna_2, coluna_3, coluna_4 = st.columns([1,1,1,1])
+#     col1, col2, col3, col4 = st.columns(4)
+#     with col1:
+#         st.markdown('<div style="text-align: center;"><h5>PB Fluido Padrão</h5></div>', unsafe_allow_html=True,
+#                     help='Após a etapa anterior realizar diretamente o teste de PB ou molhar a membrana com 200mL de WFI e realizar o PB'
+#                     )
+#     with col2:   
+#         memb_1_fr = st.number_input('Membr 1 Fluido Padrão', format=format_1casa, step=0.1, value=float('52.3'))
+#         memb_2_fr = st.number_input('Membr 2 Fluido Padrão', format=format_1casa, step=0.1, value=float('51.1')) 
+#         memb_3_fr = st.number_input('Membr 3 Fluido Padrão', format=format_1casa, step=0.1, value=float('53.4'))
+#     with col3:   
+#         st.markdown('<div style="text-align: center;"><h5>PB Produto</h5></div>', unsafe_allow_html=True,
+#                     help='Criar um teste de PB para o teste com Produto (<10psi >10PSI), calcular o RPB - Ao final realizar Analise Visual') 
+#     with col4:   
+#         memb_1_pr = st.number_input('Membr 1 Produto', format=format_1casa, step=0.1, value=float('48.6'))
+#         memb_2_pr = st.number_input('Membr 2 Produto', format=format_1casa, step=0.1, value=float('47.9')) 
+#         memb_3_pr = st.number_input('Membr 3 Produto', format=format_1casa, step=0.1, value=float('48.1')) 
 
 container10 = st.container(border=True)
 with container10:

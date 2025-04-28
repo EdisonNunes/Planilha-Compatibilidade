@@ -12,7 +12,8 @@ key: str = os.environ.get("SUPABASE_KEY")
 supabase: Client = create_client(url, key)
 
 response = (
-    supabase.table("Clientes")
+    #supabase.table("Clientes")
+    supabase.table("comp_quimica")
     .select("*")
     .execute()
 )

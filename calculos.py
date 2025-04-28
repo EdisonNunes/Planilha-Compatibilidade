@@ -68,11 +68,11 @@ import pandas as pd
 def Previsao_Relat(dados):
     # CALCULADORA
     # RPB Membrana 1	=G29/D29	Célula K3		ETAPA 7		3 casas
-    rpb_membr_1 = dados['memb_1_pr'] / dados['memb_1_fr']
+    rpb_membr_1 = dados['memb_1_fr'] / dados['memb_1_pr']
     # RPB Membrana 2	=G30/D30	Célula K4		ETAPA 7		3 casas
-    rpb_membr_2 = dados['memb_2_pr'] / dados['memb_2_fr']
+    rpb_membr_2 = dados['memb_2_fr'] / dados['memb_2_pr']
     # RPB Membrana 3	=G31/D31	Célula K5		ETAPA 7		3 casas
-    rpb_membr_3 = dados['memb_3_pr'] / dados['memb_3_fr']
+    rpb_membr_3 = dados['memb_3_fr'] / dados['memb_3_pr']
     # Média RPB	=MÉDIA(K3:K5)	Célula L3				3 casas
     rpb_media = (rpb_membr_1 + rpb_membr_2 + rpb_membr_3) / 3   # ETAPA 7	
 
@@ -89,7 +89,7 @@ def Previsao_Relat(dados):
     # Média =MÉDIA(K17:K19)
     var_peso_media = (var_peso_perc_memb_1 + var_peso_perc_memb_2 + var_peso_perc_memb_3) / 3
     # Critério : < 10 %
-    criterio_peso = 10
+    criterio_peso = dados['crit_var_peso']
     # Resultado Var. Peso Membrana 1	=SE(ABS((G18-D18)/D18)*100 <=N17;"aprovado"; "reprovado")
     v_peso = var_peso_perc_memb_1 * 100 
     if v_peso <= criterio_peso:
@@ -120,7 +120,7 @@ def Previsao_Relat(dados):
     # Média =MÉDIA(K23:K25)
     var_vazao_media = (var_vazao_perc_memb_1 + var_vazao_perc_memb_2 + var_vazao_perc_memb_3) / 3
     # Critério : < 10 %
-    criterio_vazao = 10
+    criterio_vazao = dados['crit_var_vazao']
     # Resultado Var. Vazão Membrana 1	=SE(ABS((G23-D23)/D23)*100 <=N23;"aprovado"; "reprovado")
     v_vazao = abs((dados['flf_memb_1'] - dados['fli_memb_1']) / dados['fli_memb_1']) * 100
     if v_vazao <= criterio_vazao:

@@ -1,7 +1,7 @@
-import pandas as pd
 #from supabase import create_client, Client
 import pandas as pd
 import streamlit as st
+
 # pip install st-supabase-connection   
 from st_supabase_connection import SupabaseConnection, execute_query
 # https://st-supabase-connection.streamlit.app/
@@ -138,6 +138,8 @@ import datetime
 #   flf_memb_2 varchar,
 #   flf_memb_3 varchar,
 #   pb_padrao varchar,
+#   crit_var_peso varchar,
+#   crit_var_vazao varchar,
 #   memb_1_fr varchar,
 #   memb_2_fr varchar,
 #   memb_3_fr varchar,
