@@ -108,10 +108,16 @@ def Monta_Dicionario():
     dict_dados['memb_1_fr']= memb_1_fr      # Membr 1 Fluido Padrão 0.0
     dict_dados['memb_2_fr']= memb_2_fr      # Membr 2 Fluido Padrão 0.0
     dict_dados['memb_3_fr']= memb_3_fr      # Membr 3 Fluido Padrão 0.0
+    dict_dados['id_1_fr']= id_1_fr          # ID 1 Fluido Padrão 
+    dict_dados['id_2_fr']= id_2_fr          # ID 2 Fluido Padrão 
+    dict_dados['id_3_fr']= id_3_fr          # ID 3 Fluido Padrão 
 
     dict_dados['memb_1_pr']= memb_1_pr      # Membr 1 Produto 0.0
     dict_dados['memb_2_pr']= memb_2_pr      # Membr 2 Produto 0.0
     dict_dados['memb_3_pr']= memb_3_pr      # Membr 3 Produto 0.0
+    dict_dados['id_1_pr']= id_1_pr          # ID 1 Fluido Produto 
+    dict_dados['id_2_pr']= id_2_pr          # ID 2 Fluido Produto 
+    dict_dados['id_3_pr']= id_3_pr          # ID 3 Fluido Produto
 
     dict_dados['crit_var_peso']= crit_var_peso      # Critério de avaliação % Variação Peso
     dict_dados['crit_var_vazao']= crit_var_vazao    # Critério de avaliação % Variação Vazão
