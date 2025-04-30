@@ -225,6 +225,23 @@ def load_planilhas():
 #     planilha = planilha_resp.data[0]
 #     print("Planilha inserida:", planilha)
 
+
+def ComboBoxClientes():
+    response = st_supabase.table("Clientes").select("id, empresa, cidade").execute()
+    # Verificar se a resposta tem dados
+    if response.data and isinstance(response.data, list):
+        clientes = response.data
+        opcoes_combobox = [
+            f"{cliente['empresa']} - {cliente['cidade']}" for cliente in clientes
+        ]
+        #print(opcoes_combobox)
+    else:
+        st.error("Erro ao carregar os dados dos clientes.")
+        clientes = []
+        opcoes_combobox = []
+    return opcoes_combobox    
+
+
 def adapta_chave_to_table():
      renomear = {
     'RPB Membrana 1': 'rpb_membrana_1',

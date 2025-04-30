@@ -3,6 +3,7 @@ from data_loader import *
 import datetime
 import uuid
 from calculos import *
+from homepage import combo_clientes
 # --------------------------- CHATGPT
 # import sqlite3
 
@@ -304,9 +305,15 @@ format_3casas='%0.3f'
 
 
 st.markdown('<div style="text-align: center;"><h2>Planilha de Compatibilidade Química</h2></div>', unsafe_allow_html=True)
+
+container0 = st.container(border=True)
+with container0:
+    escolha = st.selectbox("Escolha um cliente:", combo_clientes)
+
 container1 = st.container(border=True)
 dict_dados={}
 fp_memb_1 = 0.0
+
 with container1:
     coluna_esquerda, coluna_meio, coluna_direita = st.columns([1,1,1])
     col1, col2, col3 = st.columns(3)

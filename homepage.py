@@ -1,4 +1,5 @@
 import streamlit as st
+from data_loader import *
 
 # session_state dá a informação de quem está logado no navegador na hora de entrar no site
 sessao_usuario = st.session_state
@@ -24,4 +25,7 @@ if botao_indicadores:
 conteiner = coluna_direita.container(border=False)
 #conteiner.image('imagens/logo.png')   
 conteiner.image('logo.png') 
-conteiner.markdown('Versão 3.03')   
+conteiner.markdown('Versão 3.04')   
+
+
+combo_clientes= ComboBoxClientes()
