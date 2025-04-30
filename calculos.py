@@ -139,7 +139,7 @@ def Previsao_Relat(dados):
     else:
         var_vazao_result_mem_3 = 1.0 #'Reprovado'   
 
-    print()    
+ 
 
     # -------------------- Monta dicionário de Retorno  
     txt_Crit1 = f'Critério <=  {str(criterio_peso)}%'

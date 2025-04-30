@@ -1,6 +1,7 @@
 import streamlit as st
 from data_loader import *
 import datetime
+import uuid
 from calculos import *
 # --------------------------- CHATGPT
 # import sqlite3
@@ -56,11 +57,66 @@ def Salva_Planilha(dados, resultado):
     :param dados: Dicionário contendo os dados a serem inseridos na tabela comp_quimica.
     :param dados: Dicionário contendo os dados a serem inseridos na tabela resultado.
     """
-    resp = inserir_planilha_e_resultado(dados, resultado)
-    # print(resp)
+    #resp = inserir_planilha_e_resultado(dados, resultado)
+    #print(dados)
+    
+    # try:
+    #     resp = st_supabase.table('comp_quimica').insert([dados],count="none").execute()
+    #     print('Resposta Insert : ', resp)
+    # except Exception as e:    
+    #     print('Erro inserindo dados', e)
+    # inserir_planilha(dados=dados)
+    # Converte a primeira linha do DataFrame df em dicionário
+    resultado_dict = df.iloc[0].to_dict()
+
+    # Insere os dados nas tabelas resultado e comp_quimica
+    resp = inserir_planilha_e_resultado(dados_digitados, resultado_dict)
+
+    # Exibe resultado para o usuário
+    if resp["success"]:
+        # st.success(f"✅ Dados inseridos com sucesso! ID: {resp['id']}")
+        st.success("✅ Dados inseridos com sucesso! ")
+    else:
+        st.error(f"❌ Erro ao salvar dados: {resp['erro']}")
+        st.json({"dados_digitados": dados_digitados, "resultado_dict": resultado_dict})
+
+# import json
+# import os
+
+# # Converte a primeira linha do DataFrame em dicionário simples
+# resultado_dict = df.iloc[0].to_dict()
+
+# # Tenta inserir no Supabase
+# resp = inserir_planilha_e_resultado(dados_digitados, resultado_dict)
+
+# # Verifica a resposta
+# if resp["success"]:
+#     st.success(f"✅ Dados inseridos com sucesso! ID: {resp['id']}")
+# else:
+#     st.error(f"❌ Erro ao salvar dados no Supabase: {resp['erro']}")
+
+#     # Exibe dados de entrada na interface para debug
+#     st.subheader("🔎 Dados enviados (debug):")
+#     st.json({"dados_digitados": dados_digitados, "resultado_dict": resultado_dict})
+
+#     # Grava log localmente (útil em ambientes com acesso ao sistema de arquivos)
+#     log_data = {
+#         "erro": resp["erro"],
+#         "dados_digitados": dados_digitados,
+#         "resultado_dict": resultado_dict
+#     }
+
+#     log_path = "log_erro_supabase.txt"
+#     with open(log_path, "a", encoding="utf-8") as f:
+#         f.write(json.dumps(log_data, indent=2, ensure_ascii=False) + "\n\n")
+
+#     st.warning(f"⚠️ Log salvo em: `{os.path.abspath(log_path)}`")
+     
     
 def Monta_Dicionario():
     dict_dados = {}
+    #dict_dados["id"] = str(uuid.uuid4())
+
     dict_dados['cat_membr']= cat_membr
     dict_dados['lote1']= lote1
     dict_dados['lote2']= lote2
@@ -104,7 +160,7 @@ def Monta_Dicionario():
     dict_dados['flf_memb_3']= flf_memb_3    # Membr 3 Final - 100 ml 0.00 
 
     dict_dados['pb_padrao']= pb_padrao      # PB Padrão 0.00
-
+    
     dict_dados['memb_1_fr']= memb_1_fr      # Membr 1 Fluido Padrão 0.0
     dict_dados['memb_2_fr']= memb_2_fr      # Membr 2 Fluido Padrão 0.0
     dict_dados['memb_3_fr']= memb_3_fr      # Membr 3 Fluido Padrão 0.0
@@ -128,9 +184,9 @@ def Monta_Dicionario():
     dict_dados['fp_memb_2']= fp_memb_2      # Membrana 2 Fluido Padrão 0.0
     dict_dados['fp_memb_3']= fp_memb_3      # Membrana 3 Fluido Padrão 0.0 
 
-    dict_dados['dt_inicial']= dt_inicial.strftime('%d/%m/%Y')
+    dict_dados['dt_inicial']= dt_inicial.strftime("%Y-%m-%d")
     dict_dados['hr_inicial']= hr_inicial.strftime('%H:%M')
-    dict_dados['dt_final']= dt_final.strftime('%d/%m/%Y')
+    dict_dados['dt_final']= dt_final.strftime("%Y-%m-%d")
     dict_dados['hr_final']= hr_final.strftime('%H:%M')
 
     return dict_dados
@@ -503,6 +559,7 @@ if st.button('Salvar Planilha', type='primary'):
     erro = DadoVazio()
     if erro == 0:
         df = Previsao_Relat(dados_digitados)
+        df['pb_estimado'] = estimado
 
         #st.warning(f' ##### Campo :point_right: {message} INVÁLIDO !  :mag_right: Erro: {erro}') 
         st.markdown('<div style="text-align: center;"><h3>Prévia de Resultado</h3></div>', unsafe_allow_html=True) 
@@ -583,6 +640,8 @@ if st.button('Salvar Planilha', type='primary'):
                      hide_index=True)
         
         # ------------------- Salva_Planilha(dados=dados_digitados, resultado=df)
+        Salva_Planilha(dados=dados_digitados, resultado=df)
+        #inserir_planilha_e_resultado(dados_digitados, df)
     else: 
         message = ShowErro(erro)
         st.warning(f' ##### Campo :point_right: {message} :warning: INVÁLIDO !  :mag_right: Erro: {erro}')    

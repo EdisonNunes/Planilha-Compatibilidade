@@ -1,6 +1,8 @@
 #from supabase import create_client, Client
 import pandas as pd
 import streamlit as st
+import uuid
+import json
 
 # pip install st-supabase-connection   
 from st_supabase_connection import SupabaseConnection, execute_query
@@ -138,6 +140,7 @@ import datetime
 #   flf_memb_2 varchar,
 #   flf_memb_3 varchar,
 #   pb_padrao varchar,
+#   pb_estimado varchar,
 #   crit_var_peso varchar,
 #   crit_var_vazao varchar,
 #   memb_1_fr varchar,
@@ -176,10 +179,14 @@ def load_clientes():
 # print(cl)
 
 def inserir_planilha(dados):
-        st_supabase.table('comp_quimica').insert(dados,count="None").execute()
+        try:
+            resposta =  st_supabase.table('comp_quimica').insert([dados],count="none").execute()
+            print(resposta)
+        except Exception as e:
+            print('Erro inserindo dados', e)
      
 def load_planilhas():
-    planilhas = execute_query(st_supabase.table("comp_quimica").select("*", count="None"), ttl=None)
+    planilhas = execute_query(st_supabase.table("comp_quimica").select("*", count="none"), ttl=None)
     df = pd.DataFrame.from_dict(planilhas.data)
     return df    
 
@@ -249,33 +256,75 @@ def adapta_chave_to_table():
 
 
 
-def inserir_planilha_e_resultado(digitados, calculados):
-
-    novo_dict = adapta_chave_to_table()
+def inserir_planilha_e_resultado(digitados: dict, calculados: dict):
+    try:
+        novo_dict = adapta_chave_to_table()
     
-    # Criando novo dicionário com as chaves renomeadas
-    novo_dicionario = {novo_dict.get(k, k): v for k, v in calculados.items()}
+        # Criando novo dicionário com as chaves renomeadas
+        novo_dicionario = {novo_dict.get(k, k): v for k, v in calculados.items()}
 
-    for item in novo_dicionario:
-        print(f'chave = {item}  valor = {novo_dicionario[item]}')
+        # Inserir em 'resultado' (gera ID automaticamente)
+        res_resultado = st_supabase.table("resultado").insert([novo_dicionario], count="exact").execute()
+
+        # Mostrar estrutura da resposta para debug
+        # print("res_resultado:", res_resultado)
+
+        # Validar retorno
+        if not hasattr(res_resultado, "data") or not res_resultado.data:
+            raise Exception("Nenhum dado retornado pela inserção em 'resultado'.")
+
+        if "id" not in res_resultado.data[0]:
+            raise Exception("Campo 'id' não encontrado na resposta.")
+
+        id_registro = res_resultado.data[0]["id"]
+
+        # Inserir em 'comp_quimica' com o mesmo ID
+        digitados["id"] = id_registro
+        res_comp_quimica = st_supabase.table("comp_quimica").insert([digitados]).execute()
+
+        print("res_comp_quimica:", res_comp_quimica)
+
+        if not hasattr(res_comp_quimica, "data") or not res_comp_quimica.data:
+            raise Exception("Falha ao inserir em 'comp_quimica'.")
+
+        return {"success": True, "id": id_registro}
+
+    except Exception as e:
+        return {"success": False, "erro": str(e)}
+
+
+
+
+    # ----------------------------------------------------------------------------
+    # novo_dict = adapta_chave_to_table()
+    
+    # # Criando novo dicionário com as chaves renomeadas
+    # novo_dicionario = {novo_dict.get(k, k): v for k, v in calculados.items()}
+
+    # # for item in novo_dicionario:
+    # #     print(f'chave = {item}  valor = {novo_dicionario[item]}')
+
+    # dict_json = json.dumps(novo_dicionario)    
+    # print(dict_json)
               
     # resultado_resp = st_supabase.table('resultado').insert(novo_dicionario).execute()
 
     # if 'error' in resultado_resp and resultado_resp['error']:
     #     print("Erro de gravação na tabela resultado:", resultado_resp['error'])
-    #     return
+    #     return resultado_resp['error']
 
     # resultado = resultado_resp.data[0]
-    # dict_digitados = {}
-    # dict_digitados['id']= resultado['id'], # Mesmo ID da Tabela resultado
-    # dict_digitados.update(digitados)
+    # # dict_digitados = {}
+    # # dict_digitados['id']= resultado['id'], # Mesmo ID da Tabela resultado
+    # # dict_digitados.update(digitados)
 
-    # planilha_resp = st_supabase.table('comp_quimica').insert(dict_digitados).execute()
+    # # planilha_resp = st_supabase.table('comp_quimica').insert(dict_digitados).execute()
 
-    # if 'error' in planilha_resp and planilha_resp['error']:
-    #     print("Erro de gravação na tabela comp_quimica:", planilha_resp['error'])
-    # else:
-    #     print("Inserção completa:")
-    #     print("Resultado:", resultado)
-    #     print("Planilha:", planilha_resp.data[0])
+    # # if 'error' in planilha_resp and planilha_resp['error']:
+    # #     print("Erro de gravação na tabela comp_quimica:", planilha_resp['error'])
+    # # else:
+    # #     print("Inserção completa:")
+    # #     print("Resultado:", resultado)
+    # #     print("Planilha:", planilha_resp.data[0])
+    # # return planilha_resp    
 
