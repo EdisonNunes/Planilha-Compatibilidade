@@ -308,7 +308,7 @@ st.markdown('<div style="text-align: center;"><h2>Planilha de Compatibilidade Qu
 
 container0 = st.container(border=True)
 with container0:
-    escolha = st.selectbox("Escolha um cliente:", combo_clientes)
+    cliente = st.selectbox("Escolha um cliente:", combo_clientes)
 
 container1 = st.container(border=True)
 dict_dados={}

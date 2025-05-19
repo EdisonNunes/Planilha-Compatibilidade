@@ -20,14 +20,14 @@ botao_dashboards = coluna_esquerda.button('Nova planilha')
 botao_indicadores = coluna_esquerda.button('Prévia Relatório')
 
 if botao_dashboards:
-    st.switch_page('comp_quimica.py')
+    st.switch_page('compatibilidade_quimica.py')
 if botao_indicadores:
     st.switch_page('relat_compatibilidade.py')   
 
 conteiner = coluna_direita.container(border=False)
 #conteiner.image('imagens/logo.png')   
 conteiner.image('logo.png') 
-conteiner.markdown('Versão 4.00')   
+conteiner.markdown('Versão 3.05')   
 
 
 combo_clientes= ComboBoxClientes()
