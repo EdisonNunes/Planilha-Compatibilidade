@@ -387,12 +387,13 @@ with container4:
 
 container5 = st.container(border=True)
 with container5:
+    st.markdown('<div style="text-align: center;"><h5>Teste de Integridade - PRODUTO</h5></div>', unsafe_allow_html=True)
     st.markdown('<div style="text-align: left;"><h5>Tempo de contato</h5></div>', unsafe_allow_html=True)
     col1, col2, col3 = st.columns(3)
     with col1:
-        dt_wfi1 = st.text_input('Data WFI1 (DD-MM-YYYY)',placeholder='DD-MM-AAAA')
+        dt_wfi1 = st.text_input('Data WFIp (DD-MM-YYYY)',placeholder='DD-MM-AAAA')
     with col2:
-        hr_wfi1 = st.text_input('Hora WFI1 (HH:MM)',placeholder='HH:MM')
+        hr_wfi1 = st.text_input('Hora WFIp (HH:MM)',placeholder='HH:MM')
     with col3:
         data1 = dt_wfi  + ' ' + hr_wfi
         data2 = dt_wfi1 + ' ' + hr_wfi1
@@ -405,7 +406,7 @@ with container5:
     texto2 = 'Registrar com fotografia.'
     st.warning(f' :warning: ATENÇÃO !\n###### :point_right: {texto1} \n###### :point_right: {texto2} ')
 
-    st.markdown('<div style="text-align: center;"><h5>Teste de Integridade - PRODUTO</h5></div>', unsafe_allow_html=True)
+    
 
     col1, col2, col3 = st.columns(3)
     with col1:
