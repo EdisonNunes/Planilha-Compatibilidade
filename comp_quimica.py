@@ -581,8 +581,9 @@ with container121:
 # ===========================================================================================================================
 
 if st.button('Salvar Planilha', type='primary'):
-    dados_digitados = Monta_Dicionario()
-    erro = DadoVazio()
+    # dados_digitados = Monta_Dicionario()
+    # erro = DadoVazio()
+    erro = -1
     if erro == 0:
         df = Previsao_Relat(dados_digitados)
         df['pb_estimado'] = estimado
@@ -668,9 +669,10 @@ if st.button('Salvar Planilha', type='primary'):
         # ------------------- Salva_Planilha(dados=dados_digitados, resultado=df)
         #Salva_Planilha(dados=dados_digitados, resultado=df)
         #inserir_planilha_e_resultado(dados_digitados, df)
-    else: 
-        message = ShowErro(erro)
-        st.warning(f' ##### Campo :point_right: {message} :warning: INVÁLIDO !  :mag_right: Erro: {erro}')    
+    else:
+        if erro > 0: 
+            message = ShowErro(erro)
+            st.warning(f' ##### Campo :point_right: {message} :warning: INVÁLIDO !  :mag_right: Erro: {erro}')    
            
 
 
