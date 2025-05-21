@@ -55,10 +55,10 @@ def inserir_planilha(dados):
         except Exception as e:
             print('Erro inserindo dados', e)
      
-def load_planilhas():
-    planilhas = execute_query(supabase.table("resultado").select("*", count="none"), ttl=None)
-    df = pd.DataFrame.from_dict(planilhas.data)
-    return df    
+# def load_planilhas():
+#     planilhas = execute_query(supabase.table("resultado").select("*", count="none"), ttl=None)
+#     df = pd.DataFrame.from_dict(planilhas.data)
+#     return df    
 
 def ComboBoxClientes():
     response = supabase.table("Clientes").select("id, empresa, cidade").execute()

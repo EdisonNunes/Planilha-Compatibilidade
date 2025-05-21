@@ -1,10 +1,50 @@
 import streamlit as st
 from data_loader import *
-import datetime
+# import datetime
+from datetime import datetime
 import uuid
 from calculos import *
 from homepage import combo_clientes
 
+def validar_datas_e_calcular_horas(data1_str, data2_str):
+    """
+    Valida duas datas no formato 'DD-MM-YYYY HH:MM' e calcula a diferença em horas entre elas.
+    
+    Parâmetros:
+    - data1_str (str): primeira data/hora.
+    - data2_str (str): segunda data/hora.
+    
+    Retorna:
+    - int: número de horas entre as duas datas se forem válidas.
+    - str: código de erro se alguma data for inválida.
+    """
+    formato = "%d-%m-%Y %H:%M"
+    
+    try:
+        data1 = datetime.strptime(data1_str, formato)
+    except ValueError:
+        # return "ERRO_FORMATO_INVALIDO_DATA1"
+        return ""
+    
+    try:
+        data2 = datetime.strptime(data2_str, formato)
+    except ValueError:
+        # return "ERRO_FORMATO_INVALIDO_DATA2"
+        return ""
+    
+    diferenca = abs(data2 - data1)
+    horas = int(diferenca.total_seconds() // 3600)
+    return horas
+
+# # Exemplo de uso
+# entrada1 = input("Digite a primeira data e hora (DD-MM-YYYY HH:MM): ")
+# entrada2 = input("Digite a segunda data e hora (DD-MM-YYYY HH:MM): ")
+# resultado = validar_datas_e_calcular_horas(entrada1, entrada2)
+
+# if isinstance(resultado, int):
+#     print(f"Número de horas entre as datas: {resultado}")
+# else:
+#     print(f"Erro: {resultado}")
 
 def Salva_Planilha(dados, resultado):
     
@@ -234,7 +274,8 @@ st.markdown('<div style="text-align: center;"><h2>Planilha de Compatibilidade Qu
 
 container1 = st.container(border=True)
 with container1:
-    cliente = st.selectbox("Empresa:", combo_clientes)
+    
+    #cliente = st.selectbox("Empresa:", combo_clientes)
 
     col1, col2 = st.columns(2)
     with col1:
@@ -332,23 +373,32 @@ with container4:
 
     col1, col2, col3 = st.columns(3)
     with col1:
-        dt_wfi = st.text_input('Data WFI',placeholder='DD-MM-YYYY')
+        dt_wfi = st.text_input('Data WFI (DD-MM-YYYY)',placeholder='DD-MM-YYYY')
         
     with col2:
-        hr_wfi = st.text_input('Hora WFI',placeholder='HH:MM')
+        hr_wfi = st.text_input('Hora WFI (HH:MM)',placeholder='HH:MM')
     with col3:
-        contato_wfi = st.text_input('Contato WFI',placeholder='HH:MM')
+        # contato_wfi = st.text_input('Contato WFI',placeholder='HH:MM')
+        data1 = dt_chegada  + ' ' + hr_chegada
+        data2 = dt_wfi + ' ' + hr_wfi
+        horas_contato = validar_datas_e_calcular_horas(data1, data2)
+        contato_wfi = st.text_input('Contato WFI (horas)',value= str(horas_contato), disabled= True,)
 
 container5 = st.container(border=True)
 with container5:
     st.markdown('<div style="text-align: left;"><h5>Tempo de contato</h5></div>', unsafe_allow_html=True)
     col1, col2, col3 = st.columns(3)
     with col1:
-        dt_wfi1 = st.text_input('Data WFI1',placeholder='DD-MM-YYYY')
+        dt_wfi1 = st.text_input('Data WFI1 (DD-MM-YYYY)',placeholder='DD-MM-AAAA')
     with col2:
-        hr_wfi1 = st.text_input('Hora WFI1',placeholder='HH:MM')
+        hr_wfi1 = st.text_input('Hora WFI1 (HH:MM)',placeholder='HH:MM')
     with col3:
-        contato_wfi1 = st.text_input('Contato WFI1',placeholder='HH:MM')
+        data1 = dt_chegada  + ' ' + hr_chegada
+        data2 = dt_wfi1 + ' ' + hr_wfi1
+        horas_contato = validar_datas_e_calcular_horas(data1, data2)
+        #contato_wfi1 = st.text_input('Contato WFI1',placeholder='HH:MM', help='Calcular a diferença entre as datas')
+        contato_wfi1 = st.text_input('Contato WFI (horas)',value= str(horas_contato), disabled= True, help='Calcular a diferença entre as datas')
+    
     texto1 = 'Realizar a análise visual.'
     texto2 = 'Registrar com fotografia.'
     st.warning(f' :warning: ATENÇÃO !\n###### :point_right: {texto1} \n###### :point_right: {texto2} ')
@@ -527,97 +577,97 @@ with container121:
 
 # ===========================================================================================================================
 
-# if st.button('Salvar Planilha', type='primary'):
-#     dados_digitados = Monta_Dicionario()
-#     erro = DadoVazio()
-#     if erro == 0:
-#         df = Previsao_Relat(dados_digitados)
-#         df['pb_estimado'] = estimado
+if st.button('Salvar Planilha', type='primary'):
+    dados_digitados = Monta_Dicionario()
+    erro = DadoVazio()
+    if erro == 0:
+        df = Previsao_Relat(dados_digitados)
+        df['pb_estimado'] = estimado
 
-#         #st.warning(f' ##### Campo :point_right: {message} INVÁLIDO !  :mag_right: Erro: {erro}') 
-#         st.markdown('<div style="text-align: center;"><h3>Prévia de Resultado</h3></div>', unsafe_allow_html=True) 
-#         #st.dataframe(df, hide_index=True)
+        #st.warning(f' ##### Campo :point_right: {message} INVÁLIDO !  :mag_right: Erro: {erro}') 
+        st.markdown('<div style="text-align: center;"><h3>Prévia de Resultado</h3></div>', unsafe_allow_html=True) 
+        #st.dataframe(df, hide_index=True)
         
-#         df_RPB = df[['RPB Membrana 1','RPB Membrana 2','RPB Membrana 3', 'Média RPB']]
-#         st.dataframe(df_RPB, hide_index=True)
+        df_RPB = df[['RPB Membrana 1','RPB Membrana 2','RPB Membrana 3', 'Média RPB']]
+        st.dataframe(df_RPB, hide_index=True)
 
-#         #df_PBEstimado = df['PB Estimado']   
-#         #st.dataframe(df_PBEstimado, hide_index=True, use_container_width=False, width= 185 )
+        #df_PBEstimado = df['PB Estimado']   
+        #st.dataframe(df_PBEstimado, hide_index=True, use_container_width=False, width= 185 )
 
-#         # ------------------------- % Variação de Peso ------------------------------------- 
-#         st.markdown(f'<div style="text-align: center;"><h5>% Variação Peso - Critério <= {crit_var_peso:.1f}%</h5></div>', unsafe_allow_html=True)
+        # ------------------------- % Variação de Peso ------------------------------------- 
+        st.markdown(f'<div style="text-align: center;"><h5>% Variação Peso - Critério <= {crit_var_peso:.1f}%</h5></div>', unsafe_allow_html=True)
 
-#         df_VarPeso = df[['% Variação Peso - Membrana 1',
-#                          '% Variação Peso - Membrana 2',
-#                          '% Variação Peso - Membrana 3', 
-#                          'ResultadoP Membrana 1',
-#                          'ResultadoP Membrana 2',
-#                          'ResultadoP Membrana 3',
-#                          'Média % Variação Peso']]
+        df_VarPeso = df[['% Variação Peso - Membrana 1',
+                         '% Variação Peso - Membrana 2',
+                         '% Variação Peso - Membrana 3', 
+                         'ResultadoP Membrana 1',
+                         'ResultadoP Membrana 2',
+                         'ResultadoP Membrana 3',
+                         'Média % Variação Peso']]
         
-#         if df_VarPeso['ResultadoP Membrana 1'][0] == 0.0:
-#             Resultado_1 = 'Membrana 1 - APROVADA'
-#         else:
-#             Resultado_1 = 'Membrana 1 - REPROVADA'    
-#         if df_VarPeso['ResultadoP Membrana 2'][0] == 0.0:
-#             Resultado_2 = 'Membrana 2 - APROVADA'
-#         else:
-#             Resultado_2 = 'Membrana 2 - REPROVADA'
-#         if df_VarPeso['ResultadoP Membrana 3'][0] == 0.0:
-#             Resultado_3 = 'Membrana 3 - APROVADA'
-#         else:
-#             Resultado_3 = 'Membrana 3 - REPROVADA'  
+        if df_VarPeso['ResultadoP Membrana 1'][0] == 0.0:
+            Resultado_1 = 'Membrana 1 - APROVADA'
+        else:
+            Resultado_1 = 'Membrana 1 - REPROVADA'    
+        if df_VarPeso['ResultadoP Membrana 2'][0] == 0.0:
+            Resultado_2 = 'Membrana 2 - APROVADA'
+        else:
+            Resultado_2 = 'Membrana 2 - REPROVADA'
+        if df_VarPeso['ResultadoP Membrana 3'][0] == 0.0:
+            Resultado_3 = 'Membrana 3 - APROVADA'
+        else:
+            Resultado_3 = 'Membrana 3 - REPROVADA'  
 
-#         df_VarPeso = df_VarPeso.drop(columns=['ResultadoP Membrana 1','ResultadoP Membrana 2','ResultadoP Membrana 3'])          
-#         st.dataframe(df_VarPeso, 
-#                      column_config={
-#                             "% Variação Peso - Membrana 1": Resultado_1, 
-#                             "% Variação Peso - Membrana 2": Resultado_2,
-#                             "% Variação Peso - Membrana 3": Resultado_3,
+        df_VarPeso = df_VarPeso.drop(columns=['ResultadoP Membrana 1','ResultadoP Membrana 2','ResultadoP Membrana 3'])          
+        st.dataframe(df_VarPeso, 
+                     column_config={
+                            "% Variação Peso - Membrana 1": Resultado_1, 
+                            "% Variação Peso - Membrana 2": Resultado_2,
+                            "% Variação Peso - Membrana 3": Resultado_3,
                             
-#                        },
+                       },
                       
                         
-#                      hide_index=True)
-#         # ------------------------- % Variação de Vazão ------------------------------------- 
-#         st.markdown(f'<div style="text-align: center;"><h5>% Variação Vazão - Critério <= {crit_var_vazao:.1f}%</h5></div>', unsafe_allow_html=True)
+                     hide_index=True)
+        # ------------------------- % Variação de Vazão ------------------------------------- 
+        st.markdown(f'<div style="text-align: center;"><h5>% Variação Vazão - Critério <= {crit_var_vazao:.1f}%</h5></div>', unsafe_allow_html=True)
 
-#         df_VarVazao = df[['% Variação Vazao - Membrana 1',
-#                           '% Variação Vazao - Membrana 2',
-#                           '% Variação Vazao - Membrana 3',
-#                           'ResultadoV Membrana 1',
-#                           'ResultadoV Membrana 2',
-#                           'ResultadoV Membrana 3', 
-#                           'Média % Variação Vazão']]
-#         if df_VarVazao['ResultadoV Membrana 1'][0] == 0.0:
-#             Resultado_4 = 'Membrana 1 - APROVADA'
-#         else:
-#             Resultado_4 = 'Membrana 1 - REPROVADA'    
-#         if df_VarVazao['ResultadoV Membrana 2'][0] == 0.0:
-#             Resultado_5 = 'Membrana 2 - APROVADA'
-#         else:
-#             Resultado_5 = 'Membrana 2 - REPROVADA'
-#         if df_VarVazao['ResultadoV Membrana 3'][0] == 0.0:
-#             Resultado_6 = 'Membrana 3 - APROVADA'
-#         else:
-#             Resultado_6 = 'Membrana 3 - REPROVADA'
-#         df_VarVazao = df_VarVazao.drop(columns=['ResultadoV Membrana 1','ResultadoV Membrana 2','ResultadoV Membrana 3'])          
-#         st.dataframe(df_VarVazao, 
-#                      column_config={
-#                             "% Variação Vazao - Membrana 1": Resultado_4, 
-#                             "% Variação Vazao - Membrana 2": Resultado_5,
-#                             "% Variação Vazao - Membrana 3": Resultado_6,
+        df_VarVazao = df[['% Variação Vazao - Membrana 1',
+                          '% Variação Vazao - Membrana 2',
+                          '% Variação Vazao - Membrana 3',
+                          'ResultadoV Membrana 1',
+                          'ResultadoV Membrana 2',
+                          'ResultadoV Membrana 3', 
+                          'Média % Variação Vazão']]
+        if df_VarVazao['ResultadoV Membrana 1'][0] == 0.0:
+            Resultado_4 = 'Membrana 1 - APROVADA'
+        else:
+            Resultado_4 = 'Membrana 1 - REPROVADA'    
+        if df_VarVazao['ResultadoV Membrana 2'][0] == 0.0:
+            Resultado_5 = 'Membrana 2 - APROVADA'
+        else:
+            Resultado_5 = 'Membrana 2 - REPROVADA'
+        if df_VarVazao['ResultadoV Membrana 3'][0] == 0.0:
+            Resultado_6 = 'Membrana 3 - APROVADA'
+        else:
+            Resultado_6 = 'Membrana 3 - REPROVADA'
+        df_VarVazao = df_VarVazao.drop(columns=['ResultadoV Membrana 1','ResultadoV Membrana 2','ResultadoV Membrana 3'])          
+        st.dataframe(df_VarVazao, 
+                     column_config={
+                            "% Variação Vazao - Membrana 1": Resultado_4, 
+                            "% Variação Vazao - Membrana 2": Resultado_5,
+                            "% Variação Vazao - Membrana 3": Resultado_6,
                             
-#                        },
+                       },
                         
-#                      hide_index=True)
+                     hide_index=True)
         
-#         # ------------------- Salva_Planilha(dados=dados_digitados, resultado=df)
-#         Salva_Planilha(dados=dados_digitados, resultado=df)
-#         #inserir_planilha_e_resultado(dados_digitados, df)
-#     else: 
-#         message = ShowErro(erro)
-#         st.warning(f' ##### Campo :point_right: {message} :warning: INVÁLIDO !  :mag_right: Erro: {erro}')    
+        # ------------------- Salva_Planilha(dados=dados_digitados, resultado=df)
+        #Salva_Planilha(dados=dados_digitados, resultado=df)
+        #inserir_planilha_e_resultado(dados_digitados, df)
+    else: 
+        message = ShowErro(erro)
+        st.warning(f' ##### Campo :point_right: {message} :warning: INVÁLIDO !  :mag_right: Erro: {erro}')    
            
 
 
