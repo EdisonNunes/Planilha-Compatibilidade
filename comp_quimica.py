@@ -382,7 +382,8 @@ with container4:
         data1 = dt_chegada  + ' ' + hr_chegada
         data2 = dt_wfi + ' ' + hr_wfi
         horas_contato = validar_datas_e_calcular_horas(data1, data2)
-        contato_wfi = st.text_input('Contato WFI (horas)',value= str(horas_contato), disabled= True,)
+        contato_wfi = st.text_input('Contato WFI (horas)',value= str(horas_contato), disabled= True,
+                                    help='Diferença entre hora de chegada e hora do teste de integridade WFI')
 
 container5 = st.container(border=True)
 with container5:
@@ -393,11 +394,12 @@ with container5:
     with col2:
         hr_wfi1 = st.text_input('Hora WFI1 (HH:MM)',placeholder='HH:MM')
     with col3:
-        data1 = dt_chegada  + ' ' + hr_chegada
+        data1 = dt_wfi  + ' ' + hr_wfi
         data2 = dt_wfi1 + ' ' + hr_wfi1
         horas_contato = validar_datas_e_calcular_horas(data1, data2)
         #contato_wfi1 = st.text_input('Contato WFI1',placeholder='HH:MM', help='Calcular a diferença entre as datas')
-        contato_wfi1 = st.text_input('Contato WFI (horas)',value= str(horas_contato), disabled= True, help='Calcular a diferença entre as datas')
+        contato_wfi1 = st.text_input('Contato WFI (horas)',value= str(horas_contato), disabled= True, 
+                                     help='Diferença entre hora do teste WFI e hora do teste de integridade do produto')
     
     texto1 = 'Realizar a análise visual.'
     texto2 = 'Registrar com fotografia.'

@@ -31,4 +31,4 @@ conteiner.markdown('Versão 4.01')
 
 
 combo_clientes= ComboBoxClientes()
-print(combo_clientes[3])
+#print(combo_clientes[3])
