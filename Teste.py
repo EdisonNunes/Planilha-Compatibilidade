@@ -1,6 +1,7 @@
 import streamlit as st
 
-    
+
+
 pg = st.navigation(
     {              
         'SA SOLUTION':      [st.Page('homepage.py',         title='Home',                    icon=':material/filter_alt:')],
@@ -13,4 +14,9 @@ pg = st.navigation(
     }
 )
 pg.run()
+
+# #Estilizando com style.css 
+# with open('style.css') as f:
+#     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
 

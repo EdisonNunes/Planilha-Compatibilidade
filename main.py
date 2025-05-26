@@ -67,7 +67,7 @@ dados_usuario = {
     'username' : 'Edison'
 
 }
-combo_clientes= ComboBoxClientes()
+#combo_clientes= ComboBoxClientes()
 #if dados_usuario:
 
     
@@ -76,9 +76,9 @@ combo_clientes= ComboBoxClientes()
 
 # if usuario.admin:
 
-# Estilizando com style.css 
-with open('style.css') as f:
-    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+# # Estilizando com style.css 
+# with open('style.css') as f:
+#     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
 pg = st.navigation(
     {              
