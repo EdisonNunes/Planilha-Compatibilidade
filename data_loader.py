@@ -4,7 +4,7 @@ import uuid
 import json
 
 # pip install st-supabase-connection   
-#from st_supabase_connection import SupabaseConnection, execute_query
+from st_supabase_connection import SupabaseConnection, execute_query
 from supabase import create_client, Client
 # https://st-supabase-connection.streamlit.app/
 # Cria novo usuario : 

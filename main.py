@@ -81,31 +81,16 @@ with open('style.css') as f:
     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
 pg = st.navigation(
-    {   #     st.Page([ pagina/função, titulo])           
-                              
-        'Home':      [st.Page('homepage.py',                title='Home', icon=':material/filter_alt:')],
+    {              
+        'SA SOLUTION':      [st.Page('homepage.py',         title='Home',                    icon=':material/filter_alt:')],
         'Planilhas': [st.Page('comp_quimica.py',            title='Inserir Planilhas',       icon=':material/thumb_up:'), 
-                      st.Page('relat_compatibilidade.py',   title='Prévia Relatório',        icon=':material/visibility:')
+                      st.Page('previa.py',                  title='Prévia Relatório',        icon=':material/visibility:')
                      ],
-        'Clientes':  [st.Page('clientes.py',                title='Clientes Cadastrados',    icon=':material/groups:')], 
+        'Clientes':  [st.Page('clientes.py',                title='Clientes Cadastrados',    icon=':material/groups:')],   
 
-        # 'Conta': [st.Page(logout, title='Sair'),
-        #         st.Page('criar_conta.py', title='Criar Conta')
-        #         ]
-        #'Conta': [st.Page('criar_conta.py', title='Criar Conta')
-        #        ]        
+
     }
 )
-# else:
-#     pg = st.navigation(
-#     {   #     st.Page([ pagina/função, titulo])           
-#         'Home': [st.Page('homepage.py', title='Hash&Co')],
-#         'Dashboards': [st.Page('dashboard.py', title='Dashboard'), 
-#                        st.Page('indicadores.py', title='Indicadores')
-#                        ],
-#         'Conta': [st.Page(logout, title='Sair')
-#                   ]
-#     }
-# )    
-
 pg.run()
+
+

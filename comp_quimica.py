@@ -83,50 +83,88 @@ def Salva_Planilha(dados, resultado):
 def Monta_Dicionario():
     dict_dados = {}
     #dict_dados["id"] = str(uuid.uuid4())
-
+    dict_dados['relatorio']= relatorio
+    # Container 01
+    dict_dados['local_teste']= local_teste
+    dict_dados['pesso_local']= pessoa_local
+    dict_dados['id_local']= id_local
+    dict_dados['dt_chegada']= dt_chegada.strftime("%Y-%m-%d")
+    dict_dados['hr_chegada']= hr_chegada.strftime('%H:%M')
+    # Conteiner 2
+    dict_dados['linha']= linha
+    dict_dados['fabricante']= fabricante
+    dict_dados['temp_filtra']= temp_filtra
+    dict_dados['tara']= tara
+    dict_dados['produto']= produto
+    dict_dados['tmp_contato']= tmp_contato
+    dict_dados['tempera_local']= tempera_local
+    dict_dados['lote']= lote
+    dict_dados['armaz']=armaz
+    dict_dados['umidade']=umidade
+    dict_dados['volume']=volume
+    # Container 3
     dict_dados['cat_membr']= cat_membr
+    dict_dados['poro_cat_membr']= poro_cat_membr
     dict_dados['lote1']= lote1
     dict_dados['lote2']= lote2
     dict_dados['lote3']= lote3
-    dict_dados['serial1']= serial1
-    dict_dados['serial2']= serial2
-    dict_dados['serial3']= serial3
-    dict_dados['poro_cat_membr']= poro_cat_membr
-    dict_dados['fabri']= fabri
-    dict_dados['tipo']= tipo
     dict_dados['cat_disp']= cat_disp
-    dict_dados['poro_cat_disp']= poro_cat_disp
     dict_dados['lote_disp']= lote_disp
-    dict_dados['fabri_disp']= fabri_disp
     dict_dados['serial_cat_disp']= serial_cat_disp
-    dict_dados['linha_cat_disp']= linha_cat_disp
-    dict_dados['produto']= produto
-    dict_dados['temp_filtra']= temp_filtra
-    dict_dados['manu_temp']= manu_temp
-    dict_dados['tmp_contato']= tmp_contato
-    dict_dados['id_sala']= id_sala
-    dict_dados['sala_temp']= sala_temp
-    dict_dados['sala_tempf']= sala_tempf
-    dict_dados['sala_umid']= sala_umid
-    dict_dados['sala_umidf']= sala_umidf
-
+    # Container 4
     dict_dados['pi_memb_1']= pi_memb_1      # Membrana Inicial 1 0.000
     dict_dados['pi_memb_2']= pi_memb_2      # Membrana Inicial 2
     dict_dados['pi_memb_3']= pi_memb_3      # Membrana Inicial 3
-
-    dict_dados['pf_memb_1']= pf_memb_1      # Membrana Final 1 0.000     
-    dict_dados['pf_memb_2']= pf_memb_2      # Membrana Final 2
-    dict_dados['pf_memb_3']= pf_memb_3      # Membrana Final 3 
-
     dict_dados['fli_memb_1']= fli_memb_1    # Membr 1 Inic - 100 ml 0.00
     dict_dados['fli_memb_2']= fli_memb_2    # Membr 2 Inic - 100 ml 0.00
     dict_dados['fli_memb_3']= fli_memb_3    # Membr 3 Inic - 100 ml 0.00 
-
+    dict_dados['pb_padraoWFI']= pb_padraoWFI
+    dict_dados['wfi_res1']= wfi_res1
+    dict_dados['wfi_res2']= wfi_res2
+    dict_dados['wfi_res3']= wfi_res3
+    dict_dados['wfi_id1']= wfi_id1
+    dict_dados['wfi_id2']= wfi_id2
+    dict_dados['wfi_id3']= wfi_id3
+    dict_dados['dt_wfi']= dt_wfi.strftime("%Y-%m-%d")
+    dict_dados['hr_wfi']= hr_wfi.strftime('%H:%M')
+    dict_dados['contato_wfi']= contato_wfi
+    # Container 5
+    dict_dados['dt_wfip']= dt_wfip.strftime("%Y-%m-%d")
+    dict_dados['hr_wfip']= hr_wfip.strftime('%H:%M')
+    dict_dados['contato_wfip']= contato_wfip
+    dict_dados['pb_produto']=pb_produto
+    dict_dados['prd_res1']= prd_res1
+    dict_dados['prd_res2']= prd_res2
+    dict_dados['prd_res3']= prd_res3
+    dict_dados['prd_id1']= prd_id1
+    dict_dados['prd_id2']= prd_id2
+    dict_dados['prd_id3']= prd_id3
+    # Container 6
+    dict_dados['pb_padraoPES']= pb_padraoPES
+    dict_dados['wfif_res1']= wfif_res1
+    dict_dados['wfif_res2']= wfif_res2
+    dict_dados['wfif_res3']= wfif_res3
+    dict_dados['wfif_id1']= wfif_id1
+    dict_dados['wfif_id2']= wfif_id2
+    dict_dados['wfif_id3']= wfif_id3
     dict_dados['flf_memb_1']= flf_memb_1    # Membr 1 Final - 100 ml 0.00
     dict_dados['flf_memb_2']= flf_memb_2    # Membr 2 Final - 100 ml 0.00
     dict_dados['flf_memb_3']= flf_memb_3    # Membr 3 Final - 100 ml 0.00 
-
-    dict_dados['pb_padrao']= pb_padrao      # PB Padrão 0.00
+    dict_dados['pf_memb_1']= pf_memb_1      # Membrana Final 1 0.000     
+    dict_dados['pf_memb_2']= pf_memb_2      # Membrana Final 2
+    dict_dados['pf_memb_3']= pf_memb_3      # Membrana Final 3 
+    # Container 10
+    dict_dados['pb_padrao']= pb_padrao
+    dict_dados['estimado']= estimado
+    dict_dados['dis_res1']= dis_res1
+    dict_dados['dis_res2']= dis_res2
+    dict_dados['dis_res3']= dis_res3
+    dict_dados['dis_id1']= dis_id1
+    dict_dados['dis_id2']= dis_id2
+    dict_dados['dis_id3']= dis_id3
+    # Container 13
+    dict_dados['crit_var_peso']= crit_var_peso      # Critério de avaliação % Variação Peso
+    dict_dados['crit_var_vazao']= crit_var_vazao    # Critério de avaliação % Variação Vazão 
     
     # dict_dados['memb_1_fr']= memb_1_fr      # Membr 1 Fluido Padrão 0.0
     # dict_dados['memb_2_fr']= memb_2_fr      # Membr 2 Fluido Padrão 0.0
@@ -142,20 +180,15 @@ def Monta_Dicionario():
     # dict_dados['id_2_pr']= id_2_pr          # ID 2 Fluido Produto 
     # dict_dados['id_3_pr']= id_3_pr          # ID 3 Fluido Produto
 
-    dict_dados['crit_var_peso']= crit_var_peso      # Critério de avaliação % Variação Peso
-    dict_dados['crit_var_vazao']= crit_var_vazao    # Critério de avaliação % Variação Vazão
+    
 
     # --------------------------- dict_dados['pb_prod']= pb_prod          # PB Produto > PB estimado 0.0
 
-    dict_dados['fp_memb_1']= fp_memb_1      # Membrana 1 Fluido Padrão 0.0
-    dict_dados['fp_memb_2']= fp_memb_2      # Membrana 2 Fluido Padrão 0.0
-    dict_dados['fp_memb_3']= fp_memb_3      # Membrana 3 Fluido Padrão 0.0 
+    # dict_dados['fp_memb_1']= fp_memb_1      # Membrana 1 Fluido Padrão 0.0
+    # dict_dados['fp_memb_2']= fp_memb_2      # Membrana 2 Fluido Padrão 0.0
+    # dict_dados['fp_memb_3']= fp_memb_3      # Membrana 3 Fluido Padrão 0.0 
 
-    dict_dados['dt_inicial']= dt_inicial.strftime("%Y-%m-%d")
-    dict_dados['hr_inicial']= hr_inicial.strftime('%H:%M')
-    dict_dados['dt_final']= dt_final.strftime("%Y-%m-%d")
-    dict_dados['hr_final']= hr_final.strftime('%H:%M')
-
+    
     return dict_dados
 
 def DadoVazio() -> int:
@@ -268,9 +301,11 @@ def CalculaPBEstimado():
 format_1casa='%0.1f'
 format_2casas='%0.2f'
 format_3casas='%0.3f'
+hoje = datetime.today()
+relatorio = hoje.strftime('%Y%m%d%H%M%S')
+titulo = f'Planilha de Compatibilidade Química - {relatorio}'
 
-
-st.markdown('<div style="text-align: center;"><h2>Planilha de Compatibilidade Química</h2></div>', unsafe_allow_html=True)
+st.markdown(f'<div style="text-align: center;"><h3>{titulo}</h3></div>', unsafe_allow_html=True)
 
 container1 = st.container(border=True)
 with container1:
@@ -391,23 +426,22 @@ with container5:
     st.markdown('<div style="text-align: left;"><h5>Tempo de contato</h5></div>', unsafe_allow_html=True)
     col1, col2, col3 = st.columns(3)
     with col1:
-        dt_wfi1 = st.text_input('Data WFIp (DD-MM-YYYY)',placeholder='DD-MM-AAAA')
+        dt_wfip = st.text_input('Data WFIp (DD-MM-YYYY)',placeholder='DD-MM-AAAA')
     with col2:
-        hr_wfi1 = st.text_input('Hora WFIp (HH:MM)',placeholder='HH:MM')
+        hr_wfip = st.text_input('Hora WFIp (HH:MM)',placeholder='HH:MM')
     with col3:
         data1 = dt_wfi  + ' ' + hr_wfi
-        data2 = dt_wfi1 + ' ' + hr_wfi1
+        data2 = dt_wfip + ' ' + hr_wfip
         horas_contato = validar_datas_e_calcular_horas(data1, data2)
         #contato_wfi1 = st.text_input('Contato WFI1',placeholder='HH:MM', help='Calcular a diferença entre as datas')
-        contato_wfi1 = st.text_input('Contato WFI (horas)',value= str(horas_contato), disabled= True, 
+        contato_wfip = st.text_input('Contato WFI (horas)',value= str(horas_contato), disabled= True, 
                                      help='Diferença entre hora do teste WFI e hora do teste de integridade do produto')
     
     texto1 = 'Realizar a análise visual.'
     texto2 = 'Registrar com fotografia.'
     st.warning(f' :warning: ATENÇÃO !\n###### :point_right: {texto1} \n###### :point_right: {texto2} ')
 
-    
-
+ 
     col1, col2, col3 = st.columns(3)
     with col1:
         pb_produto = st.number_input('PB Padrão(psi)', format=format_1casa, value=float('48.0'), 
@@ -449,7 +483,6 @@ with container6:
     st.markdown('<div style="text-align: left;"><h5>Fluxo Final(tempo)</h5></div>', unsafe_allow_html=True)
     col1, col2, col3 = st.columns(3)
     with col1:
-        
         flf_memb_1 = st.number_input('Fluxo Final #1', format=format_2casas, value=float('1.20'))
     with col2:   
         flf_memb_2 = st.number_input('Fluxo Final #2', format=format_2casas, value=float('1.15')) 
@@ -549,8 +582,8 @@ with container10:
 
 st.markdown('<div style="text-align: center;"><h3>Critérios de Avaliação</h3></div>', unsafe_allow_html=True) 
 
-container121 = st.container(border=True)
-with container121:
+container13 = st.container(border=True)
+with container13:
     coluna_1, coluna_2 = st.columns([1,1])
     col1, col2 = st.columns(2)
     with col1:
@@ -581,7 +614,7 @@ with container121:
 # ===========================================================================================================================
 
 if st.button('Salvar Planilha', type='primary'):
-    # dados_digitados = Monta_Dicionario()
+    dados_digitados = Monta_Dicionario()
     # erro = DadoVazio()
     erro = -1
     if erro == 0:
