@@ -82,11 +82,12 @@ dados_usuario = {
 
 pg = st.navigation(
     {              
-        'SA SOLUTION':      [st.Page('homepage.py',         title='Home',                    icon=':material/filter_alt:')],
-        'Planilhas': [st.Page('comp_quimica.py',            title='Inserir Planilhas',       icon=':material/thumb_up:'), 
-                      st.Page('previa.py',                  title='Prévia Relatório',        icon=':material/visibility:')
+        'SA SOLUTION':      [st.Page('homepage.py',         title='Home',                  icon=':material/filter_alt:')],
+        'Planilhas': [st.Page('comp_quimica.py',            title='Editar Planilha',       icon=':material/thumb_up:'), 
+                      st.Page('nova.py',                    title='Criar Planilha',        icon=':material/visibility:'),
+                      st.Page('previa.py',                  title='Relatórios Finalizados',      icon=':material/visibility:')
                      ],
-        'Clientes':  [st.Page('clientes.py',                title='Clientes Cadastrados',    icon=':material/groups:')],   
+        'Clientes':  [st.Page('clientes.py',                title='Clientes Cadastrados',  icon=':material/groups:')],   
 
 
     }

@@ -67,26 +67,27 @@ import pandas as pd
 
 def Previsao_Relat(dados):
     # CALCULADORA
-    # RPB Membrana = Membr 1 Fluido Padrão /  Membr 1 Produto		3 casas
-    rpb_membr_1 = dados['memb_1_fr'] / dados['memb_1_pr']
-    rpb_membr_2 = dados['memb_2_fr'] / dados['memb_2_pr']
-    rpb_membr_3 = dados['memb_3_fr'] / dados['memb_3_pr']
+    # RPB Membrana = PRD Resultado #1 /  WFI final Resultado #1		3 casas
+    rpb_membr_1 = dados['prd_res1'] / dados['wfif_res1']
+    rpb_membr_2 = dados['prd_res2'] / dados['wfif_res2']
+    rpb_membr_3 = dados['prd_res3'] / dados['wfif_res3']
     # Média 			3 casas
     rpb_media = (rpb_membr_1 + rpb_membr_2 + rpb_membr_3) / 3   # ETAPA 7	
 
 
     # PB Estimado	=PB Padrão / Média		ETAPA 8		2 casas
-    pb_estimado = dados['pb_padrao'] / rpb_media
+    # pb_estimado = dados['pb_padrao'] / rpb_media
 
-    # % Variação Peso Membrana 1 =ABS((G18-D18)/D18)	Célula K17	% com 2 casas
-    var_peso_perc_memb_1 = abs(((dados['pf_memb_1'] - dados['pi_memb_1']) / dados['pi_memb_1']) * 100)
-    # % Variação Peso Membrana 2 =ABS((G19-D19)/D19)	Célula K18	% com 2 casas
-    var_peso_perc_memb_2 = abs(((dados['pf_memb_2'] - dados['pi_memb_2']) / dados['pi_memb_2']) * 100)
-    # % Variação Peso Membrana 3 =ABS((G20-D20)/D20)	Célula K19	% com 2 casas
-    var_peso_perc_memb_3 = abs(((dados['pf_memb_3'] - dados['pi_memb_3']) / dados['pi_memb_3']) * 100)
+    # % Variação Peso Membrana 1 =ABS((B21-Z31)/B21)	((pi_memb_1 - pf_memb_1) / pi_memb_1) * 100
+    var_peso_perc_memb_1 = abs(((dados['pi_memb_1'] - dados['pf_memb_1']) / dados['pi_memb_1']) * 100)
+    # % Variação Peso Membrana 2 =ABS((B22-Z32)/B22)	
+    var_peso_perc_memb_2 = abs(((dados['pi_memb_2'] - dados['pf_memb_2']) / dados['pi_memb_2']) * 100)
+    # % Variação Peso Membrana 3 =ABS((B23-Z33)/B23)	
+    var_peso_perc_memb_3 = abs(((dados['pi_memb_3'] - dados['pf_memb_3']) / dados['pi_memb_3']) * 100)
     # Média =MÉDIA(K17:K19)
     var_peso_media = (var_peso_perc_memb_1 + var_peso_perc_memb_2 + var_peso_perc_memb_3) / 3
     
+   
     # Critério : < 10 %
     criterio_peso = dados['crit_var_peso']
     # Resultado Var. Peso Membrana 1	=SE(ABS((G18-D18)/D18)*100 <=N17;"aprovado"; "reprovado")
@@ -139,9 +140,7 @@ def Previsao_Relat(dados):
     else:
         var_vazao_result_mem_3 = 1.0 #'Reprovado'   
 
- 
-
-    # -------------------- Monta dicionário de Retorno  
+    #     # -------------------- Monta dicionário de Retorno  
     txt_Crit1 = f'Critério <=  {str(criterio_peso)}%'
     txt_Crit2 = f'Critério <=  {str(criterio_vazao)}%'
     dic_retorno ={
@@ -149,7 +148,7 @@ def Previsao_Relat(dados):
         'RPB Membrana 2': round(rpb_membr_2,3),
         'RPB Membrana 3': round(rpb_membr_3,3),
         'Média RPB': round(rpb_media,3),
-        'PB Estimado': round(pb_estimado,2),
+        #'PB Estimado': round(pb_estimado,2),
 
         '% Variação Peso - Membrana 1': round(var_peso_perc_memb_1,2),
         'Critério Peso': criterio_peso,
@@ -179,3 +178,4 @@ def Previsao_Relat(dados):
     df = df.T
   
     return df
+

@@ -1,22 +1,26 @@
 import streamlit as st
 
-
-
-pg = st.navigation(
-    {              
-        'SA SOLUTION':      [st.Page('homepage.py',         title='Home',                    icon=':material/filter_alt:')],
-        'Planilhas': [st.Page('comp_quimica.py',            title='Inserir Planilhas',       icon=':material/thumb_up:'), 
-                      st.Page('relat_compatibilidade.py',   title='Prévia Relatório',        icon=':material/visibility:')
-                     ],
-        'Clientes':  [st.Page('clientes.py',                title='Clientes Cadastrados',    icon=':material/groups:')],   
-
-
+# CSS customizado
+st.markdown(
+    """
+    <style>
+    /* Aplica o estilo ao input number */
+    div[data-baseweb="input"] input[type="number"] {
+        background-color: #f0f8ff; /* Azul claro */
+        color: #000000; /* Texto preto */
+        border: 2px solid #1E90FF; /* Borda azul */
+        border-radius: 5px;
+        padding: 5px;
     }
+    </style>
+    """,
+    unsafe_allow_html=True
 )
-pg.run()
 
-# #Estilizando com style.css 
-# with open('style.css') as f:
-#     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+# Widget number_input normalmente
+valor = st.number_input("Digite um número", min_value=0, max_value=100)
+
+st.write("Você digitou:", valor)
+
 
 

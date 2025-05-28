@@ -61,14 +61,14 @@ def inserir_planilha(dados):
 #     return df    
 
 def ComboBoxClientes():
-    response = supabase.table("Clientes").select("id, empresa, cidade").execute()
+    response = supabase.table("Clientes").select("id, empresa, cidade").order('empresa').execute()
     # Verificar se a resposta tem dados
     if response.data and isinstance(response.data, list):
         clientes = response.data
         opcoes_combobox = [
             f"{cliente['empresa']} - {cliente['cidade']}" for cliente in clientes
         ]
-        #print(opcoes_combobox)
+        # print(opcoes_combobox)
     else:
         st.error("Erro ao carregar os dados dos clientes.")
         clientes = []
