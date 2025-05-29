@@ -465,9 +465,9 @@ with container4:
     with col1:
         pb_padraoWFI = st.number_input('PB Padrão WFI (psi)', format=format_1casa, step=0.1, value=float('50.0'))
     with col2:
-        wfi_res1 = st.number_input('WFI Resultado #1', format=format_1casa, value=float('51.2'))  
-        wfi_res2 = st.number_input('WFI Resultado #2', format=format_1casa, value=float('55.2'))
-        wfi_res3 = st.number_input('WFI Resultado #3', format=format_1casa, value=float('53.3'))
+        wfi_res1 = st.number_input('WFI Resultado #1', format=format_1casa, step=0.1, value=float('51.2'))  
+        wfi_res2 = st.number_input('WFI Resultado #2', format=format_1casa, step=0.1, value=float('55.2'))
+        wfi_res3 = st.number_input('WFI Resultado #3', format=format_1casa, step=0.1, value=float('53.3'))
     with col3:
         wfi_id1 = st.text_input('WFI ID #1', max_chars= 20, value='2502231252255')  
         wfi_id2 = st.text_input('WFI ID #2', max_chars= 20, value='2502231252256')
@@ -520,9 +520,9 @@ with container5:
         pb_refproduto = st.number_input('PB Referencial (psi)', format=format_1casa, value=float('48.0'), 
                                      help= 'Usar teste Referencial', step=0.1)
     with col2:
-        prd_res1 = st.number_input('PRD Resultado #1', format=format_1casa, value=float('48.9'))  
-        prd_res2 = st.number_input('PRD Resultado #2', format=format_1casa, value=float('49.8'))
-        prd_res3 = st.number_input('PRD Resultado #3', format=format_1casa, value=float('50.1'))
+        prd_res1 = st.number_input('PRD Resultado #1', format=format_1casa, step=0.1, value=float('48.9'))  
+        prd_res2 = st.number_input('PRD Resultado #2', format=format_1casa, step=0.1, value=float('49.8'))
+        prd_res3 = st.number_input('PRD Resultado #3', format=format_1casa, step=0.1, value=float('50.1'))
     with col3:
         prd_id1 = st.text_input('PRD ID #1', max_chars= 20, value='253156665588')  
         prd_id2 = st.text_input('PRD ID #2', max_chars= 20, value='253156665589')
@@ -545,9 +545,9 @@ with container6:
         texto = f'PB Referencial : {pb_refproduto:.1f}'
         st.markdown(f"# :orange-badge[<h6>{texto}</h6>]", unsafe_allow_html=True)
     with col2:
-        wfif_res1 = st.number_input('WFI final Resultado #1', format=format_1casa, value=float('50.8'))  
-        wfif_res2 = st.number_input('WFI final Resultado #2', format=format_1casa, value=float('52.6'))
-        wfif_res3 = st.number_input('WFI final Resultado #3', format=format_1casa, value=float('51.6'))
+        wfif_res1 = st.number_input('WFI final Resultado #1', format=format_1casa, step=0.1, value=float('50.8'))  
+        wfif_res2 = st.number_input('WFI final Resultado #2', format=format_1casa, step=0.1, value=float('52.6'))
+        wfif_res3 = st.number_input('WFI final Resultado #3', format=format_1casa, step=0.1, value=float('51.6'))
     with col3:
         wfif_id1 = st.text_input('WFI final ID #1', max_chars= 20, value='2502231252257')  
         wfif_id2 = st.text_input('WFI final ID #2', max_chars= 20, value='2502231252258')
@@ -558,11 +558,11 @@ with container6:
     st.markdown('<div style="text-align: left;"><h5>Fluxo Final (tempo em minutos)</h5></div>', unsafe_allow_html=True)
     col1, col2, col3 = st.columns(3)
     with col1:
-        flf_memb_1 = st.number_input('Fluxo Final #1', format=format_2casas, value=float('1.20'))
+        flf_memb_1 = st.number_input('Fluxo Final #1', format=format_2casas, step=0.1, value=float('1.20'))
     with col2:   
-        flf_memb_2 = st.number_input('Fluxo Final #2', format=format_2casas, value=float('1.15')) 
+        flf_memb_2 = st.number_input('Fluxo Final #2', format=format_2casas, step=0.1, value=float('1.15')) 
     with col3: 
-        flf_memb_3 = st.number_input('Fluxo Final #3', format=format_2casas, value=float('1.05'))
+        flf_memb_3 = st.number_input('Fluxo Final #3', format=format_2casas, step=0.1, value=float('1.05'))
 
     texto1 = 'Secar as membranas antes da pesagem'
     st.warning(f' :warning: ATENÇÃO !\n###### :point_right: {texto1} ')
@@ -570,11 +570,11 @@ with container6:
     st.markdown('<div style="text-align: left;"><h5>Pesagem Final</h5></div>', unsafe_allow_html=True)
     col1, col2, col3 = st.columns(3)
     with col1: 
-        pf_memb_1 = st.number_input('Peso Final #1', format=format_3casas, value=float('0.122'))
+        pf_memb_1 = st.number_input('Peso Final #1', format=format_3casas, step=0.01, value=float('0.122'))
     with col2:   
-        pf_memb_2 = st.number_input('Peso Final #2', format=format_3casas, value=float('0.133')) 
+        pf_memb_2 = st.number_input('Peso Final #2', format=format_3casas, step=0.01, value=float('0.133')) 
     with col3: 
-        pf_memb_3 = st.number_input('Peso Final #3', format=format_3casas, value=float('0.133'))
+        pf_memb_3 = st.number_input('Peso Final #3', format=format_3casas, step=0.01, value=float('0.133'))
 
 
 st.markdown('<div style="text-align: center;"><h3>Teste de Integridade - Dispositivo</h3></div>', unsafe_allow_html=True) 
@@ -607,9 +607,9 @@ with container7:
     col1, col2, col3 = st.columns(3)
 
     with col2:
-        dis_res1 = st.number_input('Resultado #1', format=format_1casa, value=float('10.6'))  
-        dis_res2 = st.number_input('Resultado #2', format=format_1casa, value=float('10.4'))
-        dis_res3 = st.number_input('Resultado #3', format=format_1casa, value=float('10.2'))
+        dis_res1 = st.number_input('Resultado #1', format=format_1casa, step=0.1, value=float('10.6'))  
+        dis_res2 = st.number_input('Resultado #2', format=format_1casa, step=0.1, value=float('10.4'))
+        dis_res3 = st.number_input('Resultado #3', format=format_1casa, step=0.1, value=float('10.2'))
     with col3:
         dis_id1 = st.text_input('ID #1', max_chars= 20)  
         dis_id2 = st.text_input('ID #2', max_chars= 20)
