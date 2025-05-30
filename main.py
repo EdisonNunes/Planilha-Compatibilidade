@@ -85,7 +85,7 @@ pg = st.navigation(
         'SA SOLUTION':      [st.Page('homepage.py',         title='Home',                  icon=':material/filter_alt:')],
         'Planilhas': [st.Page('comp_quimica.py',            title='Editar Planilha',       icon=':material/thumb_up:'), 
                       st.Page('nova.py',                    title='Criar Planilha',        icon=':material/visibility:'),
-                      st.Page('previa.py',                  title='Relatórios Finalizados',      icon=':material/visibility:')
+                      st.Page('previa.py',                  title='Relatórios Finalizados',      icon=':material/article:')
                      ],
         'Clientes':  [st.Page('clientes.py',                title='Clientes Cadastrados',  icon=':material/groups:')],   
 

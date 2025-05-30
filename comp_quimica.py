@@ -1,10 +1,11 @@
 import streamlit as st
 from data_loader import *
-# import datetime
 from datetime import datetime
 import uuid
 from calculos import *
-from homepage import combo_clientes
+#from homepage import combo_clientes
+
+combo_clientes= ComboBoxClientes()
 
 def validar_datas_e_calcular_horas(data1_str, data2_str):
     """
@@ -68,7 +69,8 @@ def Salva_Planilha(dados, resultado):
     resultado_dict = df.iloc[0].to_dict()
 
     # Insere os dados nas tabelas resultado e comp_quimica
-    resp = inserir_planilha_e_resultado(dados_digitados, resultado_dict)
+    # --------------------   resp = inserir_planilha_e_resultado(dados_digitados, resultado_dict)
+    resp = inserir_planilha_e_resultadonew(dados_digitados, resultado_dict)
 
     # Exibe resultado para o usuário
     if resp["success"]:
@@ -93,8 +95,8 @@ def Monta_Dicionario():
         dict_dados['dt_chegada']= dt_chegada.strftime("%Y-%m-%d")
         dict_dados['hr_chegada']= hr_chegada.strftime('%H:%M')
     except:
-        dict_dados['dt_chegada']= ''
-        dict_dados['hr_chegada']= ''   
+        dict_dados['dt_chegada']= hoje.strftime('%Y-%m-%d')
+        dict_dados['hr_chegada']= hoje.strftime('%H:%M')   
     # Conteiner 2
     dict_dados['linha']= linha
     dict_dados['fabricante']= fabricante
@@ -142,16 +144,16 @@ def Monta_Dicionario():
         dict_dados['dt_wfi']= dt_wfi.strftime("%Y-%m-%d")
         dict_dados['hr_wfi']= hr_wfi.strftime('%H:%M')
     except:
-        dict_dados['dt_wfi']= ''
-        dict_dados['hr_wfi']= ''   
+        dict_dados['dt_wfi']= hoje.strftime('%Y-%m-%d')
+        dict_dados['hr_wfi']= hoje.strftime('%H:%M')   
     dict_dados['contato_wfi']= contato_wfi
     # Container 5
     try:
         dict_dados['dt_wfip']= dt_wfip.strftime("%Y-%m-%d")
         dict_dados['hr_wfip']= hr_wfip.strftime('%H:%M')
     except:
-        dict_dados['dt_wfip']= ''
-        dict_dados['hr_wfip']= ''    
+        dict_dados['dt_wfip']= hoje.strftime('%Y-%m-%d')
+        dict_dados['hr_wfip']= hoje.strftime('%H:%M')    
     dict_dados['contato_wfip']= contato_wfip
     dict_dados['pb_refproduto']=pb_refproduto
     dict_dados['prd_res1']= prd_res1
@@ -717,8 +719,9 @@ if st.button('Verificar resultados', type='primary'):
                      hide_index=True)
         
         # ------------------- Salva_Planilha(dados=dados_digitados, resultado=df)
-        #Salva_Planilha(dados=dados_digitados, resultado=df)
+        Salva_Planilha(dados=dados_digitados, resultado=df)
         #inserir_planilha_e_resultado(dados_digitados, df)
+        
     else:
         if erro > 0: 
             message, etapa = ShowErro(erro)

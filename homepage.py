@@ -22,7 +22,7 @@ botao_indicadores = coluna_esquerda.button('Prévia Relatório')
 if botao_dashboards:
     st.switch_page('comp_quimica.py')
 if botao_indicadores:
-    st.switch_page('relat_compatibilidade.py')   
+    st.switch_page('previa.py')   
 
 conteiner = coluna_direita.container(border=False)
 #conteiner.image('imagens/logo.png')   
@@ -30,5 +30,5 @@ conteiner.image('logo.png')
 conteiner.markdown('Versão 4.03')   
 
 
-combo_clientes= ComboBoxClientes()
+# combo_clientes= ComboBoxClientes()
 #print(combo_clientes[3])
