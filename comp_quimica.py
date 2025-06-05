@@ -203,19 +203,19 @@ def DadoVazio() -> int:
         erro =  8
     elif string_para_float(fli_memb_3) == 0.0:     # Membrana FI #3 0.00
         erro =  9 
-    elif wfif_res1 == 0.0:     # WFI final Resultado #1 0.0
+    elif wfif_res1 == 0.0:     # Fluido Padrão final Resultado #1 0.0
         erro =  10
-    elif wfif_res2 == 0.0:     # WFI final Resultado #2 0.0
+    elif wfif_res2 == 0.0:     # Fluido Padrão final Resultado #2 0.0
         erro =  11
-    elif wfif_res3 == 0.0:     # WFI final Resultado #3 0.0
+    elif wfif_res3 == 0.0:     # Fluido Padrão final Resultado #3 0.0
         erro =  12
-    elif pb_padraowfi == 0.0:  # PB Padrão WFI 0.0
+    elif pb_padraowfi == 0.0:  # PB Padrão Fluido Padrão 0.0
         erro =  13 
-    elif wfi_res1 == 0.0:      # WFI Resultado #1 0.0
+    elif wfi_res1 == 0.0:      # Fluido Padrão Resultado #1 0.0
         erro =  14 
-    elif wfi_res2 == 0.0:      # WFI Resultado #2 0.0
+    elif wfi_res2 == 0.0:      # Fluido Padrão Resultado #2 0.0
         erro =  15
-    elif wfi_res3 == 0.0:      # WFI Resultado #3 0.0
+    elif wfi_res3 == 0.0:      # Fluido Padrão Resultado #3 0.0
         erro =  16 
     elif prd_res1 == 0.0:      # PRD Resultado #1 0.0
         erro =  17 
@@ -274,25 +274,25 @@ def ShowErro(erro):
                 message = 'Membrana FI #3'
                 etapa = 4
             case 10: 
-                message = 'WFI final Resultado #1'
+                message = 'Fluido Padrão final Resultado #1'
                 etapa = 6
             case 11: 
-                message = 'WFI final Resultado #2'
+                message = 'Fluido Padrão final Resultado #2'
                 etapa = 6
             case 12: 
-                message = 'WFI final Resultado #3'
+                message = 'Fluido Padrão final Resultado #3'
                 etapa = 6
             case 13: 
-                message = 'PB Padrão WFI'
+                message = 'PB Padrão Fluido Padrão'
                 etapa = 4
             case 14: 
-                message = 'WFI Resultado #1'
+                message = 'Fluido Padrão Resultado #1'
                 etapa = 4
             case 15: 
-                message = 'WFI Resultado #2'
+                message = 'Fluido Padrão Resultado #2'
                 etapa = 4
             case 16: 
-                message = 'WFI Resultado #3'
+                message = 'Fluido Padrão Resultado #3'
                 etapa = 4
             case 17: 
                 message = 'PRD Resultado #1'
@@ -337,15 +337,18 @@ def CalculaPBEstimado():
     if erro < 14 or erro > 19:
         try:
             # CALCULADORA
-            # RPB Membrana 1	=Q26/Q21			3 casas
-            rpb_membr_1 = prd_res1 / wfi_res1
-            # RPB Membrana 2	=Q27/Q22			3 casas
-            rpb_membr_2 = prd_res2 / wfi_res2
-            # RPB Membrana 3	=Q28/Q23			3 casas
-            rpb_membr_3 = prd_res3 / wfi_res3
-            # Média RPB	=MÉDIA(K3:K5)	Célula C37	3 casas
-            rpb_media = (rpb_membr_1 + rpb_membr_2 + rpb_membr_3) / 3   	
-
+            # # RPB Membrana 1	=Q26/Q21			3 casas
+            # rpb_membr_1 = prd_res1 / wfi_res1
+            # # RPB Membrana 2	=Q27/Q22			3 casas
+            # rpb_membr_2 = prd_res2 / wfi_res2
+            # # RPB Membrana 3	=Q28/Q23			3 casas
+            # rpb_membr_3 = prd_res3 / wfi_res3
+            # # Média RPB	=MÉDIA(K3:K5)	Célula C37	3 casas
+               	
+            rpb_membr_1 = pi_memb_1 / pf_memb_1
+            rpb_membr_2 = pi_memb_2 / pf_memb_2
+            rpb_membr_3 = pi_memb_3 / pf_memb_3
+            rpb_media = (rpb_membr_1 + rpb_membr_2 + rpb_membr_3) / 3
 
             # PB Estimado	=C28*L3		Célula J7		ETAPA 8		2 casas
             pb_estimado = pb_padraowfi * rpb_media
@@ -455,36 +458,36 @@ with container4:
         
         
     st.divider()
-    st.markdown('<div style="text-align: center;"><h5>Teste de Integridade - WFI</h5></div>', unsafe_allow_html=True)
+    st.markdown('<div style="text-align: center;"><h5>Teste de Integridade - Fluido Padrão</h5></div>', unsafe_allow_html=True)
 
     col1, col2, col3 = st.columns(3)
     with col1:
-        pb_padraowfi = st.number_input('PB Padrão WFI (psi)', format=format_1casa, step=0.1, value=float('50.0'))
+        pb_padraowfi = st.number_input('PB Padrão Fluido Padrão (psi)', format=format_1casa, step=0.1, value=float('50.0'))
     with col2:
-        wfi_res1 = st.number_input('WFI Resultado #1', format=format_1casa, step=0.1, value=float('51.2'))  
-        wfi_res2 = st.number_input('WFI Resultado #2', format=format_1casa, step=0.1, value=float('55.2'))
-        wfi_res3 = st.number_input('WFI Resultado #3', format=format_1casa, step=0.1, value=float('53.3'))
+        wfi_res1 = st.number_input('Fluido Padrão Resultado #1', format=format_1casa, step=0.1, value=float('51.2'))  
+        wfi_res2 = st.number_input('Fluido Padrão Resultado #2', format=format_1casa, step=0.1, value=float('55.2'))
+        wfi_res3 = st.number_input('Fluido Padrão Resultado #3', format=format_1casa, step=0.1, value=float('53.3'))
     with col3:
-        wfi_id1 = st.text_input('WFI ID #1', max_chars= 20, value='2502231252255')  
-        wfi_id2 = st.text_input('WFI ID #2', max_chars= 20, value='2502231252256')
-        wfi_id3 = st.text_input('WFI ID #3', max_chars= 20, value='2502231252257')   
+        wfi_id1 = st.text_input('Fluido Padrão ID #1', max_chars= 20, value='2502231252255')  
+        wfi_id2 = st.text_input('Fluido Padrão ID #2', max_chars= 20, value='2502231252256')
+        wfi_id3 = st.text_input('Fluido Padrão ID #3', max_chars= 20, value='2502231252257')   
 
     st.divider()
     st.markdown('<div style="text-align: left;"><h5>Tempo de contato com o produto (1º dia)</h5></div>', unsafe_allow_html=True)
 
     col1, col2, col3 = st.columns(3)
     with col1:
-        dt_wfi = st.text_input('Data WFI (DD-MM-YYYY)',placeholder='DD-MM-YYYY')
+        dt_wfi = st.text_input('Data Fluido Padrão (DD-MM-YYYY)',placeholder='DD-MM-YYYY')
         
     with col2:
-        hr_wfi = st.text_input('Hora WFI (HH:MM)',placeholder='HH:MM')
+        hr_wfi = st.text_input('Hora Fluido Padrão (HH:MM)',placeholder='HH:MM')
     with col3:
-        # contato_wfi = st.text_input('Contato WFI',placeholder='HH:MM')
+        # contato_wfi = st.text_input('Contato Fluido Padrão',placeholder='HH:MM')
         data1 = dt_chegada  + ' ' + hr_chegada
         data2 = dt_wfi + ' ' + hr_wfi
         horas_contato = validar_datas_e_calcular_horas(data1, data2)
         contato_wfi = st.text_input('Contato com o produto (horas)',value= str(horas_contato), disabled= True,
-                                    help='Diferença entre hora de chegada e hora do teste de integridade WFI')
+                                    help='Diferença entre hora de chegada e hora do teste de integridade Fluido Padrão')
 
 st.markdown(':orange-background[Etapa 5]')
 container5 = st.container(border=True)
@@ -497,16 +500,16 @@ with container5:
     st.markdown('<div style="text-align: left;"><h5>Tempo de contato (2ºdia)</h5></div>', unsafe_allow_html=True)
     col1, col2, col3 = st.columns(3)
     with col1:
-        dt_wfip = st.text_input('Data WFIp (DD-MM-YYYY)',placeholder='DD-MM-AAAA')
+        dt_wfip = st.text_input('Data Fluido Padrão 2',placeholder='DD-MM-AAAA')
     with col2:
-        hr_wfip = st.text_input('Hora WFIp (HH:MM)',placeholder='HH:MM')
+        hr_wfip = st.text_input('Hora Fluido Padrão 2',placeholder='HH:MM')
     with col3:
         data1 = dt_wfi  + ' ' + hr_wfi
         data2 = dt_wfip + ' ' + hr_wfip
         horas_contato = validar_datas_e_calcular_horas(data1, data2)
-        #contato_wfi1 = st.text_input('Contato WFI1',placeholder='HH:MM', help='Calcular a diferença entre as datas')
-        contato_wfip = st.text_input('Contato WFI (horas)',value= str(horas_contato), disabled= True, 
-                                     help='Diferença entre hora do teste WFI e hora do teste de integridade do produto')
+        #contato_wfi1 = st.text_input('Contato Fluido Padrão1',placeholder='HH:MM', help='Calcular a diferença entre as datas')
+        contato_wfip = st.text_input('Contato Fluido Padrão (horas)',value= str(horas_contato), disabled= True, 
+                                     help='Diferença entre hora do teste Fluido Padrão e hora do teste de integridade do produto')
     
     texto1 = 'Inserir ponto de bolha referencial aqui'
     st.info(f'\n###### :point_right: {texto1}', width=360)
@@ -529,44 +532,48 @@ with container5:
 
 st.markdown('<div style="text-align: center;"><h3>Cálculo de Fluxo - Pré molhagem 100 ml</h3></div>', unsafe_allow_html=True)
 
-st.markdown(':orange-background[Etapa 6]')
+st.markdown(':orange-background[Etapa 6 - Cálculo da Vazão Final]')
 container6 = st.container(border=True)
 with container6:
-    texto1 = 'Enxaguar as membranas para teste de Integridade com WFI Final'
-    st.warning(f' :warning: AVISO\n###### :point_right: {texto1} ')
-
-    st.markdown('<div style="text-align: center;"><h5>Teste de Integridade - WFI</h5></div>', unsafe_allow_html=True)
-
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        # pb_padraoPES = st.number_input('PB Referencial (psi)', format=format_1casa, value=float(pb_refproduto), disabled=True)
-        texto = f'PB Referencial : {pb_padraowfi:.1f}'
-        st.markdown(f"# :orange-badge[<h6>{texto}</h6>]", unsafe_allow_html=True)
-    with col2:
-        wfif_res1 = st.number_input('WFI final Resultado #1', format=format_1casa, step=0.1, value=float('50.8'))  
-        wfif_res2 = st.number_input('WFI final Resultado #2', format=format_1casa, step=0.1, value=float('52.6'))
-        wfif_res3 = st.number_input('WFI final Resultado #3', format=format_1casa, step=0.1, value=float('51.6'))
-    with col3:
-        wfif_id1 = st.text_input('WFI final ID #1', max_chars= 20, value='2502231252257')  
-        wfif_id2 = st.text_input('WFI final ID #2', max_chars= 20, value='2502231252258')
-        wfif_id3 = st.text_input('WFI finalf ID #3', max_chars= 20, value='2502231252259')   
-
-    
     texto1 = 'Enxaguar as membranas para o medir vazão final'
     st.warning(f' :warning: AVISO\n###### :point_right: {texto1} ')
-   
+    
+
     st.markdown('<div style="text-align: left;"><h5>Fluxo Final (tempo em minutos)</h5></div>', unsafe_allow_html=True)
     col1, col2, col3 = st.columns(3)
     with col1:
-        #flf_memb_1 = st.number_input('Fluxo Final #1', format=format_2casas, step=0.1, value=float('1.20'))
         flf_memb_1 = st.text_input('Fluxo Final #1', max_chars= 5, placeholder='mm:ss', value='1:20')
     with col2:   
-        #flf_memb_2 = st.number_input('Fluxo Final #2', format=format_2casas, step=0.1, value=float('1.15')) 
         flf_memb_2 = st.text_input('Fluxo Final #2', max_chars= 5, placeholder='mm:ss', value='1:15')
     with col3: 
-        #flf_memb_3 = st.number_input('Fluxo Final #3', format=format_2casas, step=0.1, value=float('1.05'))
         flf_memb_3 = st.text_input('Fluxo Final #3', max_chars= 5, placeholder='mm:ss', value='1:05')
 
+st.markdown(':orange-background[Etapa 7 - Teste de Integridade com Fluido Padrao - Final]')
+container7 = st.container(border=True)
+with container7:
+    texto1 = 'Enxaguar as membranas para teste de Integridade com Fluido Padrão Final'
+    st.warning(f' :warning: AVISO\n###### :point_right: {texto1} ')
+
+    st.markdown('<div style="text-align: center;"><h5>Teste de Integridade - Fluido Padrão</h5></div>', unsafe_allow_html=True)
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        texto = f'PB Referencial : {pb_padraowfi:.1f}'
+        st.markdown(f"# :orange-badge[<h6>{texto}</h6>]", unsafe_allow_html=True)
+    with col2:
+        wfif_res1 = st.number_input('Fluido Padrão final Resultado #1', format=format_1casa, step=0.1, value=float('50.8'))  
+        wfif_res2 = st.number_input('Fluido Padrão final Resultado #2', format=format_1casa, step=0.1, value=float('52.6'))
+        wfif_res3 = st.number_input('Fluido Padrão final Resultado #3', format=format_1casa, step=0.1, value=float('51.6'))
+    with col3:
+        wfif_id1 = st.text_input('Fluido Padrão final ID #1', max_chars= 20, value='2502231252257')  
+        wfif_id2 = st.text_input('Fluido Padrão final ID #2', max_chars= 20, value='2502231252258')
+        wfif_id3 = st.text_input('Fluido Padrão finalf ID #3', max_chars= 20, value='2502231252259')   
+
+ 
+st.markdown('<div style="text-align: center;"><h3>Teste de Integridade - Dispositivo</h3></div>', unsafe_allow_html=True) 
+st.markdown(':orange-background[Etapa 8 - Aferiçao de Massa Final]')
+container8 = st.container(border=True)
+with container8:
     texto1 = 'Secar as membranas antes da pesagem'
     st.warning(f' :warning: ATENÇÃO !\n###### :point_right: {texto1} ')
 
@@ -579,21 +586,14 @@ with container6:
     with col3: 
         pf_memb_3 = st.number_input('Peso Final #3', format=format_3casas, step=0.01, value=float('0.133'))
 
-
-st.markdown('<div style="text-align: center;"><h3>Teste de Integridade - Dispositivo</h3></div>', unsafe_allow_html=True) 
-st.markdown(':orange-background[Etapa 7]')
-container7 = st.container(border=True)
-with container7:
+ 
+st.markdown(':orange-background[Etapa 9 - Teste de Integridade - Dispositivo]')
+container9 = st.container(border=True)
+with container9:
     col1, col2 = st.columns(2)
-    # col1, col2, col3 = st.columns(3)
-    # with col1:
-    #     #pb_padrao = st.number_input('PB Referencial', format=format_1casa, value=float('50.0'), step=0.1) 
-    #     texto = f'PB Referencial : {pb_padraowfi:.1f}'
-    #     st.markdown(f"# :orange-badge[<h6>{texto}</h6>]", unsafe_allow_html=True)
     with col1:
         estimado, erro = CalculaPBEstimado()
-        # estimado = 1000
-        # erro = 0
+
         if erro == 0:
             texto = f'PB Estimado : {estimado}'
             st.info(f' ###### :point_right: {texto}')
@@ -607,23 +607,21 @@ with container7:
 
     col1, col2, col3 = st.columns(3)
     with col1:
-        texto = 'Enxaguar o dispositivo por 10 min com WFI corrente'
+        texto = 'Enxaguar o dispositivo por 10 min com Fluido Padrão corrente'
         st.info(f' ###### :material/Clock_Loader_40: {texto}')
-        #st.info(f' ###### {texto}')
+
     with col2:
         dis_res1 = st.number_input('Resultado PRD#1', format=format_1casa, step=0.1, value=float('10.6'))  
         dis_res2 = st.number_input('Resultado PRD#2', format=format_1casa, step=0.1, value=float('10.4'))
-        #dis_res3 = st.number_input('Resultado #3', format=format_1casa, step=0.1, value=float('10.2'))
+
     with col3:
         dis_id1 = st.text_input('ID #1', max_chars= 20)  
         dis_id2 = st.text_input('ID #2', max_chars= 20)
-        #dis_id3 = st.text_input('ID #3', max_chars= 20)         
+  
 
-
-st.markdown('<div style="text-align: center;"><h3>Critérios de Avaliação</h3></div>', unsafe_allow_html=True) 
-st.markdown(':orange-background[Etapa 8]')
-container8 = st.container(border=True)
-with container8:
+st.markdown(':orange-background[Etapa 10 - Critérios de Avaliação]')    
+container10 = st.container(border=True)
+with container10:
     coluna_1, coluna_2 = st.columns([1,1])
     col1, col2 = st.columns(2)
     with col1:
@@ -644,7 +642,7 @@ if st.button('Verificar resultados', type='primary'):
         df['pb_estimado'] = estimado
 
         #st.warning(f' ##### Campo :point_right: {message} INVÁLIDO !  :mag_right: Erro: {erro}') 
-        st.markdown('<div style="text-align: center;"><h3>Prévia de Resultado</h3></div>', unsafe_allow_html=True) 
+        st.markdown('<div style="text-align: center;"><h3>Prévia dos Resultados</h3></div>', unsafe_allow_html=True) 
         #st.dataframe(df, hide_index=True)
         
         
@@ -655,9 +653,9 @@ if st.button('Verificar resultados', type='primary'):
         for_rpd = st.container(border=True)
         with for_rpd:
             st.markdown(':orange-background[Fórmulas]')
-            st.latex(r"RPB\ membr\ 1 = \frac{\mathrm{PRD\ Resultado\#1}}{\mathrm{WFI\ Resultado\#1}}")
-            st.latex(r"RPB\ membr\ 2 = \frac{\mathrm{PRD\ Resultado\#2}}{\mathrm{WFI\ Resultado\#2}}")
-            st.latex(r"RPB\ membr\ 3 = \frac{\mathrm{PRD\ Resultado\#3}}{\mathrm{WFI\ Resultado\#3}}")
+            st.latex(r"RPB\ membr\ 1 = \frac{\mathrm{Membrana\ PI\#1}}{\mathrm{Peso\ Final\#1}}")
+            st.latex(r"RPB\ membr\ 2 = \frac{\mathrm{Membrana\ PI\#2}}{\mathrm{Peso\ Final\#2}}")
+            st.latex(r"RPB\ membr\ 3 = \frac{\mathrm{Membrana\ PI\#3}}{\mathrm{Peso\ Resultado\#3}}")
             st.latex(r"Média\ RPB = \frac{RPB\ membr\ 1 + RPB\ membr\ 2 + RPB\ membr\ 3}{3}")
             
 
@@ -669,7 +667,7 @@ if st.button('Verificar resultados', type='primary'):
         for_estimado = st.container(border=True)
         with for_estimado:
             st.markdown(':orange-background[Fórmulas]')
-            st.latex(r"PB\ Estimado = PB\ Padrão\ WFI\ (psi) \times Média\ RPB")
+            st.latex(r"PB\ Estimado = PB\ Padrão\ Fluido Padrão\ (psi) \times Média\ RPB")
 
             
         if estimado < pb_padraowfi:
