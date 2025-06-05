@@ -1,3 +1,0 @@
-DICAS DE DEPLOY
-
-https://hub.asimov.academy/tutorial/deploy-com-streamlit-cloud-guia-para-iniciantes/

@@ -369,6 +369,7 @@ def adapta_chave_to_table():
     'RPB Membrana 2': 'rpb_membrana_2',
     'RPB Membrana 3': 'rpb_membrana_3',
     'PB Estimado': 'pb_estimado',
+    'PB Padrão': 'pb_padraowfi',
     'Média RPB': 'média_rpb',
 
     '% Variação Peso - Membrana 1': 'var_peso_membr_1',
@@ -493,7 +494,7 @@ def inserir_planilha_e_resultadonew(digitados: dict, calculados: dict):
         digitados["id"] = id_registro
         res_comp_quimica = supabase.table("planilha").insert([digitados]).execute()
 
-        print("res_comp_quimica:", res_comp_quimica)
+        # print("res_comp_quimica:", res_comp_quimica)
 
         if not hasattr(res_comp_quimica, "data") or not res_comp_quimica.data:
             raise Exception("Falha ao inserir em 'planilha'.")

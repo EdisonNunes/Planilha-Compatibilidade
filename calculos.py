@@ -65,6 +65,24 @@
 
 import pandas as pd
 
+def string_para_float(tempo_str):
+    """
+    Converte uma string no formato "##:##" ou "#:##" em um número float,
+    onde a parte antes dos dois pontos é a parte inteira,
+    e a parte após os dois pontos é a parte decimal.
+    
+    Exemplo:
+        "2:30" -> 2.30
+        "12:05" -> 12.05
+    """
+    try:
+        parte_inteira, parte_decimal = tempo_str.split(":")
+        resultado = float(f"{int(parte_inteira)}.{parte_decimal}")
+        return resultado
+    except ValueError:
+        return 0.0
+        #raise ValueError("Formato inválido. A string deve estar no formato '#:##' ou '##:##'")
+    
 def Previsao_Relat(dados):
     # CALCULADORA
     # RPB Membrana = PRD Resultado #1 /  WFI final Resultado #1		3 casas
@@ -76,7 +94,7 @@ def Previsao_Relat(dados):
 
 
     # PB Estimado	=PB Padrão / Média		ETAPA 8		2 casas
-    # pb_estimado = dados['pb_padrao'] / rpb_media
+    pb_estimado = dados['pb_padraowfi'] * rpb_media
 
     # % Variação Peso Membrana 1 =ABS((B21-Z31)/B21)	((pi_memb_1 - pf_memb_1) / pi_memb_1) * 100
     var_peso_perc_memb_1 = abs(((dados['pi_memb_1'] - dados['pf_memb_1']) / dados['pi_memb_1']) * 100)
@@ -91,51 +109,58 @@ def Previsao_Relat(dados):
     # Critério : < 10 %
     criterio_peso = dados['crit_var_peso']
     # Resultado Var. Peso Membrana 1	=SE(ABS((G18-D18)/D18)*100 <=N17;"aprovado"; "reprovado")
-    v_peso = var_peso_perc_memb_1 * 100 
-    if v_peso <= criterio_peso:
+    
+    if var_peso_perc_memb_1 <= criterio_peso:
         var_peso_result_mem_1 = 0.0 #'Aprovado'
     else:
         var_peso_result_mem_1 = 1.0 #'Reprovado'    	
     # Resultado Var. Peso Membrana 2	=SE(ABS((G19-D19)/D19)*100 <=N18;"aprovado"; "reprovado")
-    v_peso = var_peso_perc_memb_2 * 100 
-    if v_peso <= criterio_peso:
+   
+    if var_peso_perc_memb_2 <= criterio_peso:
         var_peso_result_mem_2 = 0.0 #'Aprovado'
     else:
         var_peso_result_mem_2 = 1.0 #'Reprovado'
     # Resultado Var. Peso Membrana 3	=SE(ABS((G20-D20)/D20)*100 <=N19;"aprovado"; "reprovado")
-    v_peso = var_peso_perc_memb_3 * 100 
-    if v_peso <= criterio_peso:
+    
+    if var_peso_perc_memb_3 <= criterio_peso:
         var_peso_result_mem_3 = 0.0 #'Aprovado'
     else:
         var_peso_result_mem_3 = 1.0 #'Reprovado'
 
 
-    # % Variação Vazão Membrana 1 =100/((D23*60)-(G23*60)/(D23*60))	Célula K23	% com 2 casas
-    var_vazao_perc_memb_1 = 100 / ((dados['fli_memb_1'] * 60)-(dados['flf_memb_1'] *60 ) / (dados['fli_memb_1'] * 60))
-    # % Variação Vazão Membrana 2 =100/((D24*60)-(G24*60)/(D24*60))	Célula K24	% com 2 casas
-    var_vazao_perc_memb_2 = 100 / ((dados['fli_memb_2'] * 60)-(dados['flf_memb_2'] *60 ) / (dados['fli_memb_2'] * 60))
-    # % Variação Vazão Membrana 3 =100/((D25*60)-(G25*60)/(D25*60))	Célula K25	% com 2 casas
-    var_vazao_perc_memb_3 = 100 / ((dados['fli_memb_3'] * 60)-(dados['flf_memb_3'] *60 ) / (dados['fli_memb_3'] * 60))
+    # # % Variação Vazão Membrana 1 =100/((D23*60)-(G23*60)/(D23*60))	Célula K23	% com 2 casas
+    # var_vazao_perc_memb_1 = 100 / ((dados['fli_memb_1'] * 60)-(dados['flf_memb_1'] *60 ) / (dados['fli_memb_1'] * 60))
+    # # % Variação Vazão Membrana 2 =100/((D24*60)-(G24*60)/(D24*60))	Célula K24	% com 2 casas
+    # var_vazao_perc_memb_2 = 100 / ((dados['fli_memb_2'] * 60)-(dados['flf_memb_2'] *60 ) / (dados['fli_memb_2'] * 60))
+    # # % Variação Vazão Membrana 3 =100/((D25*60)-(G25*60)/(D25*60))	Célula K25	% com 2 casas
+    # var_vazao_perc_memb_3 = 100 / ((dados['fli_memb_3'] * 60)-(dados['flf_memb_3'] *60 ) / (dados['fli_memb_3'] * 60))
     
     # Média =MÉDIA(K23:K25)
+    
+    var_vazao_perc_memb_1 = abs((dados['fli_memb_1'] - dados['flf_memb_1'] ) / dados['fli_memb_1'])
+    var_vazao_perc_memb_2 = abs((dados['fli_memb_2'] - dados['flf_memb_2'] ) / dados['fli_memb_2'])
+    var_vazao_perc_memb_3 = abs((dados['fli_memb_3'] - dados['flf_memb_3'] ) / dados['fli_memb_3'])
     var_vazao_media = (var_vazao_perc_memb_1 + var_vazao_perc_memb_2 + var_vazao_perc_memb_3) / 3
     # Critério : < 10 %
     criterio_vazao = dados['crit_var_vazao']
-    # Resultado Var. Vazão Membrana 1	=SE(ABS((G23-D23)/D23)*100 <=N23;"aprovado"; "reprovado")
-    v_vazao = abs((dados['flf_memb_1'] - dados['fli_memb_1']) / dados['fli_memb_1']) * 100
-    if v_vazao <= criterio_vazao:
+    # # Resultado Var. Vazão Membrana 1	=SE(ABS((G23-D23)/D23)*100 <=N23;"aprovado"; "reprovado")
+    # v_vazao = abs((dados['flf_memb_1'] - dados['fli_memb_1']) / dados['fli_memb_1']) * 100
+    
+    if var_vazao_perc_memb_1 <= criterio_vazao:
         var_vazao_result_mem_1 = 0.0 #'Aprovado'
     else:
         var_vazao_result_mem_1 = 1.0 #'Reprovado'    	
     # Resultado Var. Vazão Membrana 2	=SE(ABS((G24-D24)/D24)*100 <=N24;"aprovado"; "reprovado")
-    v_vazao = abs((dados['flf_memb_2'] - dados['fli_memb_2']) / dados['fli_memb_2']) * 100
-    if v_vazao <= criterio_vazao:
+    # v_vazao = abs((dados['flf_memb_2'] - dados['fli_memb_2']) / dados['fli_memb_2']) * 100
+    
+    if var_vazao_perc_memb_2 <= criterio_vazao:
         var_vazao_result_mem_2 = 0.0 #'Aprovado'
     else:
         var_vazao_result_mem_2 = 1.0 #'Reprovado'
     # Resultado Var. Vazão Membrana 3	=SE(ABS((G25-D25)/D25)*100 <=N25;"aprovado"; "reprovado")
-    v_vazao = abs((dados['flf_memb_3'] - dados['fli_memb_3']) / dados['fli_memb_3']) * 100
-    if v_vazao <= criterio_vazao:
+    # v_vazao = abs((dados['flf_memb_3'] - dados['fli_memb_3']) / dados['fli_memb_3']) * 100
+    
+    if var_vazao_perc_memb_3 <= criterio_vazao:
         var_vazao_result_mem_3 = 0.0 #'Aprovado'
     else:
         var_vazao_result_mem_3 = 1.0 #'Reprovado'   
@@ -148,7 +173,8 @@ def Previsao_Relat(dados):
         'RPB Membrana 2': round(rpb_membr_2,3),
         'RPB Membrana 3': round(rpb_membr_3,3),
         'Média RPB': round(rpb_media,3),
-        #'PB Estimado': round(pb_estimado,2),
+        'PB Estimado': round(pb_estimado,2),
+        'PB Padrão': dados['pb_padraowfi'],
 
         '% Variação Peso - Membrana 1': round(var_peso_perc_memb_1,2),
         'Critério Peso': criterio_peso,
