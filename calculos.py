@@ -64,8 +64,8 @@
 # Resultado Var. Vazão Membrana 3	=SE(ABS((G25-D25)/D25)*100 <=N25;"aprovado"; "reprovado")
 
 import pandas as pd
-import pytz
-import datetime
+# import pytz
+# import datetime
 
 
 # import datetime
@@ -77,9 +77,9 @@ import datetime
 # st.write(f"Data e hora em São Paulo: {data_hora_local.strftime('%Y-%m-%d %H:%M:%S')}")
 
 
-def GetHoraLocal(zona):
-    fuso_horario = pytz.timezone(zona)
-    return datetime.datetime.now(fuso_horario)
+# def GetHoraLocal(zona):
+#     fuso_horario = pytz.timezone(zona)
+#     return datetime.datetime.now(fuso_horario)
 
 
 def string_para_float(tempo_str):
