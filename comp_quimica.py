@@ -371,8 +371,9 @@ def CalculaPBEstimado():
 format_1casa='%0.1f'
 format_2casas='%0.2f'
 format_3casas='%0.3f'
-#hoje = GetHoraLocal('America/Sao_Paulo')
-hoje = datetime.today()
+hoje = GetHoraLocal('America/Sao_Paulo')
+# print(hoje)
+# hoje = datetime.today()
 relatorio = hoje.strftime('%Y%m%d-%H%M%S')
 titulo = f'Planilha de Compatibilidade Química - {relatorio}'
 
