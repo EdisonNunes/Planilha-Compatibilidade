@@ -6,7 +6,6 @@ import pandas as pd
 
 from data_loader import *
 
-st.info(f'### Clientes Cadastrados',icon=':material/thumb_up:')
 
 # Inicializa session_state
 if "user" not in st.session_state:
@@ -40,7 +39,6 @@ def listar_clientes(filtro_empresa=""):
 def listar_todos_dados_clientes():
     query = supabase.table("Clientes").select("*").order("empresa", desc=False)
     response = query.execute()
-    # print(response.data)
     return response.data
 
 def incluir_cliente(dados):
@@ -64,12 +62,12 @@ def exportar_clientes_para_csv():
 
 
 # UI
-# aba = st.sidebar.radio("Ação", ["Listar", "Incluir", "Alterar", "Excluir"],
-#                             index=["Listar", "Incluir", "Alterar", "Excluir"].index(st.session_state.aba))
-#st.session_state.aba = 'Listar'
+aba = st.sidebar.radio("Ação", ["Listar", "Incluir", "Alterar", "Excluir"],
+                            index=["Listar", "Incluir", "Alterar", "Excluir"].index(st.session_state.aba))
+st.session_state.aba = aba
 
-if st.session_state.aba == "Listar":
-    #st.subheader("Lista de Clientes")
+if aba == "Listar":
+    st.subheader("Lista de Clientes")
     busca_atual = st.text_input("Buscar por empresa", st.session_state.busca_empresa)
     if busca_atual != st.session_state.busca_empresa:
         st.session_state.busca_empresa = busca_atual
@@ -85,18 +83,28 @@ if st.session_state.aba == "Listar":
     if clientes:
         clientes_paginados = clientes[inicio:fim]
         df = pd.DataFrame(clientes_paginados).copy()
-        df["Selecionar"] = False
+        # df.insert(0, "Selecionar", False)
+        # df["id"] = df["id"].astype(str)
+        df.insert(0, "Selecionar", False)
         df["id"] = df["id"].astype(str)
+        df.insert(1, "SP", df["cidade"].apply(lambda x: "✅" if x == "São Paulo" else ""))
 
-        # if st.session_state.cliente_selecionado:
-        #     for i, row in df.iterrows():
-        #         if row["id"] == st.session_state.cliente_selecionado.get("id"):
-        #             df.at[i, "Selecionar"] = True
 
-        resultado = st.data_editor(df,
-                    use_container_width=True,
-                    hide_index=True,
-                    column_order=["Selecionar"] + [col for col in df.columns if col not in ("Selecionar", "id")],
+
+
+        if st.session_state.cliente_selecionado:
+            for i, row in df.iterrows():
+                if row["id"] == st.session_state.cliente_selecionado.get("id"):
+                    df.at[i, "Selecionar"] = True
+
+        # resultado = st.data_editor(df,
+        #             use_container_width=True,
+        #             hide_index=True,
+        #             column_order=["Selecionar"] + [col for col in df.columns if col not in ("Selecionar", "id")],
+        #             key="tabela_clientes",
+        #             num_rows="dynamic")
+        resultado = st.data_editor(df, use_container_width=True, hide_index=True,
+                    column_order=["Selecionar", "SP"] + [col for col in df.columns if col not in ("Selecionar", "SP", "id")],
                     key="tabela_clientes",
                     num_rows="dynamic")
 
@@ -106,17 +114,8 @@ if st.session_state.aba == "Listar":
             idx = selecionados.index[0]
             id_selecionado = clientes_paginados[idx]["id"]
             cliente_completo = next((c for c in listar_todos_dados_clientes() if c["id"] == id_selecionado), None)
-            # print(cliente_completo)
             if cliente_completo:
                 st.session_state.cliente_selecionado = cliente_completo
-            if len(selecionados) > 1:
-                st.error("Selecione apenas 1 registro por vez.")
-                if st.button("Voltar"):
-                    st.rerun()
-            elif len(selecionados) == 1:
-                idx = selecionados.index[0]
-                id_sel = resultado.loc[idx, "id"]
-                
 
     col1, col2 = st.columns(2)
     with col1:
@@ -138,22 +137,7 @@ if st.session_state.aba == "Listar":
         mime="text/csv"
     )
 
-    with st.container():
-        col1, col2, col3, col4 = st.columns(4)
-        if col1.button("Listar"):
-            st.session_state.aba = "Listar"
-            st.rerun()
-        if col2.button("Incluir"):
-            st.session_state.aba = "Incluir"
-            st.rerun()
-        if col3.button("Alterar"):
-            st.session_state.aba = "Alterar"
-            st.rerun()
-        if col4.button("Excluir"):
-            st.session_state.aba = "Excluir"
-            st.rerun()
-
-elif st.session_state.aba == "Incluir":
+elif aba == "Incluir":
     st.subheader("Incluir Novo Cliente")
     with st.form("form_incluir"):
         dados = {
@@ -177,7 +161,7 @@ elif st.session_state.aba == "Incluir":
             except ValueError as e:
                 st.error(str(e))
 
-elif st.session_state.aba == "Alterar":
+elif aba == "Alterar":
     st.subheader("Alterar Cliente")
     clientes = listar_todos_dados_clientes()
     cliente = st.session_state.cliente_selecionado or (clientes[0] if clientes else None)
@@ -209,7 +193,7 @@ elif st.session_state.aba == "Alterar":
                 st.session_state.aba = "Listar"
                 st.rerun()        
 
-elif st.session_state.aba == "Excluir":
+elif aba == "Excluir":
     st.subheader("Excluir Cliente")
     clientes = listar_clientes()
     cliente = st.session_state.cliente_selecionado or (clientes[0] if clientes else None)

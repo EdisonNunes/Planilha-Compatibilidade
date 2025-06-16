@@ -16,24 +16,18 @@ from data_loader import *
 
 import streamlit as st
 
-# CSS para esconder os botões do canto superior direito
+# # CSS para esconder os botões do canto superior direito
 # hide_streamlit_style = """
 #     <style>
-#     button[title="Open GitHub"] {visibility: hidden;}  }
+#     #MainMenu {visibility: hidden;}
+#     header {visibility: hidden;}
+#     footer {visibility: hidden;}
+#     .stActionButton {visibility: hidden;}
+#     button[title="Open GitHub"] {visibility: hidden;}
 #     button[title="Edit this app"] {visibility: hidden;}
-#     /* Esconda ícones de configurações se necessário */
-#     [data-testid="stToolbar"] {visibility: hidden;}
 #     </style>
 # """
-hide_streamlit_style = """
-    <style>
-    button[title="Open GitHub"] {display: none;}  }
-    button[title="Edit this app"] {display: none;}
-    /* Esconda ícones de configurações se necessário */
-    [data-testid="stToolbar"] {display: none;}
-    </style>
-"""
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+# st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 ##### Aula https://portalhashtag.com/cursos/1728736353758x643060883862200700
 
@@ -96,10 +90,9 @@ dados_usuario = {
 
 # if usuario.admin:
 
-# Estilizando com style.css 
+# # Estilizando com style.css 
 # with open('style.css') as f:
 #     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
-#     # st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 
 
@@ -107,12 +100,12 @@ dados_usuario = {
 
 pg = st.navigation(
     {              
-        'SA SOLUTION':[st.Page('homepage.py',      title='Home',                  icon=':material/filter_alt:')],
-        'Planilhas':  [
-                       st.Page('gerenciar.py',  title='Gerenciar Relatórios',    icon=':material/thumb_up:'),
-                       # st.Page('previa.py',        title='Planilhas Finalizadas', icon=':material/article:')
-                      ],
-        'Clientes':   [st.Page('clientes.py',      title='Clientes Cadastrados',  icon=':material/groups:')],   
+        'SA SOLUTION':      [st.Page('homepage.py',         title='Home',                  icon=':material/filter_alt:')],
+        'Planilhas': [st.Page('nova.py',                    title='Criar Planilha',        icon=':material/visibility:'), 
+                      st.Page('comp_quimica.py',            title='Editar Planilha',       icon=':material/thumb_up:'),
+                      st.Page('previa.py',                  title='Planilhas Finalizadas', icon=':material/article:')
+                     ],
+        'Clientes':  [st.Page('clientes.py',                title='Clientes Cadastrados',  icon=':material/groups:')],   
 
 
     }

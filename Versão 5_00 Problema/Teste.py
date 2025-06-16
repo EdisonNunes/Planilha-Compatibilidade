@@ -39,5 +39,3 @@ def string_para_float(tempo_str):
         return resultado
     except ValueError:
         raise ValueError("Formato inválido. A string deve estar no formato '#:##' ou '##:##'")
-
-print(string_para_float("24:31"))   # Saída: 2.3

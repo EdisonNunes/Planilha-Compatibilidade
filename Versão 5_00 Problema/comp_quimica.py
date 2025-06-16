@@ -368,6 +368,35 @@ def CalculaPBEstimado():
     else:
         return 0.0, erro    
 
+# ----------------------------------- Edição com campos do database ----------------------------------
+# def BuscaRelat(relatorio_id):
+#     query = supabase.table("planilha").select("*")
+#     query = query.eq("relatorio", relatorio_id)
+#     response = query.execute()
+#     if response.data:
+#         return response.data[0]  # Retorna o primeiro registro
+#     return None
+
+# relatorio_data = BuscaRelat("123456")  # ou variável dinâmica, ex: relatorio_id
+
+# container4 = st.container(border=True)
+# with container4:
+#     col1, col2, col3, col4 = st.columns(4)
+
+#     with col1:
+#         st.markdown('<div style="text-align: center;"><h6>Pesagem Inicial (g)</h6></div>', unsafe_allow_html=True)
+
+#     with col2:
+#         pi1 = float(relatorio_data["pi_memb_1"]) if relatorio_data and relatorio_data["pi_memb_1"] else 0.000
+#         pi2 = float(relatorio_data["pi_memb_2"]) if relatorio_data and relatorio_data["pi_memb_2"] else 0.000
+#         pi3 = float(relatorio_data["pi_memb_3"]) if relatorio_data and relatorio_data["pi_memb_3"] else 0.000
+
+#         pi_memb_1 = st.number_input("Membrana PI #1", format=format_3casas, value=pi1)
+#         pi_memb_2 = st.number_input("Membrana PI #2", format=format_3casas, value=pi2)
+#         pi_memb_3 = st.number_input("Membrana PI #3", format=format_3casas, value=pi3)
+
+
+
 format_1casa='%0.1f'
 format_2casas='%0.2f'
 format_3casas='%0.3f'
@@ -375,9 +404,10 @@ hoje = GetHoraLocal('America/Sao_Paulo')
 # print(hoje)
 # hoje = datetime.today()
 relatorio = hoje.strftime('%Y%m%d-%H%M%S')
-titulo = f'Planilha de Compatibilidade Química - {relatorio}'
+titulo = f'Edita Planilha de Compatibilidade Química\nRelatório :  {relatorio}'
 
-st.markdown(f'<div style="text-align: center;"><h3>{titulo}</h3></div>', unsafe_allow_html=True)
+# st.markdown(f'<div style="text-align: center;"><h3>{titulo}</h3></div>', unsafe_allow_html=True)
+st.info(f'### {titulo}',icon=':material/thumb_up:')
 st.markdown(':orange-background[Etapa 1]')
 
 container1 = st.container(border=True)
@@ -395,13 +425,13 @@ with container1:
         hr_chegada = st.text_input('Hora de Chegada',placeholder='HH-MM')
 
 st.markdown(':orange-background[Etapa 2]')    
-combo_cat = ['CVWW000047','CVWW000048','CVWW000049']    
+
 container2 = st.container(border=True)
 with container2:
     col1, col2, col3 = st.columns(3)
     with col1:
         linha  = st.text_input('Linha do filtro', max_chars= 40)
-        cat_membr = st.selectbox('Nº Catálogo da Membrana', combo_cat)
+        cat_membr = st.text_input('Nº Catálogo da Membrana',max_chars= 40)
     with col2:   
         fabricante = st.text_input('Fabricante do filtro',max_chars= 40) 
         poro_cat_membr= st.text_input('Poro', max_chars= 12)
@@ -451,9 +481,6 @@ with container4:
         st.markdown('<div style="text-align: center;"><h6>Fluxo Inicial(tempo em minutos)</h6></div>', unsafe_allow_html=True)
                      
     with col4:   
-        # fli_memb_1 = st.number_input('Membrana FI #1', format=format_2casas, value=float('1.23'))
-        # fli_memb_2 = st.number_input('Membrana FI #2', format=format_2casas, value=float('1.11')) 
-        # fli_memb_3 = st.number_input('Membrana FI #3', format=format_2casas, value=float('1.01'))
         fli_memb_1 = st.text_input('Membrana FI #1', max_chars= 5, placeholder='mm:ss', value='1:23')
         fli_memb_2 = st.text_input('Membrana FI #2', max_chars= 5, placeholder='mm:ss', value='1:11')
         fli_memb_3 = st.text_input('Membrana FI #3', max_chars= 5, placeholder='mm:ss', value='1:01')
@@ -480,16 +507,15 @@ with container4:
     col1, col2, col3 = st.columns(3)
     with col1:
         dt_wfi = st.text_input('Data Fluido Padrão (DD-MM-YYYY)',placeholder='DD-MM-YYYY')
-        
     with col2:
         hr_wfi = st.text_input('Hora Fluido Padrão (HH:MM)',placeholder='HH:MM')
-    with col3:
-        # contato_wfi = st.text_input('Contato Fluido Padrão',placeholder='HH:MM')
-        data1 = dt_chegada  + ' ' + hr_chegada
-        data2 = dt_wfi + ' ' + hr_wfi
-        horas_contato = validar_datas_e_calcular_horas(data1, data2)
-        contato_wfi = st.text_input('Contato com o produto (horas)',value= str(horas_contato), disabled= True,
-                                    help='Diferença entre hora de chegada e hora do teste de integridade Fluido Padrão')
+    # with col3:
+    #     # contato_wfi = st.text_input('Contato Fluido Padrão',placeholder='HH:MM')
+    #     data1 = dt_chegada  + ' ' + hr_chegada
+    #     data2 = dt_wfi + ' ' + hr_wfi
+    #     horas_contato = validar_datas_e_calcular_horas(data1, data2)
+    #     contato_wfi = st.text_input('Contato com o produto (horas)',value= str(horas_contato), disabled= True,
+    #                                 help='Diferença entre hora de chegada e hora do teste de integridade Fluido Padrão')
 
 st.markdown(':orange-background[Etapa 5]')
 container5 = st.container(border=True)
@@ -637,39 +663,48 @@ with container10:
 if st.button('Verificar resultados', type='primary'):
     dados_digitados = Monta_Dicionario()
     erro = DadoVazio()
+    
 
     if erro == 0:
         df = Previsao_Relat(dados_digitados)
         #st.dataframe(df)
-        df['pb_estimado'] = estimado
+        #df['pb_estimado'] = estimado
 
         #st.warning(f' ##### Campo :point_right: {message} INVÁLIDO !  :mag_right: Erro: {erro}') 
-        st.markdown('<div style="text-align: center;"><h3>Prévia dos Resultados</h3></div>', unsafe_allow_html=True) 
+        #st.markdown('<div style="text-align: center;"><h3>Prévia dos Resultados</h3></div>', unsafe_allow_html=True) 
+
+        col1, col2, col3 = st.columns([1, 4, 1])  # col2 maior, centralizada
+        with col2:
+            st.info('## :point_right:   Prévia  dos  Resultados')
+        
         #st.dataframe(df, hide_index=True)
         
         
         df_RPB = df[['RPB Membrana 1','RPB Membrana 2','RPB Membrana 3', 'Média RPB']]
+
         st.dataframe(df_RPB, hide_index=True)
 
-        # --------- Mostra fórmula Utilizada -------------
-        for_rpd = st.container(border=True)
-        with for_rpd:
-            st.markdown(':orange-background[Fórmulas]')
-            st.latex(r"RPB\ membr\ 1 = \frac{\mathrm{Membrana\ PI\#1}}{\mathrm{Peso\ Final\#1}}")
-            st.latex(r"RPB\ membr\ 2 = \frac{\mathrm{Membrana\ PI\#2}}{\mathrm{Peso\ Final\#2}}")
-            st.latex(r"RPB\ membr\ 3 = \frac{\mathrm{Membrana\ PI\#3}}{\mathrm{Peso\ Resultado\#3}}")
-            st.latex(r"Média\ RPB = \frac{RPB\ membr\ 1 + RPB\ membr\ 2 + RPB\ membr\ 3}{3}")
-            
+        
 
+
+        # # --------- Mostra fórmula Utilizada -------------
+        # for_rpd = st.container(border=True)
+        # with for_rpd:
+        #     st.markdown(':orange-background[Fórmulas]')
+        #     st.latex(r"RPB\ membr\ 1 = \frac{\mathrm{Fluido\ Padrão\ Resultado\#1}}{\mathrm{PRD\ Resultado\#1}}")
+        #     st.latex(r"RPB\ membr\ 2 = \frac{\mathrm{Fluido\ Padrão\ Resultado\#2}}{\mathrm{PRD\ Resultado\#2}}")
+        #     st.latex(r"RPB\ membr\ 3 = \frac{\mathrm{Fluido\ Padrão\ Resultado\#3}}{\mathrm{PRD\ Resultado\#3}}")
+        #     st.latex(r"Média\ RPB = \frac{RPB\ membr\ 1 + RPB\ membr\ 2 + RPB\ membr\ 3}{3}")
+            
 
         df_PBEstimado = df[['PB Estimado', 'PB Padrão']]   
         st.dataframe(df_PBEstimado, hide_index=True, use_container_width=False, width= 185 )
 
-        # --------- Mostra fórmula Utilizada -------------
-        for_estimado = st.container(border=True)
-        with for_estimado:
-            st.markdown(':orange-background[Fórmulas]')
-            st.latex(r"PB\ Estimado = PB\ Padrão\ Fluido Padrão\ (psi) \times Média\ RPB")
+        # # --------- Mostra fórmula Utilizada -------------
+        # for_estimado = st.container(border=True)
+        # with for_estimado:
+        #     st.markdown(':orange-background[Fórmulas]')
+        #     st.latex(r"PB\ Estimado = PB\ Padrão\ Fluido Padrão\ (psi) \times Média\ RPB")
 
             
         if estimado < pb_padraowfi:
@@ -711,15 +746,15 @@ if st.button('Verificar resultados', type='primary'):
                         
                      hide_index=True)
         
-        # --------- Mostra fórmula Utilizada -------------
-        for_peso = st.container(border=True)
-        with for_peso:
-            st.markdown(':orange-background[Fórmulas]')
-            # var_peso_perc_memb_1 = abs(((dados['pi_memb_1'] - dados['pf_memb_1']) / dados['pi_memb_1']) * 100)
-            st.latex(r"Var.\ percentual\ massa\ memb\ 1 = \left| \frac{(Membrana\ PI\#1 - Peso\ Final\#1)}{Membrana\ PI\#1} \times 100 \right|")
-            st.latex(r"Var.\ percentual\ massa\ memb\ 2 = \left| \frac{(Membrana\ PI\#2 - Peso\ Final\#2)}{Membrana\ PI\#2} \times 100 \right|")
-            st.latex(r"Var.\ percentual\ massa\ memb\ 3 = \left| \frac{(Membrana\ PI\#3 - Peso\ Final\#3)}{Membrana\ PI\#3} \times 100 \right|")
-            st.latex(r"Média = \frac{Var. Massa\ membr\ 1 + Var. Massa\ membr\ 2 + Var. Massa\ membr\ 3}{3}")
+        # # --------- Mostra fórmula Utilizada -------------
+        # for_peso = st.container(border=True)
+        # with for_peso:
+        #     st.markdown(':orange-background[Fórmulas]')
+        #     # var_peso_perc_memb_1 = abs(((dados['pi_memb_1'] - dados['pf_memb_1']) / dados['pi_memb_1']) * 100)
+        #     st.latex(r"Var.\ percentual\ massa\ memb\ 1 = \left| \frac{(Membrana\ PI\#1 - Peso\ Final\#1)}{Membrana\ PI\#1} \times 100 \right|")
+        #     st.latex(r"Var.\ percentual\ massa\ memb\ 2 = \left| \frac{(Membrana\ PI\#2 - Peso\ Final\#2)}{Membrana\ PI\#2} \times 100 \right|")
+        #     st.latex(r"Var.\ percentual\ massa\ memb\ 3 = \left| \frac{(Membrana\ PI\#3 - Peso\ Final\#3)}{Membrana\ PI\#3} \times 100 \right|")
+        #     st.latex(r"Média = \frac{Var. Massa\ membr\ 1 + Var. Massa\ membr\ 2 + Var. Massa\ membr\ 3}{3}")
 
 
         # ------------------------- % Variação de Vazão ------------------------------------- 
@@ -755,19 +790,19 @@ if st.button('Verificar resultados', type='primary'):
                         
                      hide_index=True)
         
-        # --------- Mostra fórmula Utilizada -------------
-        for_vazao = st.container(border=True)
-        with for_vazao:
-            st.markdown(':orange-background[Fórmulas]')
-            # var_vazao_perc_memb_1 = 100 / ((dados['fli_memb_1'] * 60)-(dados['flf_memb_1'] *60 ) / (dados['fli_memb_1'] * 60))
-            st.latex(r"Var.\ percentual\ vazão\ memb\ 1 = \frac{(Membrana\ FI\#1 - Fluxo\ Final\#1)}{Membrana\ FI\#1}")
-            st.latex(r"Var.\ percentual\ vazão\ memb\ 2 = \frac{(Membrana\ FI\#2 - Fluxo\ Final\#2)}{Membrana\ FI\#2}")
-            st.latex(r"Var.\ percentual\ vazão\ memb\ 3 = \frac{(Membrana\ FI\#3 - Fluxo\ Final\#3)}{Membrana\ FI\#3}")
-            st.latex(r"Média = \frac{Var. Vazão\ membr\ 1 + Var. Vazão\ membr\ 2 + Var. Vazão\ membr\ 3}{3}")
+        # # --------- Mostra fórmula Utilizada -------------
+        # for_vazao = st.container(border=True)
+        # with for_vazao:
+        #     st.markdown(':orange-background[Fórmulas]')
+        #     # var_vazao_perc_memb_1 = 100 / ((dados['fli_memb_1'] * 60)-(dados['flf_memb_1'] *60 ) / (dados['fli_memb_1'] * 60))
+        #     st.latex(r"Var.\ percentual\ vazão\ memb\ 1 = \frac{(Membrana\ FI\#1 - Fluxo\ Final\#1)}{Membrana\ FI\#1}")
+        #     st.latex(r"Var.\ percentual\ vazão\ memb\ 2 = \frac{(Membrana\ FI\#2 - Fluxo\ Final\#2)}{Membrana\ FI\#2}")
+        #     st.latex(r"Var.\ percentual\ vazão\ memb\ 3 = \frac{(Membrana\ FI\#3 - Fluxo\ Final\#3)}{Membrana\ FI\#3}")
+        #     st.latex(r"Média = \frac{Var. Vazão\ membr\ 1 + Var. Vazão\ membr\ 2 + Var. Vazão\ membr\ 3}{3}")
      
         
         # ------------------- Salva_Planilha(dados=dados_digitados, resultado=df)
-        # Salva_Planilha(dados=dados_digitados, resultado=df)
+        Salva_Planilha(dados=dados_digitados, resultado=df)
         #inserir_planilha_e_resultado(dados_digitados, df)
         
     else:
