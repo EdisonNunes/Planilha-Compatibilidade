@@ -1,81 +1,8 @@
 # TESTE DE COMPATIBILIDADE QUÍMICA EM FILTROS
-# Cópia da planilha Coleta de Dado CQ.xlsx
-
-# Célula	 Software
-
-# D18    	dict_dados['pi_memb_1']= pi_memb_1      # Membrana Inicial 1 0.000
-# D19 	    dict_dados['pi_memb_2']= pi_memb_2      # Membrana Inicial 2
-# D20    	dict_dados['pi_memb_3']= pi_memb_3      # Membrana Inicial 3
-
-# G18    	dict_dados['pf_memb_1']= pf_memb_1      # Membrana Final 1 0.000     
-# G19    	dict_dados['pf_memb_2']= pf_memb_2      # Membrana Final 2
-# G20    	dict_dados['pf_memb_3']= pf_memb_3      # Membrana Final 3 
-
-# D23    	dict_dados['fli_memb_1']= fli_memb_1    # Membr 1 Inic - 100 ml 0.00
-# D24   	dict_dados['fli_memb_2']= fli_memb_2    # Membr 2 Inic - 100 ml 0.00
-# D25    	dict_dados['fli_memb_3']= fli_memb_3    # Membr 3 Inic - 100 ml 0.00 
-
-# G23   	dict_dados['flf_memb_1']= flf_memb_1    # Membr 1 Final - 100 ml 0.00
-# G24    	dict_dados['flf_memb_2']= flf_memb_2    # Membr 2 Final - 100 ml 0.00
-# G25    	dict_dados['flf_memb_3']= flf_memb_3    # Membr 3 Final - 100 ml 0.00 
-
-# C28    	dict_dados['pb_padrao']= pb_padrao      # PB Padrão 0.00
-
-# D29   	dict_dados['memb_1_fr']= memb_1_fr      # Membr 1 Fluido Padrão 0.0
-# D30    	dict_dados['memb_2_fr']= memb_2_fr      # Membr 2 Fluido Padrão 0.0
-# D31    	dict_dados['memb_3_fr']= memb_3_fr      # Membr 3 Fluido Padrão 0.0
-
-# G29    	dict_dados['memb_1_pr']= memb_1_pr      # Membr 1 Produto 0.0
-# G30    	dict_dados['memb_2_pr']= memb_2_pr      # Membr 2 Produto 0.0
-# G31    	dict_dados['memb_3_pr']= memb_3_pr      # Membr 3 Produto 0.0
-
-# G33    	dict_dados['pb_prod']= pb_prod          # PB Produto > PB estimado 0.0
-
-# G36    	dict_dados['fp_memb_1']= fp_memb_1      # Membrana 1 Fluido Padrão 0.0
-# G37   	dict_dados['fp_memb_2']= fp_memb_2      # Membrana 2 Fluido Padrão 0.0
-# G38    	dict_dados['fp_memb_3']= fp_memb_3      # Membrana 3 Fluido Padrão 0.0 
-# =============================================================================
-# CALCULADORA
-# RPB Membrana 1	=G29/D29	Célula K3		ETAPA 7		3 casas
-# RPB Membrana 2	=G30/D30	Célula K4		ETAPA 7		3 casas
-# RPB Membrana 3	=G31/D31	Célula K5		ETAPA 7		3 casas
-# Média RPB	=MÉDIA(K3:K5)	Célula L3				3 casas
-
-# PB Estimado	=C28*L3		Célula J7		ETAPA 8		2 casas
-
-# % Variação Peso Membrana 1 =ABS((G18-D18)/D18)	Célula K17	% com 2 casas
-# % Variação Peso Membrana 2 =ABS((G19-D19)/D19)	Célula K18	% com 2 casas
-# % Variação Peso Membrana 3 =ABS((G20-D20)/D20)	Célula K19	% com 2 casas
-
-# Média =MÉDIA(K17:K19)
-# Critério : < 10 %
-# Resultado Var. Peso Membrana 1	=SE(ABS((G18-D18)/D18)*100 <=N17;"aprovado"; "reprovado")	
-# Resultado Var. Peso Membrana 2	=SE(ABS((G19-D19)/D19)*100 <=N18;"aprovado"; "reprovado")
-# Resultado Var. Peso Membrana 3	=SE(ABS((G20-D20)/D20)*100 <=N19;"aprovado"; "reprovado")
-
-# % Variação Vazão Membrana 1 =100/((D23*60)-(G23*60)/(D23*60))	Célula K23	% com 2 casas
-# % Variação Vazão Membrana 2 =100/((D24*60)-(G24*60)/(D24*60))	Célula K24	% com 2 casas
-# % Variação Vazão Membrana 3 =100/((D25*60)-(G25*60)/(D25*60))	Célula K25	% com 2 casas
-
-# Média =MÉDIA(K23:K25)
-# Critério : < 10 %
-# Resultado Var. Vazão Membrana 1	=SE(ABS((G23-D23)/D23)*100 <=N23;"aprovado"; "reprovado")	
-# Resultado Var. Vazão Membrana 2	=SE(ABS((G24-D24)/D24)*100 <=N24;"aprovado"; "reprovado")
-# Resultado Var. Vazão Membrana 3	=SE(ABS((G25-D25)/D25)*100 <=N25;"aprovado"; "reprovado")
 
 import pandas as pd
 import pytz
 from datetime import datetime
-
-
-# from datetime import datetime
-# import pytz
-
-# fuso_horario = pytz.timezone('America/Sao_Paulo')
-# data_hora_local = datetime.datetime.now(fuso_horario)
-
-# st.write(f"Data e hora em São Paulo: {data_hora_local.strftime('%Y-%m-%d %H:%M:%S')}")
-
 
 def GetHoraLocal(zona:str) -> datetime:
     fuso_horario = pytz.timezone(zona)
@@ -154,10 +81,20 @@ def Previsao_Relat(dados):
     # var_vazao_perc_memb_3 = 100 / ((dados['fli_memb_3'] * 60)-(dados['flf_memb_3'] *60 ) / (dados['fli_memb_3'] * 60))
     
     # Média =MÉDIA(K23:K25)
-    
-    var_vazao_perc_memb_1 = abs((dados['fli_memb_1'] - dados['flf_memb_1'] ) / dados['fli_memb_1'])
-    var_vazao_perc_memb_2 = abs((dados['fli_memb_2'] - dados['flf_memb_2'] ) / dados['fli_memb_2'])
-    var_vazao_perc_memb_3 = abs((dados['fli_memb_3'] - dados['flf_memb_3'] ) / dados['fli_memb_3'])
+    inic_1 = string_para_float(dados['fli_memb_1'])
+    inic_2 = string_para_float(dados['fli_memb_2'])
+    inic_3 = string_para_float(dados['fli_memb_3'])
+
+    final_1 = string_para_float(dados['flf_memb_1'])
+    final_2 = string_para_float(dados['flf_memb_2'])
+    final_3 = string_para_float(dados['flf_memb_3'])
+
+    # var_vazao_perc_memb_1 = abs((dados['fli_memb_1'] - dados['flf_memb_1'] ) / dados['fli_memb_1'])
+    # var_vazao_perc_memb_2 = abs((dados['fli_memb_2'] - dados['flf_memb_2'] ) / dados['fli_memb_2'])
+    # var_vazao_perc_memb_3 = abs((dados['fli_memb_3'] - dados['flf_memb_3'] ) / dados['fli_memb_3'])
+    var_vazao_perc_memb_1 = abs((inic_1 - final_1 ) / inic_1)
+    var_vazao_perc_memb_2 = abs((inic_2 - final_2 ) / inic_2)
+    var_vazao_perc_memb_3 = abs((inic_3 - final_3 ) / inic_3)
     var_vazao_media = (var_vazao_perc_memb_1 + var_vazao_perc_memb_2 + var_vazao_perc_memb_3) / 3
     # Critério : < 10 %
     criterio_vazao = dados['crit_var_vazao']

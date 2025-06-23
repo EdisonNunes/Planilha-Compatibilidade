@@ -66,7 +66,7 @@ def exportar_clientes_para_csv():
 # UI
 # aba = st.sidebar.radio("Ação", ["Listar", "Incluir", "Alterar", "Excluir"],
 #                             index=["Listar", "Incluir", "Alterar", "Excluir"].index(st.session_state.aba))
-#st.session_state.aba = 'Listar'
+st.session_state.aba = 'Listar'
 
 if st.session_state.aba == "Listar":
     #st.subheader("Lista de Clientes")
