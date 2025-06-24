@@ -363,59 +363,60 @@ if st.session_state.aba == "Listar":
 if st.session_state.aba == "Incluir":
     st.subheader("Incluir Nova Planilha")
 
-    novos_dados = formulario_padrao(dados=None, combo_clientes=ComboBoxClientes())
+    with st.form("form_incluir", border=False):
+        novos_dados = formulario_padrao(dados=None, combo_clientes=ComboBoxClientes())
 
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        submitted_parcial = st.button("💾 Salvar Parcial")
-    with col2:
-        submitted_verify = st.button("📄 Ver Relatório")
-    with col3:
-        submitted_return = st.button("🔙 Voltar")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            submitted_parcial = st.form_submit_button("Salvar Parcial")
+        with col2:
+            submitted_verify = st.form_submit_button("Ver Relatório")
+        with col3:
+            submitted_return = st.form_submit_button("Voltar")
 
-    if submitted_parcial:
-        try:
-            erro = DadosVazios(novos_dados)
-            if erro == 0:
-                dict_warning = ShowWarning(novos_dados)
-                if dict_warning:
-                    st.session_state.campos_incompletos = dict_warning
-                    st.session_state.novos_dados_cache = novos_dados
-                    st.session_state.exibir_alerta = True
-                    #st.stop()
+        if submitted_parcial:
+            try:
+                erro = DadosVazios(novos_dados)
+                if erro == 0:
+                    dict_warning = ShowWarning(novos_dados)
+                    if dict_warning:
+                        st.session_state.campos_incompletos = dict_warning
+                        st.session_state.novos_dados_cache = novos_dados
+                        st.session_state.exibir_alerta = True
+                        #st.stop()
+                    else:
+                        Salva_Planilha(dados=novos_dados, resultado=None, status=False)
+                        st.success("Planilha salva com sucesso!")
+                        st.session_state.aba = "Listar"
+                        st.rerun()
                 else:
-                    Salva_Planilha(dados=novos_dados, resultado=None, status=False)
-                    st.success("Planilha salva com sucesso!")
-                    st.session_state.aba = "Listar"
-                    st.rerun()
-            else:
+                    message, etapa = ShowErro(erro)
+                    st.warning(f' ##### Campo :point_right: {message} :warning: INVÁLIDO !  :mag_right: ETAPA :point_right: {etapa}')
+            except Exception as e:
+                st.error(f'Erro ao atualizar o registro {e}', icon="🔥")
+
+        if submitted_verify:
+            erro = DadosVazios(novos_dados)
+            if erro > 0 and erro < 100:
                 message, etapa = ShowErro(erro)
                 st.warning(f' ##### Campo :point_right: {message} :warning: INVÁLIDO !  :mag_right: ETAPA :point_right: {etapa}')
-        except Exception as e:
-            st.error(f'Erro ao atualizar o registro {e}', icon="🔥")
+            if erro == 0 or erro >= 100:
+                ShowRelatorio(novos_dados)
+                col1, col2 = st.columns(2)
+                with col1:
+                    submitted_salvar = st.form_submit_button("Salvar e Concluir")
+                with col2:
+                    submitted_voltar5 = st.form_submit_button("Voltar")
+                if submitted_salvar:
+                    Salva_Planilha(dados=novos_dados, resultado=None, status=True)
+                    st.session_state.aba = "Listar"
+                    st.rerun()
+                if submitted_voltar5:
+                    st.session_state.aba = "Incluir"
 
-    if submitted_verify:
-        erro = DadosVazios(novos_dados)
-        if erro > 0 and erro < 100:
-            message, etapa = ShowErro(erro)
-            st.warning(f' ##### Campo :point_right: {message} :warning: INVÁLIDO !  :mag_right: ETAPA :point_right: {etapa}')
-        if erro == 0 or erro >= 100:
-            ShowRelatorio(novos_dados)
-            col1, col2 = st.columns(2)
-            with col1:
-                submitted_salvar = st.button("💾 Salvar e Concluir")
-            with col2:
-                submitted_voltar5 = st.button("🔙 Voltar")
-            if submitted_salvar:
-                Salva_Planilha(dados=novos_dados, resultado=None, status=True)
-                st.session_state.aba = "Listar"
-                st.rerun()
-            if submitted_voltar5:
-                st.session_state.aba = "Incluir"
-
-    if submitted_return:
-        st.session_state.aba = "Listar"
-        st.rerun()
+        if submitted_return:
+            st.session_state.aba = "Listar"
+            st.rerun()
 
     # ✅ FORA DO FORM — MOSTRAR ALERTA SE HOUVER CAMPOS INCOMPLETOS
     if st.session_state.get("exibir_alerta"):
@@ -454,55 +455,56 @@ if st.session_state.aba == "Alterar":
                 st.session_state.aba = "Listar"
                 st.rerun()
         else:
-            novos_dados = formulario_padrao(dados=registro, combo_clientes=ComboBoxClientes())
+            with st.form("form_alterar", border=False):
+                novos_dados = formulario_padrao(dados=registro, combo_clientes=ComboBoxClientes())
 
-            col1, col2, col3 = st.columns(3)
-            with col1:
-                submitted = st.button("💾 Salvar Alterações")
-            with col2:
-                verify2 = st.button("📄 Ver Relatório")
-            with col3:
-                voltar1 = st.button("🔙 Retornar")
-
-            if submitted:
-                try:
-                    erro = DadosVazios(novos_dados)
-                    if erro == 0:
-                        dict_warning = ShowWarning(novos_dados)
-                        if dict_warning:
-                            st.session_state.campos_incompletos = dict_warning
-                            st.session_state.novos_dados_cache = novos_dados
-                            st.session_state.registro_id_cache = registro["id"]
-                            st.session_state.exibir_alerta_alterar = True
-                            #st.stop()
-                        else:
-                            alterar_registro(registro["id"], novos_dados)
-                            st.success("Planilha alterada com sucesso!")
-                            st.session_state.aba = "Listar"
-                            st.rerun()
-                    else:
-                        message, etapa = ShowErro(erro)
-                        st.warning(f' ##### Campo :point_right: {message} :warning: INVÁLIDO !  :mag_right: ETAPA :point_right: {etapa}')
-                except Exception as e:
-                    st.error(f'Erro ao atualizar o registro {e}', icon="🔥")
-
-            if verify2:
-                ShowRelatorio(novos_dados)
-                col1, col2 = st.columns(2)
+                col1, col2, col3 = st.columns(3)
                 with col1:
-                    submitted_salvar = st.button("💾 Salvar e Concluir")
+                    submitted = st.form_submit_button("Salvar Alterações")
                 with col2:
-                    submitted_voltar5 = st.button("🔙 Voltar")
-                if submitted_salvar:
-                    Salva_Planilha(dados=novos_dados, resultado=None, status=True)
+                    verify2 = st.form_submit_button("Ver Relatório")
+                with col3:
+                    voltar1 = st.form_submit_button("Retornar")
+
+                if submitted:
+                    try:
+                        erro = DadosVazios(novos_dados)
+                        if erro == 0:
+                            dict_warning = ShowWarning(novos_dados)
+                            if dict_warning:
+                                st.session_state.campos_incompletos = dict_warning
+                                st.session_state.novos_dados_cache = novos_dados
+                                st.session_state.registro_id_cache = registro["id"]
+                                st.session_state.exibir_alerta_alterar = True
+                                #st.stop()
+                            else:
+                                alterar_registro(registro["id"], novos_dados)
+                                st.success("Planilha alterada com sucesso!")
+                                st.session_state.aba = "Listar"
+                                st.rerun()
+                        else:
+                            message, etapa = ShowErro(erro)
+                            st.warning(f' ##### Campo :point_right: {message} :warning: INVÁLIDO !  :mag_right: ETAPA :point_right: {etapa}')
+                    except Exception as e:
+                        st.error(f'Erro ao atualizar o registro {e}', icon="🔥")
+
+                if verify2:
+                    ShowRelatorio(novos_dados)
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        submitted_salvar = st.form_submit_button("Salvar e Concluir")
+                    with col2:
+                        submitted_voltar5 = st.form_submit_button("Voltar")
+                    if submitted_salvar:
+                        Salva_Planilha(dados=novos_dados, resultado=None, status=True)
+                        st.session_state.aba = "Listar"
+                        st.rerun()
+                    if submitted_voltar5:
+                        st.session_state.aba = "Alterar"
+
+                if voltar1:
                     st.session_state.aba = "Listar"
                     st.rerun()
-                if submitted_voltar5:
-                    st.session_state.aba = "Alterar"
-
-            if voltar1:
-                st.session_state.aba = "Listar"
-                st.rerun()
     else:
         st.info("Selecione um item na aba 'Listar' para editar.")
         if st.button('Retorna para listar'):

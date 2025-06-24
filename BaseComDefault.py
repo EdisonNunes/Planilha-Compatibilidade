@@ -30,12 +30,8 @@ def validar_datas_e_calcular_horas(data1_str, data2_str):
         return ""
     
     diferenca = abs(data2 - data1)
-    total_minutos = int(diferenca.total_seconds() // 60)
-    # horas = int(diferenca.total_seconds() // 3600)
-    horas = total_minutos // 60
-    minutos = total_minutos % 60
-
-    return f"{horas:02}:{minutos:02}"
+    horas = int(diferenca.total_seconds() // 3600)
+    return horas
 
 def CalculaPBEstimado(pi_memb_1, pi_memb_2, pi_memb_3,
                       pf_memb_1, pf_memb_2, pf_memb_3, pb_padraowfi):
@@ -160,6 +156,19 @@ def ShowErro(erro):
  
     return message, etapa      
 
+def adapta_datahora(data, hora):
+    hoje = GetHoraLocal('America/Sao_Paulo')
+    try:
+        dt1 = data.strftime("%d-%m-%Y")
+    except:  
+        dt1 = hoje.strftime("%d-%m-%Y")  
+    try:
+        hr1 = hora.strftime('%H:%M')
+    except:  
+        hr1 = hoje.strftime('%H:%M')
+
+    return dt1, hr1
+
 def string_para_float(tempo_str):
     """
     Converte uma string no formato "##:##" ou "#:##" em um número float,
@@ -177,6 +186,7 @@ def string_para_float(tempo_str):
     except ValueError:
         return 0.0
         #raise ValueError("Formato inválido. A string deve estar no formato '#:##' ou '##:##'")
+    
     
 def formulario_padrao(dados=None, combo_clientes=None):
     format_1casa='%0.1f'
@@ -216,6 +226,12 @@ def formulario_padrao(dados=None, combo_clientes=None):
                                        value=dados.get("dt_chegada", "") if dados else "")
             hr_chegada = st.text_input('Hora de Chegada (HH:MM)',placeholder='HH-MM',
                                        value=dados.get("hr_chegada", "") if dados else "")
+            if dt_chegada and hr_chegada:
+                dchegada, hchegada = adapta_datahora(dt_chegada, hr_chegada)   
+            else:
+                 dchegada = ''
+                 hchegada = ''    
+
     
     st.markdown(':orange-background[Etapa 2]')    
     container2 = st.container(border=True)
@@ -270,33 +286,33 @@ def formulario_padrao(dados=None, combo_clientes=None):
             st.markdown('<div style="text-align: center;"><h6>Pesagem Inicial(g)</h6></div>', unsafe_allow_html=True)
         with col2:
             pi_memb_1 = st.number_input('Membrana PI #1', format=format_3casas, 
-                                        value=float(dados.get("pi_memb_1", 0.0)) if dados else 0.0)   
+                                        value=float(dados.get("pi_memb_1", 0.0)) if dados else 0.009)   
             pi_memb_2 = st.number_input('Membrana PI #2', format=format_3casas, 
-                                        value=float(dados.get("pi_memb_2", 0.0)) if dados else 0.0) 
+                                        value=float(dados.get("pi_memb_2", 0.0)) if dados else 0.008) 
             pi_memb_3 = st.number_input('Membrana PI #3', format=format_3casas, 
-                                        value=float(dados.get("pi_memb_3", 0.0)) if dados else 0.0)
+                                        value=float(dados.get("pi_memb_3", 0.0)) if dados else 0.007)
         with col3:   
             st.markdown('<div style="text-align: center;"><h6>Fluxo Inicial(tempo em minutos)</h6></div>', unsafe_allow_html=True)
                         
         with col4:   
-            fli_memb_1 = st.text_input('Membrana FI #1', max_chars= 5, placeholder='MM:SS', value=dados.get("fli_memb_1", "") if dados else "")
-            fli_memb_2 = st.text_input('Membrana FI #2', max_chars= 5, placeholder='MM:SS', value=dados.get("fli_memb_2", "") if dados else "")
-            fli_memb_3 = st.text_input('Membrana FI #3', max_chars= 5, placeholder='MM:SS', value=dados.get("fli_memb_3", "") if dados else "")
-
+            fli_memb_1 = st.text_input('Membrana FI #1', max_chars= 5, placeholder='MM:SS', value=dados.get("fli_memb_1", "") if dados else "1:12")
+            fli_memb_2 = st.text_input('Membrana FI #2', max_chars= 5, placeholder='MM:SS', value=dados.get("fli_memb_2", "") if dados else "1:13")
+            fli_memb_3 = st.text_input('Membrana FI #3', max_chars= 5, placeholder='MM:SS', value=dados.get("fli_memb_3", "") if dados else "1:14")
+    
         st.divider()
         st.markdown('<div style="text-align: center;"><h5>Teste de Integridade - Fluido Padrão</h5></div>', unsafe_allow_html=True)
 
         col1, col2, col3 = st.columns(3)
         with col1:
             pb_padraowfi = st.number_input('PB Padrão Fluido Padrão (psi)', format=format_1casa, step=0.1, 
-                                            value=float(dados.get("pb_padraowfi", 0.0)) if dados else 0.0)
+                                           value=float(dados.get("pb_padraowfi", 0.0)) if dados else 50.0)
         with col2:
             wfi_res1 = st.number_input('Fluido Padrão Resultado #1', format=format_1casa, step=0.1, 
-                                        value=float(dados.get("wfi_res1", 0.0)) if dados else 0.0)  
+                                       value=float(dados.get("wfi_res1", 0.0)) if dados else 49.0)  
             wfi_res2 = st.number_input('Fluido Padrão Resultado #2', format=format_1casa, step=0.1, 
-                                        value=float(dados.get("wfi_res2", 0.0)) if dados else 0.0)
+                                       value=float(dados.get("wfi_res2", 0.0)) if dados else 48.0)
             wfi_res3 = st.number_input('Fluido Padrão Resultado #3', format=format_1casa, step=0.1, 
-                                        value=float(dados.get("wfi_res3", 0.0)) if dados else 0.0)
+                                       value=float(dados.get("wfi_res3", 0.0)) if dados else 51.0)
         with col3:
             wfi_id1 = st.text_input('Fluido Padrão ID #1', max_chars= 20, value=dados.get("wfi_id1", "") if dados else "")  
             wfi_id2 = st.text_input('Fluido Padrão ID #2', max_chars= 20, value=dados.get("wfi_id2", "") if dados else "")
@@ -311,7 +327,8 @@ def formulario_padrao(dados=None, combo_clientes=None):
         with col2:
             hr_wfi = st.text_input('Hora Fluido Padrão (HH:MM)',placeholder='HH:MM', value=dados.get("hr_wfi", "") if dados else "")
         
-       
+        dwfi, hwfi = adapta_datahora(dt_wfi, hr_wfi) 
+        
     st.markdown(':orange-background[Etapa 5]')
     container5 = st.container(border=True)
     with container5:
@@ -327,34 +344,29 @@ def formulario_padrao(dados=None, combo_clientes=None):
                                     value=dados.get("dt_wfip", "") if dados else "")
         with col2:
             hr_wfip = st.text_input('Hora Fluido Padrão 2 (HH:MM)',placeholder='HH:MM', value=dados.get("hr_wfip", "") if dados else "")
-        
-        if dt_wfi and hr_wfi and dt_wfip and hr_wfip:
+        with col3:
             data1 = dt_wfi  + ' ' + hr_wfi
             data2 = dt_wfip + ' ' + hr_wfip
-
-        with col3:
-            if dt_wfi and hr_wfi and dt_wfip and hr_wfip:
-                horas_contato = validar_datas_e_calcular_horas(data1, data2)
-            else:
-                horas_contato = '00:00'    
-            contato_wfip = st.text_input('Contato Fluido Padrão (HH:MM)',value= str(horas_contato), disabled= True, 
+            horas_contato = validar_datas_e_calcular_horas(data1, data2)
+            contato_wfip = st.text_input('Contato Fluido Padrão (horas)',value= str(horas_contato), disabled= True, 
                                         help='Diferença entre hora do teste Fluido Padrão e hora do teste de integridade do produto')
-
+        
+        dwfip, hwfip = adapta_datahora(dt_wfip, hr_wfip)
         texto1 = 'Inserir ponto de bolha referencial aqui'
         st.info(f'\n###### :point_right: {texto1}', width=360)
-
+    
         col1, col2, col3 = st.columns(3)
         with col1:
             pb_refproduto = st.number_input('PB Referencial (psi)', format=format_1casa, 
-                                            value=float(dados.get("pi_memb_1", 0.0)) if dados else 0.0, 
+                                            value=float(dados.get("pi_memb_1", 0.0)) if dados else 49.0, 
                                             help= 'Usar teste Referencial', step=0.1)
         with col2:
             prd_res1 = st.number_input('PRD Resultado #1', format=format_1casa, step=0.1, 
-                                        value=float(dados.get("prd_res1", 0.0)) if dados else 0.0)  
+                                       value=float(dados.get("prd_res1", 0.0)) if dados else 50.0)  
             prd_res2 = st.number_input('PRD Resultado #2', format=format_1casa, step=0.1, 
-                                        value=float(dados.get("prd_res2", 0.0)) if dados else 0.0)
+                                       value=float(dados.get("prd_res2", 0.0)) if dados else 49.0)
             prd_res3 = st.number_input('PRD Resultado #3', format=format_1casa, step=0.1, 
-                                        value=float(dados.get("prd_res3", 0.0)) if dados else 0.0)
+                                       value=float(dados.get("prd_res3", 0.0)) if dados else 48.0)
         with col3:
             prd_id1 = st.text_input('PRD ID #1', max_chars= 20, value=dados.get("prd_id1", "") if dados else "")  
             prd_id2 = st.text_input('PRD ID #2', max_chars= 20, value=dados.get("prd_id2", "") if dados else "")
@@ -370,13 +382,13 @@ def formulario_padrao(dados=None, combo_clientes=None):
         col1, col2, col3 = st.columns(3)
         with col1:
             flf_memb_1 = st.text_input('Fluxo Final #1', max_chars= 5, placeholder='MM:SS', 
-                                       value=dados.get("flf_memb_1", "") if dados else "")
+                                       value=dados.get("flf_memb_1", "") if dados else "1:09")
         with col2:   
             flf_memb_2 = st.text_input('Fluxo Final #2', max_chars= 5, placeholder='MM:SS', 
-                                       value=dados.get("flf_memb_2", "") if dados else "")
+                                       value=dados.get("flf_memb_2", "") if dados else "1:02")
         with col3: 
             flf_memb_3 = st.text_input('Fluxo Final #3', max_chars= 5, placeholder='MM:SS', 
-                                       value=dados.get("flf_memb_3", "") if dados else "")
+                                       value=dados.get("flf_memb_3", "") if dados else "0:59")
             
     st.markdown(':orange-background[Etapa 7 - Teste de Integridade com Fluido Padrao - Final]')
     container7 = st.container(border=True)
@@ -392,11 +404,11 @@ def formulario_padrao(dados=None, combo_clientes=None):
             st.markdown(f"# :orange-badge[<h6>{texto}</h6>]", unsafe_allow_html=True)
         with col2:
             wfif_res1 = st.number_input('Fluido Padrão final Resultado #1', format=format_1casa, step=0.1, 
-                                        value=float(dados.get("wfif_res1", 0.0)) if dados else 0.0)  
+                                        value=float(dados.get("wfif_res1", 0.0)) if dados else 51.0)  
             wfif_res2 = st.number_input('Fluido Padrão final Resultado #2', format=format_1casa, step=0.1, 
-                                        value=float(dados.get("wfif_res2", 0.0)) if dados else 0.0)
+                                        value=float(dados.get("wfif_res2", 0.0)) if dados else 52.0)
             wfif_res3 = st.number_input('Fluido Padrão final Resultado #3', format=format_1casa, step=0.1, 
-                                        value=float(dados.get("wfif_res3", 0.0)) if dados else 0.0)
+                                        value=float(dados.get("wfif_res3", 0.0)) if dados else 53.0)
         with col3:
             wfif_id1 = st.text_input('Fluido Padrão final ID #1', max_chars= 20, value=dados.get("wfif_id1", "") if dados else "")  
             wfif_id2 = st.text_input('Fluido Padrão final ID #2', max_chars= 20, value=dados.get("wfif_id2", "") if dados else "")
@@ -413,13 +425,13 @@ def formulario_padrao(dados=None, combo_clientes=None):
         col1, col2, col3 = st.columns(3)
         with col1: 
             pf_memb_1 = st.number_input('Peso Final #1', format=format_3casas, step=0.01, 
-                                        value=float(dados.get("pf_memb_1", 0.0)) if dados else 0.0)
+                                        value=float(dados.get("pf_memb_1", 0.0)) if dados else 0.01)
         with col2:   
             pf_memb_2 = st.number_input('Peso Final #2', format=format_3casas, step=0.01, 
-                                        value=float(dados.get("pf_memb_2", 0.0)) if dados else 0.0) 
+                                        value=float(dados.get("pf_memb_2", 0.0)) if dados else 0.012) 
         with col3: 
             pf_memb_3 = st.number_input('Peso Final #3', format=format_3casas, step=0.01, 
-                                        value=float(dados.get("pf_memb_3", 0.0)) if dados else 0.0)
+                                        value=float(dados.get("pf_memb_3", 0.0)) if dados else 0.014)
             
     st.markdown(':orange-background[Etapa 9 - Teste de Integridade - Dispositivo]')
     container9 = st.container(border=True)
@@ -447,9 +459,9 @@ def formulario_padrao(dados=None, combo_clientes=None):
 
         with col2:
             dis_res1 = st.number_input('Resultado PRD#1', format=format_1casa, step=0.1, 
-                                       value=float(dados.get("dis_res1", 0.0)) if dados else 0.0)  
+                                       value=float(dados.get("dis_res1", 0.0)) if dados else 30.0)  
             dis_res2 = st.number_input('Resultado PRD#2', format=format_1casa, step=0.1, 
-                                       value=float(dados.get("dis_res2", 0.0)) if dados else 0.0)
+                                       value=float(dados.get("dis_res2", 0.0)) if dados else 40.0)
 
         with col3:
             dis_id1 = st.text_input('ID #1', max_chars= 20, value=dados.get("dis_id1", "") if dados else "")  
@@ -473,8 +485,8 @@ def formulario_padrao(dados=None, combo_clientes=None):
         'local_teste': local_teste,
         'pessoa_local': pessoa_local,
         'id_local': id_local,
-        'dt_chegada': dt_chegada, # dchegada,
-        'hr_chegada': hr_chegada, # hchegada,
+        'dt_chegada': dchegada,
+        'hr_chegada': hchegada,
         'id_local': id_local,
         "linha": linha,
         "fabricante": fabricante,
@@ -508,10 +520,10 @@ def formulario_padrao(dados=None, combo_clientes=None):
         'wfi_id1':wfi_id1,
         'wfi_id2':wfi_id2,
         'wfi_id3':wfi_id3,
-        'dt_wfi':dt_wfi, # dwfi,
-        'hr_wfi': hr_wfi, # hwfi,
-        'dt_wfip':dt_wfip, # dwfip,
-        'hr_wfip': hr_wfip, # hwfip,
+        'dt_wfi':dwfi,
+        'hr_wfi': hwfi,
+        'dt_wfip':dwfip,
+        'hr_wfip': hwfip,
         'contato_wfip':contato_wfip,
         'pb_refproduto':pb_refproduto,
         "prd_res1": prd_res1,

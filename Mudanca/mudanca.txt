@@ -1,0 +1,198 @@
+def formulario_padrao(dados=None, combo_clientes=None):
+    container4 = st.container(border=True)
+    with container4:
+        col1, col2, col3, col4 = st.columns(4)
+        with col1:
+            st.markdown('<div style="text-align: center;"><h6>Pesagem Inicial(g)</h6></div>', unsafe_allow_html=True)
+        with col2:
+            pi_memb_1 = st.number_input('Membrana PI #1', format=format_3casas,
+                                        value=float(dados.get("pi_memb_1", 0.0)) if dados else 0.0)
+            pi_memb_2 = st.number_input('Membrana PI #2', format=format_3casas,
+                                        value=float(dados.get("pi_memb_2", 0.0)) if dados else 0.0)
+            pi_memb_3 = st.number_input('Membrana PI #3', format=format_3casas,
+                                        value=float(dados.get("pi_memb_3", 0.0)) if dados else 0.0)
+        with col3:
+            st.markdown('<div style="text-align: center;"><h6>Fluxo Inicial (tempo em minutos)</h6></div>', unsafe_allow_html=True)
+        with col4:
+            fli_memb_1 = st.text_input('Membrana FI #1', max_chars=5, placeholder='MM:SS', value=dados.get("fli_memb_1", "") if dados else "")
+            fli_memb_2 = st.text_input('Membrana FI #2', max_chars=5, placeholder='MM:SS', value=dados.get("fli_memb_2", "") if dados else "")
+            fli_memb_3 = st.text_input('Membrana FI #3', max_chars=5, placeholder='MM:SS', value=dados.get("fli_memb_3", "") if dados else "")
+
+        st.divider()
+        st.markdown('<div style="text-align: center;"><h5>Teste de Integridade - Fluido Padrão</h5></div>', unsafe_allow_html=True)
+
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            pb_padraowfi = st.number_input('PB Padrão Fluido Padrão (psi)', format=format_1casa, step=0.1,
+                                           value=float(dados.get("pb_padraowfi", 0.0)) if dados else 0.0)
+        with col2:
+            wfi_res1 = st.number_input('Fluido Padrão Resultado #1', format=format_1casa, step=0.1,
+                                       value=float(dados.get("wfi_res1", 0.0)) if dados else 0.0)
+            wfi_res2 = st.number_input('Fluido Padrão Resultado #2', format=format_1casa, step=0.1,
+                                       value=float(dados.get("wfi_res2", 0.0)) if dados else 0.0)
+            wfi_res3 = st.number_input('Fluido Padrão Resultado #3', format=format_1casa, step=0.1,
+                                       value=float(dados.get("wfi_res3", 0.0)) if dados else 0.0)
+        with col3:
+            wfi_id1 = st.text_input('Fluido Padrão ID #1', max_chars=20, value=dados.get("wfi_id1", "") if dados else "")
+            wfi_id2 = st.text_input('Fluido Padrão ID #2', max_chars=20, value=dados.get("wfi_id2", "") if dados else "")
+            wfi_id3 = st.text_input('Fluido Padrão ID #3', max_chars=20, value=dados.get("wfi_id3", "") if dados else "")
+
+        st.divider()
+        st.markdown('<div style="text-align: left;"><h5>Tempo de contato com o produto (1º dia)</h5></div>', unsafe_allow_html=True)
+
+        col1, col2, _ = st.columns(3)
+        with col1:
+            dt_wfi = st.text_input('Data Fluido Padrão (DD-MM-AAAA)', placeholder='DD-MM-AAAA', value=dados.get("dt_wfi", "") if dados else "")
+        with col2:
+            hr_wfi = st.text_input('Hora Fluido Padrão (HH:MM)', placeholder='HH:MM', value=dados.get("hr_wfi", "") if dados else "")
+
+        dwfi, hwfi = adapta_datahora(dt_wfi, hr_wfi)
+
+    st.markdown(':orange-background[Etapa 5]')
+    container5 = st.container(border=True)
+    with container5:
+        st.markdown('<div style="text-align: center;"><h5>Teste de Integridade - PRODUTO</h5></div>', unsafe_allow_html=True)
+        st.warning(f' :warning: ATENÇÃO !\n###### :point_right: Realizar a análise visual.\n###### :point_right: Registrar com fotografia.')
+
+        st.markdown('<div style="text-align: left;"><h5>Tempo de contato (2º dia)</h5></div>', unsafe_allow_html=True)
+
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            dt_wfip = st.text_input('Data Fluido Padrão 2 (DD-MM-AAAA)', placeholder='DD-MM-AAAA', value=dados.get("dt_wfip", "") if dados else "")
+        with col2:
+            hr_wfip = st.text_input('Hora Fluido Padrão 2 (HH:MM)', placeholder='HH:MM', value=dados.get("hr_wfip", "") if dados else "")
+
+        # Calcular dinamicamente o tempo de contato
+        if dt_wfi and hr_wfi and dt_wfip and hr_wfip:
+            data1 = f"{dt_wfi} {hr_wfi}"
+            data2 = f"{dt_wfip} {hr_wfip}"
+            horas_contato = validar_datas_e_calcular_horas(data1, data2)
+        else:
+            horas_contato = "00:00"
+
+        with col3:
+            contato_wfip = st.text_input('Contato Fluido Padrão (HH:MM)', value=horas_contato, disabled=True,
+                                         help='Diferença entre hora do teste Fluido Padrão e hora do teste de integridade do produto')
+
+        dwfip, hwfip = adapta_datahora(dt_wfip, hr_wfip)
+
+        st.info('###### :point_right: Inserir ponto de bolha referencial aqui', width=360)
+
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            pb_refproduto = st.number_input('PB Referencial (psi)', format=format_1casa,
+                                            value=float(dados.get("pi_memb_1", 0.0)) if dados else 0.0, step=0.1)
+        with col2:
+            prd_res1 = st.number_input('PRD Resultado #1', format=format_1casa, step=0.1,
+                                       value=float(dados.get("prd_res1", 0.0)) if dados else 0.0)
+            prd_res2 = st.number_input('PRD Resultado #2', format=format_1casa, step=0.1,
+                                       value=float(dados.get("prd_res2", 0.0)) if dados else 0.0)
+            prd_res3 = st.number_input('PRD Resultado #3', format=format_1casa, step=0.1,
+                                       value=float(dados.get("prd_res3", 0.0)) if dados else 0.0)
+        with col3:
+            prd_id1 = st.text_input('PRD ID #1', max_chars=20, value=dados.get("prd_id1", "") if dados else "")
+            prd_id2 = st.text_input('PRD ID #2', max_chars=20, value=dados.get("prd_id2", "") if dados else "")
+            prd_id3 = st.text_input('PRD ID #3', max_chars=20, value=dados.get("prd_id3", "") if dados else "")
+
+    return {
+        'pi_memb_1': pi_memb_1,
+        'pi_memb_2': pi_memb_2,
+        'pi_memb_3': pi_memb_3,
+        'fli_memb_1': fli_memb_1,
+        'fli_memb_2': fli_memb_2,
+        'fli_memb_3': fli_memb_3,
+        'pb_padraowfi': pb_padraowfi,
+        'wfi_res1': wfi_res1,
+        'wfi_res2': wfi_res2,
+        'wfi_res3': wfi_res3,
+        'wfi_id1': wfi_id1,
+        'wfi_id2': wfi_id2,
+        'wfi_id3': wfi_id3,
+        'dt_wfi': dwfi,
+        'hr_wfi': hwfi,
+        'dt_wfip': dwfip,
+        'hr_wfip': hwfip,
+        'contato_wfip': horas_contato,
+        'pb_refproduto': pb_refproduto,
+        'prd_res1': prd_res1,
+        'prd_res2': prd_res2,
+        'prd_res3': prd_res3,
+        'prd_id1': prd_id1,
+        'prd_id2': prd_id2,
+        'prd_id3': prd_id3,
+    }
+
+
+
+if st.session_state.aba == "Incluir":
+    st.subheader("Incluir Nova Planilha")
+
+    # Exibe o formulário reativo
+    novos_dados = formulario_padrao(dados=None, combo_clientes=ComboBoxClientes())
+
+    st.divider()
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        salvar_parcial = st.button("💾 Salvar Parcial")
+    with col2:
+        ver_relatorio = st.button("📄 Ver Relatório")
+    with col3:
+        voltar_lista = st.button("🔙 Voltar")
+
+    # Lógica do botão "Salvar Parcial"
+    if salvar_parcial:
+        try:
+            erro = DadosVazios(novos_dados)
+            if erro == 0:
+                dict_warning = ShowWarning(novos_dados)
+                if dict_warning:
+                    st.session_state.campos_incompletos = dict_warning
+                    st.session_state.novos_dados_cache = novos_dados
+                    st.session_state.exibir_alerta = True
+                else:
+                    # Salva_Planilha(dados=novos_dados, resultado=None, status=False)
+                    st.success("Planilha salva com sucesso!")
+                    st.session_state.aba = "Listar"
+                    st.rerun()
+            else:
+                message, etapa = ShowErro(erro)
+                st.warning(f' ##### Campo :point_right: {message} :warning: INVÁLIDO !  :mag_right: ETAPA :point_right: {etapa}')
+        except Exception as e:
+            st.error(f'Erro ao salvar: {e}', icon="🔥")
+
+    # Lógica do botão "Ver Relatório"
+    if ver_relatorio:
+        erro = DadosVazios(novos_dados)
+        if erro > 0 and erro < 100:
+            message, etapa = ShowErro(erro)
+            st.warning(f' ##### Campo :point_right: {message} :warning: INVÁLIDO !  :mag_right: ETAPA :point_right: {etapa}')
+        if erro == 0 or erro >= 100:
+            ShowRelatorio(novos_dados)
+            col1, col2 = st.columns(2)
+            with col1:
+                salvar_concluir = st.button("✅ Salvar e Concluir")
+            with col2:
+                voltar_formulario = st.button("🔄 Voltar")
+            
+            if salvar_concluir:
+                # Salva_Planilha(dados=novos_dados, resultado=None, status=True)
+                st.session_state.aba = "Listar"
+                st.rerun()
+            if voltar_formulario:
+                st.session_state.aba = "Incluir"
+                st.rerun()
+
+    # Botão voltar direto
+    if voltar_lista:
+        st.session_state.aba = "Listar"
+        st.rerun()
+
+
+✅ Resumo das mudanças:
+Formulário reativo: nada de st.form, os campos são atualizados a cada edição.
+
+Botões separados: agora st.button está fora do formulário, o que permite lógica independente.
+
+contato_wfip calculado automaticamente: sem necessidade de enviar o formulário antes.
+
+Se quiser deixar essa aba ainda mais responsiva com feedback visual em tempo real (por exemplo, destacando campos inválidos), posso te ajudar com isso também. Deseja seguir nesse caminho?
