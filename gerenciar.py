@@ -306,13 +306,18 @@ if st.session_state.aba == "Listar":
 
         df = pd.DataFrame(paginados)
         df["Selecionar"] = False
-        df["OK"] = df.get("finalizado", False).apply(lambda x: "✅Concluído" if x else "")
+        df["OK"] = df.get("finalizado", False).apply(lambda x: "✅Concluído" if x else "🕗 Parcial")
         df["id"] = df["id"].astype(str)
         
         resultado = st.data_editor(df,
                                    use_container_width=True,
                                    hide_index=True,
                                    column_order=["Selecionar", "OK", "relatorio", "cliente"],
+                                   column_config={
+                                        "OK": st.column_config.TextColumn("Status"),
+                                        "relatorio": st.column_config.TextColumn("Relatório"),
+                                        "cliente": st.column_config.TextColumn("Empresa"),
+                                   },
                                    key="tabela_planilha",
                                    num_rows="dynamic")
 
