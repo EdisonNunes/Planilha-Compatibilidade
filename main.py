@@ -113,6 +113,7 @@ pg = st.navigation(
                        # st.Page('previa.py',        title='Planilhas Finalizadas', icon=':material/article:')
                       ],
         'Clientes':   [st.Page('clientes.py',      title='Clientes Cadastrados',  icon=':material/groups:')],   
+          
 
 
     }

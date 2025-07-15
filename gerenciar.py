@@ -305,6 +305,7 @@ if st.session_state.aba == "Listar":
         paginados = registros[inicio:fim]
 
         df = pd.DataFrame(paginados)
+
         df["Selecionar"] = False
         df["OK"] = df.get("finalizado", False).apply(lambda x: "✅Concluído" if x else "🕗 Parcial")
         df["id"] = df["id"].astype(str)
@@ -320,6 +321,7 @@ if st.session_state.aba == "Listar":
                                    },
                                    key="tabela_planilha",
                                    num_rows="dynamic")
+        
 
         selecionados = resultado[resultado["Selecionar"] == True]
         if len(selecionados) > 1:

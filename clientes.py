@@ -66,7 +66,7 @@ def exportar_clientes_para_csv():
 # UI
 # aba = st.sidebar.radio("Ação", ["Listar", "Incluir", "Alterar", "Excluir"],
 #                             index=["Listar", "Incluir", "Alterar", "Excluir"].index(st.session_state.aba))
-st.session_state.aba = 'Listar'
+#st.session_state.aba = 'Listar'
 
 if st.session_state.aba == "Listar":
     #st.subheader("Lista de Clientes")
@@ -170,12 +170,17 @@ elif st.session_state.aba == "Incluir":
             "email": st.text_input("Email"),
         }
         submitted = st.form_submit_button("Incluir")
+        voltar_inc = st.form_submit_button("Voltar sem incluir")
         if submitted:
             try:
                 incluir_cliente(dados)
                 st.success("Cliente incluído com sucesso!")
             except ValueError as e:
                 st.error(str(e))
+        if voltar_inc:
+                # print('Voltar sem incluir')
+                st.session_state.aba = "Listar"
+                st.rerun()        
 
 elif st.session_state.aba == "Alterar":
     st.subheader("Alterar Cliente")

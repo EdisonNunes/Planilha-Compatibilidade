@@ -341,7 +341,8 @@ def formulario_padrao(dados=None, combo_clientes=None):
                                         help='Diferença entre hora do teste Fluido Padrão e hora do teste de integridade do produto')
 
         texto1 = 'Inserir ponto de bolha referencial aqui'
-        st.info(f'\n###### :point_right: {texto1}', width=360)
+        #st.info(f'\n###### :point_right: {texto1}', width=360)
+        st.info(f'\n###### :point_right: {texto1}')
 
         col1, col2, col3 = st.columns(3)
         with col1:

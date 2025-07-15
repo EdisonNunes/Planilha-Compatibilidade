@@ -198,8 +198,8 @@ def listar_registros(filtro_relatorio=""):
     query = supabase.table("planilha").select("id, relatorio, cliente, finalizado")
     if filtro_relatorio:
         query = query.filter("relatorio", "ilike", f"%{filtro_relatorio}%")
-    query = query.order("relatorio", desc=False)
-    return query.execute().data
+    query = query.order("relatorio", desc=True)
+    return query.execute().data 
 
 def listar_todos_registros():
     return supabase.table("planilha").select("*").order("relatorio", desc=False).execute().data
