@@ -37,15 +37,20 @@ def validar_datas_e_calcular_horas(data1_str, data2_str):
 
     return f"{horas:02}:{minutos:02}"
 
-def CalculaPBEstimado(pi_memb_1, pi_memb_2, pi_memb_3,
-                      pf_memb_1, pf_memb_2, pf_memb_3, pb_padraowfi):
+def CalculaPBEstimado(prd_res1, prd_res2, prd_res3,
+                      wfi_res1, wfi_res2, wfi_res3, pb_padraowfi):
     erro = 0
     if erro < 14 or erro > 19:
         try:
                	
-            rpb_membr_1 = pi_memb_1 / pf_memb_1
-            rpb_membr_2 = pi_memb_2 / pf_memb_2
-            rpb_membr_3 = pi_memb_3 / pf_memb_3
+            # rpb_membr_1 = pi_memb_1 / pf_memb_1
+            # rpb_membr_2 = pi_memb_2 / pf_memb_2
+            # rpb_membr_3 = pi_memb_3 / pf_memb_3
+
+            rpb_membr_1 = prd_res1 / wfi_res1
+            rpb_membr_2 = prd_res2 / wfi_res2
+            rpb_membr_3 = prd_res3 / wfi_res3
+
             rpb_media = (rpb_membr_1 + rpb_membr_2 + rpb_membr_3) / 3
 
             # PB Estimado	=C28*L3		Célula J7		ETAPA 8		2 casas
@@ -231,7 +236,7 @@ def formulario_padrao(dados=None, combo_clientes=None):
                                         value=dados.get("tmp_contato", "") if dados else "")  
             tempera_local = st.text_input('Temperatura Local (°C):',max_chars= 12, 
                                           value=dados.get("tempera_local", "") if dados else "")
-            lote = st.text_input('Lote Da Membrana:', max_chars= 12, value=dados.get("lote", "") if dados else "") 
+            lote = st.text_input('Lote Do Produto:', max_chars= 12, value=dados.get("lote", "") if dados else "") 
         with col3:  
             armaz = st.text_input('Armazenagem Local:',max_chars= 20, value=dados.get("armaz", "") if dados else "")  
             umidade = st.text_input('Umidade (%):',max_chars= 20, value=dados.get("umidade", "") if dados else "") 
@@ -349,25 +354,34 @@ def formulario_padrao(dados=None, combo_clientes=None):
             contato_wfip = st.text_input('Total de Horas:',value= str(horas_contato), disabled= True, 
                                         help='Diferença entre hora do teste Fluido Padrão e hora do teste de integridade do produto')
 
-        # # texto1 = 'Inserir ponto de bolha referencial aqui'
-        # # st.info(f'\n###### :point_right: {texto1}')
-        # st.markdown('<div style="text-align: center;"><h5>Teste de Integridade - PRODUTO</h5></div>', unsafe_allow_html=True)
+
         # col1, col2, col3 = st.columns(3)
         # with col1:
-        #     pb_refproduto = st.number_input('PB Referencial (psi):', format=format_1casa, 
-        #                                     value=float(dados.get("pi_memb_1", 0.0)) if dados else 0.0, 
-        #                                     help= 'Usar teste Referencial', step=0.1)
-        # with col2:
-        #     prd_res1 = st.number_input('PB-P #1', format=format_1casa, step=0.1, 
-        #                                 value=float(dados.get("prd_res1", 0.0)) if dados else 0.0)  
-        #     prd_res2 = st.number_input('PB-P #2', format=format_1casa, step=0.1, 
-        #                                 value=float(dados.get("prd_res2", 0.0)) if dados else 0.0)
-        #     prd_res3 = st.number_input('PB-P #3', format=format_1casa, step=0.1, 
-        #                                 value=float(dados.get("prd_res3", 0.0)) if dados else 0.0)
-        # with col3:
-        #     prd_id1 = st.text_input('ID #1:', max_chars= 20, value=dados.get("prd_id1", "") if dados else "")  
-        #     prd_id2 = st.text_input('ID #2:', max_chars= 20, value=dados.get("prd_id2", "") if dados else "")
-        #     prd_id3 = st.text_input('ID #3:', max_chars= 20, value=dados.get("prd_id3", "") if dados else "")   
+        #     texto = f'PB Referencial : {pb_padraowfi:.1f}'
+            # st.markdown(f"<div style='color: orange; font-size: 22px; font-weight: bold;'>{texto}</div>", unsafe_allow_html=True)
+
+            # pb_refproduto = st.number_input('PB Referencial (psi):', format=format_1casa, 
+            #                                 value=float(dados.get("pb_refproduto", 0.0)) if dados else 0.0, 
+            #                                 help= 'Usar teste Referencial', step=0.1)
+        # # texto1 = 'Inserir ponto de bolha referencial aqui'
+        # # st.info(f'\n###### :point_right: {texto1}')
+        st.markdown('<div style="text-align: center;"><h5>Teste de Integridade - PRODUTO</h5></div>', unsafe_allow_html=True)
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            pb_refproduto = st.number_input('PB Referencial (psi):', format=format_1casa, 
+                                            value=float(dados.get("pb_refproduto", 0.0)) if dados else 0.0, 
+                                            help= 'Usar teste Referencial', step=0.1)
+        with col2:
+            prd_res1 = st.number_input('PB-P #1', format=format_1casa, step=0.1, 
+                                        value=float(dados.get("prd_res1", 0.0)) if dados else 0.0)  
+            prd_res2 = st.number_input('PB-P #2', format=format_1casa, step=0.1, 
+                                        value=float(dados.get("prd_res2", 0.0)) if dados else 0.0)
+            prd_res3 = st.number_input('PB-P #3', format=format_1casa, step=0.1, 
+                                        value=float(dados.get("prd_res3", 0.0)) if dados else 0.0)
+        with col3:
+            prd_id1 = st.text_input('ID #1 Produto:', max_chars= 20, value=dados.get("prd_id1", "") if dados else "")  
+            prd_id2 = st.text_input('ID #2 Produto:', max_chars= 20, value=dados.get("prd_id2", "") if dados else "")
+            prd_id3 = st.text_input('ID #3 Produto:', max_chars= 20, value=dados.get("prd_id3", "") if dados else "")   
 
     # st.markdown('<div style="text-align: center;"><h3>Cálculo de Fluxo - Pré molhagem 100 ml</h3></div>', unsafe_allow_html=True)
     st.markdown(':orange-background[Etapa 6 - Cálculo da Vazão Final]')
@@ -390,38 +404,38 @@ def formulario_padrao(dados=None, combo_clientes=None):
     st.markdown(':orange-background[Etapa 7 - Teste de Integridade com Fluido Padrao - Final]')
     container7 = st.container(border=True)
     with container7:
-        # texto1 = 'Enxaguar as membranas para teste de Integridade com Fluido Padrão Final'
-        # st.warning(f' :warning: AVISO\n###### :point_right: {texto1} ')
+        texto1 = 'Enxaguar as membranas para teste de Integridade com Fluido Padrão Final'
+        st.warning(f' :warning: AVISO\n###### :point_right: {texto1} ')
 
         st.markdown('<div style="text-align: center;"><h5>Teste de Integridade - Fluido Padrão</h5></div>', unsafe_allow_html=True)
 
         col1, col2, col3 = st.columns(3)
         with col1:
-            texto = f'PB Referencial : {pb_padraowfi:.1f}'
-            #st.markdown(f"# :orange-badge[<h6>{texto}</h6>]", unsafe_allow_html=True)
+            texto = f'PB Referencial : {pb_refproduto:.1f}'
             st.markdown(f"<div style='color: orange; font-size: 22px; font-weight: bold;'>{texto}</div>", unsafe_allow_html=True)
-        # with col2:
-        #     wfif_res1 = st.number_input('Resultado #1:', format=format_1casa, step=0.1, 
-        #                                 value=float(dados.get("wfif_res1", 0.0)) if dados else 0.0)  
-        #     wfif_res2 = st.number_input('Resultado #2:', format=format_1casa, step=0.1, 
-        #                                 value=float(dados.get("wfif_res2", 0.0)) if dados else 0.0)
-        #     wfif_res3 = st.number_input('Resultado #3:', format=format_1casa, step=0.1, 
-        #                                 value=float(dados.get("wfif_res3", 0.0)) if dados else 0.0)
-        # with col3:
-        #     wfif_id1 = st.text_input('ID #1:', max_chars= 20, value=dados.get("wfif_id1", "") if dados else "")  
-        #     wfif_id2 = st.text_input('ID #2:', max_chars= 20, value=dados.get("wfif_id2", "") if dados else "")
-        #     wfif_id3 = st.text_input('ID #3:', max_chars= 20, value=dados.get("wfif_id3", "") if dados else "") 
+
         with col2:
-            prd_res1 = st.number_input('PB-P #1', format=format_1casa, step=0.1, 
-                                        value=float(dados.get("prd_res1", 0.0)) if dados else 0.0)  
-            prd_res2 = st.number_input('PB-P #2', format=format_1casa, step=0.1, 
-                                        value=float(dados.get("prd_res2", 0.0)) if dados else 0.0)
-            prd_res3 = st.number_input('PB-P #3', format=format_1casa, step=0.1, 
-                                        value=float(dados.get("prd_res3", 0.0)) if dados else 0.0)
+            wfif_res1 = st.number_input('Resultado #1:', format=format_1casa, step=0.1, 
+                                        value=float(dados.get("wfif_res1", 0.0)) if dados else 0.0)  
+            wfif_res2 = st.number_input('Resultado #2:', format=format_1casa, step=0.1, 
+                                        value=float(dados.get("wfif_res2", 0.0)) if dados else 0.0)
+            wfif_res3 = st.number_input('Resultado #3:', format=format_1casa, step=0.1, 
+                                        value=float(dados.get("wfif_res3", 0.0)) if dados else 0.0)
         with col3:
-            prd_id1 = st.text_input('ID #1:', max_chars= 20, value=dados.get("prd_id1", "") if dados else "")  
-            prd_id2 = st.text_input('ID #2:', max_chars= 20, value=dados.get("prd_id2", "") if dados else "")
-            prd_id3 = st.text_input('ID #3:', max_chars= 20, value=dados.get("prd_id3", "") if dados else "")   
+            wfif_id1 = st.text_input('ID #1:', max_chars= 20, value=dados.get("wfif_id1", "") if dados else "")  
+            wfif_id2 = st.text_input('ID #2:', max_chars= 20, value=dados.get("wfif_id2", "") if dados else "")
+            wfif_id3 = st.text_input('ID #3:', max_chars= 20, value=dados.get("wfif_id3", "") if dados else "") 
+        # # # with col2:
+        # # #     prd_res1 = st.number_input('PB-P #1', format=format_1casa, step=0.1, 
+        # # #                                 value=float(dados.get("prd_res1", 0.0)) if dados else 0.0)  
+        # # #     prd_res2 = st.number_input('PB-P #2', format=format_1casa, step=0.1, 
+        # # #                                 value=float(dados.get("prd_res2", 0.0)) if dados else 0.0)
+        # # #     prd_res3 = st.number_input('PB-P #3', format=format_1casa, step=0.1, 
+        # # #                                 value=float(dados.get("prd_res3", 0.0)) if dados else 0.0)
+        # # # with col3:
+        # # #     prd_id1 = st.text_input('ID #1:', max_chars= 20, value=dados.get("prd_id1", "") if dados else "")  
+        # # #     prd_id2 = st.text_input('ID #2:', max_chars= 20, value=dados.get("prd_id2", "") if dados else "")
+        # # #     prd_id3 = st.text_input('ID #3:', max_chars= 20, value=dados.get("prd_id3", "") if dados else "")   
 
 
 # # texto1 = 'Inserir ponto de bolha referencial aqui'
@@ -451,7 +465,7 @@ def formulario_padrao(dados=None, combo_clientes=None):
     wfif_res1 = 0.0 
     wfif_res2 = 0.0
     wfif_res3 = 0.0
-    pb_refproduto = 0.0
+    # pb_refproduto = 0.0
 
 
         
@@ -479,8 +493,8 @@ def formulario_padrao(dados=None, combo_clientes=None):
     with container9:
         col1, col2 = st.columns(2)
         with col1:
-            estimado, erro = CalculaPBEstimado(pi_memb_1, pi_memb_2, pi_memb_3,
-                      pf_memb_1, pf_memb_2, pf_memb_3, pb_padraowfi)
+            estimado, erro = CalculaPBEstimado(prd_res1, prd_res2, prd_res3,
+                      wfi_res1, wfi_res2, wfi_res3, pb_padraowfi)
 
             if erro == 0:
                 texto = f'PB Calculado: {estimado}'
@@ -499,9 +513,9 @@ def formulario_padrao(dados=None, combo_clientes=None):
             st.info(f' ###### :material/Clock_Loader_40: {texto}')
 
         with col2:
-            dis_res1 = st.number_input('Resultado #1:', format=format_1casa, step=0.1, 
+            dis_res1 = st.number_input('Resultado #1 Dispositivo:', format=format_1casa, step=0.1, 
                                        value=float(dados.get("dis_res1", 0.0)) if dados else 0.0)  
-            dis_res2 = st.number_input('Resultado #2:', format=format_1casa, step=0.1, 
+            dis_res2 = st.number_input('Resultado #2 Dispositivo:', format=format_1casa, step=0.1, 
                                        value=float(dados.get("dis_res2", 0.0)) if dados else 0.0)
 
         with col3:

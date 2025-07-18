@@ -32,7 +32,7 @@ def exportar_para_csv():
     registros = listar_todos_registros()
     # df = pd.DataFrame(registros)[["relatorio", "cliente"]]
     df = pd.DataFrame(registros)
-    return df.to_csv(index=False).encode("utf-8")
+    return df.to_csv(index=False, sep=';').encode("utf-8")
 
 def DadosVazios(dados) -> int:
     erro = 0
@@ -235,34 +235,7 @@ def ShowRelatorio(novos_dados):
 
     df_VarPeso = df_VarPeso.drop(columns=['ResultadoP Membrana 1','ResultadoP Membrana 2','ResultadoP Membrana 3']) 
 
-    # # Estilo CSS: cabeçalho em laranja, dados em cinza claro
-    # st.markdown("""
-    # <style>
-    # .custom-table thead th {
-    #     background-color: #1a1c24;
-    #     color: #8e8a7b;
-    #     text-align: center;
-    #     padding: 8px;
-    #     border: 1px solid #ddd;
-    # }
-    # .custom-table tbody td {
-    #     background-color: #d4d7e0;
-    #     color: black;
-    #     text-align: center;
-    #     padding: 8px;
-    #     border: 1px solid #ddd;
-    # }
-    # .custom-table {
-    #     border-collapse: collapse;
-    #     width: 100%;
-    # }
-    # </style>
-    # """, unsafe_allow_html=True)
-
-    # # Renderização HTML da tabela
-    # st.markdown(df_VarPeso.to_html(classes='custom-table', index=False), unsafe_allow_html=True)
-
-
+    
     st.dataframe(df_VarPeso, 
                 column_config={
                         "% Variação Peso - Membrana 1": Resultado_1, 
@@ -300,14 +273,21 @@ def ShowRelatorio(novos_dados):
                 hide_index=True)
     
     # df_RPB = df[['RPB Membrana 1','RPB Membrana 2','RPB Membrana 3', 'Média RPB']]
-    df_RPB = df[['RPB Membrana 1','RPB Membrana 2','RPB Membrana 3', 'RPBG']]
+    # df_RPB = df[['RPB Membrana 1','RPB Membrana 2','RPB Membrana 3', 'RPBG']]
+    df_RPB = df[['RPB Membrana 1','RPB Membrana 2','RPB Membrana 3']]
     
     st.dataframe(df_RPB, hide_index=True)  
 
-    df_PBEstimado = df[['PB Estimado', 'PB Padrão']]   
-    st.dataframe(df_PBEstimado, hide_index=True, use_container_width=False, width= 185 )  
-    if novos_dados['estimado'] < novos_dados['pb_padraowfi']:
-        st.warning('PB Produto abaixo do valor esperado')
+    df_PBEstimado = df[['RPBG','PB Referencial','PB Estimado']]   
+    st.dataframe(df_PBEstimado, hide_index=True, use_container_width=False, width= 285 )  
+    # if novos_dados['estimado'] < novos_dados['pb_padraowfi']:
+    #     st.warning('PB Produto abaixo do valor esperado')
+    if novos_dados['pb_padraowfi'] >= novos_dados['estimado']:
+        st.info('### :point_right:   APROVADO')
+    else:    
+        st.warning('#### :warning: PB Produto abaixo do valor esperado')
+    
+    
 
 
       

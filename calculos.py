@@ -132,6 +132,8 @@ def Previsao_Relat(dados):
         'Média % Peso': str(round(var_peso_media,2)) + '%',
         'Status Peso': status_peso,
 
+        'PB Referencial' : str(dados['pb_refproduto']),
+
         '% Variação Vazao - Membrana 1': str(round(var_vazao_perc_memb_1,1)) + '%',
         'Critério Vazão': criterio_vazao,
         'ResultadoV Membrana 1': var_vazao_result_mem_1,
@@ -142,7 +144,7 @@ def Previsao_Relat(dados):
         #'Média % Variação Vazão': str(round(var_vazao_media,2)) + '%',
         'Média % Fluxo': str(round(var_vazao_media,2)) + '%',
         'Status Fluxo': status_fluxo,
-
+        
     }
     #load data into a DataFrame object:
     colunas = dic_retorno.keys()
