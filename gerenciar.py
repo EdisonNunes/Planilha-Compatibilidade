@@ -58,12 +58,12 @@ def DadosVazios(dados) -> int:
         erro =  10
     elif dados['prd_res3'] == 0.0:      # Fluido Padrão Resultado #3
         erro =  11
-    elif dados['wfif_res1'] == 0.0:     # Fluido Padrão final Resultado #1 0.0
-        erro =  12
-    elif dados['wfif_res2'] == 0.0:     # Fluido Padrão final Resultado #2 0.0
-        erro =  13
-    elif dados['wfif_res3'] == 0.0:     # Fluido Padrão final Resultado #3 0.0
-        erro =  14
+    # elif dados['wfif_res1'] == 0.0:     # Fluido Padrão final Resultado #1 0.0
+    #     erro =  12
+    # elif dados['wfif_res2'] == 0.0:     # Fluido Padrão final Resultado #2 0.0
+    #     erro =  13
+    # elif dados['wfif_res3'] == 0.0:     # Fluido Padrão final Resultado #3 0.0
+    #     erro =  14
     elif dados['pf_memb_1'] == 0.0:      # Peso Final #1 0.000
         erro =  15   
     elif dados['pf_memb_2'] == 0.0:      # Peso Final #2 0.000
@@ -103,15 +103,16 @@ def ShowWarning(dados):
     if dados['pessoa_local'] == '' : 
         dict_warning['Pessoa Local']= 'Etapa 1'  
     if dados['id_local'] == '' : 
-        dict_warning['ID do Local']= 'Etapa 1'  
+        dict_warning['ID da Sala']= 'Etapa 1'  
     if dados['dt_chegada'] == '' : 
-        dict_warning['Data de Chegada (DD-MM-AAAA)']= 'Etapa 1'  
+        dict_warning['Data e Hora - Chegada Local']= 'Etapa 1'  
     if dados['hr_chegada'] == '' : 
-        dict_warning['Hora de Chegada (HH:MM)']= 'Etapa 1' 
+        dict_warning['Data e Hora - Chegada Pessoa']= 'Etapa 1' 
+
     if dados['linha'] == '' : 
-        dict_warning['Linha do filtro']= 'Etapa 2'
+        dict_warning['Linha do Filtro']= 'Etapa 2'
     if dados['fabricante'] == '' : 
-        dict_warning['Fabricante do filtro']= 'Etapa 2'
+        dict_warning['Fabricante do Filtro']= 'Etapa 2'
     if dados['cat_membr'] == '' : 
         dict_warning['Nº Catálogo da Membrana']= 'Etapa 2'
     if dados['poro_cat_membr'] == '' : 
@@ -119,21 +120,22 @@ def ShowWarning(dados):
     if dados['temp_filtra'] == '' : 
         dict_warning['Temperatura de Filtração (°C)']= 'Etapa 2'
     if dados['tara'] == '' : 
-        dict_warning['Tara da Balança']= 'Etapa 2' 
+        dict_warning['Tara da Balança (g)']= 'Etapa 2' 
     if dados['produto'] == '' : 
         dict_warning['Produto']= 'Etapa 2'       
     if dados['tmp_contato'] == '' : 
-        dict_warning['Tempo de contato (horas)']= 'Etapa 2'
+        dict_warning['Tempo de contato (h)']= 'Etapa 2'
     if dados['tempera_local'] == '' : 
         dict_warning['Temperatura Local (°C)']= 'Etapa 2'                 
     if dados['lote'] == '' : 
-        dict_warning['Lote da membrana']= 'Etapa 2'
+        dict_warning['Lote da Membrana']= 'Etapa 2'
     if dados['armaz'] == '' : 
-        dict_warning['Armazenagem local']= 'Etapa 2'
+        dict_warning['Armazenagem Local']= 'Etapa 2'
     if dados['umidade'] == '' : 
-        dict_warning['Umidade']= 'Etapa 2'
+        dict_warning['Umidade (%)']= 'Etapa 2'
     if dados['volume'] == '' : 
         dict_warning['Volume']= 'Etapa 2'
+
     if dados['lote1'] == '' : 
         dict_warning['Lote #1']= 'Etapa 3'
     if dados['lote2'] == '' : 
@@ -146,6 +148,7 @@ def ShowWarning(dados):
         dict_warning['Lote do Dispositivo']= 'Etapa 3'
     if dados['serial_cat_disp'] == '' : 
         dict_warning['Serial Dispositivo']= 'Etapa 3'
+
     if dados['wfi_id1'] == '' : 
         dict_warning['Fluido Padrão ID #1']= 'Etapa 4'
     if dados['wfi_id2'] == '' : 
@@ -153,29 +156,32 @@ def ShowWarning(dados):
     if dados['wfi_id3'] == '' : 
         dict_warning['Fluido Padrão ID #3']= 'Etapa 4'
     if dados['dt_wfi'] == '' : 
-        dict_warning['Data Fluido Padrão (DD-MM-AAAA)']= 'Etapa 4'
+        dict_warning['Data - Tempo de contato Inicial']= 'Etapa 4'
     if dados['hr_wfi'] == '' : 
-        dict_warning['Hora Fluido Padrão (HH:MM)']= 'Etapa 4'
+        dict_warning['Hora - Tempo de contato Inicial']= 'Etapa 4'
+
     if dados['dt_wfip'] == '' : 
-        dict_warning['Data Fluido Padrão 2 (DD-MM-AAAA)']= 'Etapa 5'
+        dict_warning['Data - Tempo de contato Final']= 'Etapa 5'
     if dados['hr_wfip'] == '' : 
-        dict_warning['Hora Fluido Padrão 2 (HH:MM)']= 'Etapa 5'
+        dict_warning['Hora - Tempo de contato Final']= 'Etapa 5'
     if dados['prd_id1'] == '' : 
-        dict_warning['PRD ID #1']= 'Etapa 5'
+        dict_warning['ID #1']= 'Etapa 5'
     if dados['prd_id2'] == '' : 
-        dict_warning['PRD ID #2']= 'Etapa 5'
+        dict_warning['ID #2']= 'Etapa 5'
     if dados['prd_id3'] == '' : 
-        dict_warning['PRD ID #3']= 'Etapa 5'
+        dict_warning['ID #3']= 'Etapa 5'
+
     if dados['wfif_id1'] == '' : 
-        dict_warning['Fluido Padrão final ID #1']= 'Etapa 7'
+        dict_warning['ID #1 Fluido Padrão']= 'Etapa 7'
     if dados['wfif_id2'] == '' : 
-        dict_warning['Fluido Padrão final ID #2']= 'Etapa 7'
+        dict_warning['ID #2 Fluido Padrão']= 'Etapa 7'
     if dados['wfif_id3'] == '' : 
-        dict_warning['Fluido Padrão final ID #3']= 'Etapa 7'
+        dict_warning['ID #3 Fluido Padrão']= 'Etapa 7'
+
     if dados['dis_id1'] == '' : 
-        dict_warning['ID #1']= 'Etapa 9'
+        dict_warning['ID #1 - Dispositivo']= 'Etapa 9'
     if dados['dis_id2'] == '' : 
-        dict_warning['ID #2']= 'Etapa 9'
+        dict_warning['ID #2 - Dispositivo']= 'Etapa 9'
 
     return dict_warning
 
@@ -202,20 +208,15 @@ def Salva_Planilha(dados, resultado, status):
 def ShowRelatorio(novos_dados):
     # Analizar se os dados estão totalmente preenchidos
     df = Previsao_Relat(novos_dados)
+
     col1, col2, col3 = st.columns([1, 4, 1])  # col2 maior, centralizada
     with col2:
         st.info('## :point_right:   Prévia  dos  Resultados')
 
-    df_RPB = df[['RPB Membrana 1','RPB Membrana 2','RPB Membrana 3', 'Média RPB']]
-    st.dataframe(df_RPB, hide_index=True)  
-
-    df_PBEstimado = df[['PB Estimado', 'PB Padrão']]   
-    st.dataframe(df_PBEstimado, hide_index=True, use_container_width=False, width= 185 )  
-    if novos_dados['estimado'] < novos_dados['pb_padraowfi']:
-        st.warning('PB Produto abaixo do valor esperado')
-
+    
     # ------------------------- % Variação de Peso ------------------------------------- 
-    st.markdown(f'<div style="text-align: center;"><h5>% Variação Peso - Critério <= {novos_dados['crit_var_peso']:.1f}%</h5></div>', unsafe_allow_html=True)
+    #st.markdown(f'<div style="text-align: center;"><h5>% Variação Peso - Critério <= {novos_dados['crit_var_peso']:.1f}%</h5></div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="text-align: left;"><h5>% Variação Peso - Critério <= {novos_dados['crit_var_peso']:.1f}%</h5></div>', unsafe_allow_html=True)
 
     df_VarPeso = df[['% Variação Peso - Membrana 1',
                     '% Variação Peso - Membrana 2',
@@ -223,20 +224,14 @@ def ShowRelatorio(novos_dados):
                     'ResultadoP Membrana 1',
                     'ResultadoP Membrana 2',
                     'ResultadoP Membrana 3',
-                    'Média % Variação Peso']]
+                    # 'Média % Variação Peso']]
+                    'Média % Peso',
+                    'Status Peso']]
     
-    if df_VarPeso['ResultadoP Membrana 1'][0] == 0.0:
-        Resultado_1 = 'Membrana 1 - APROVADA'
-    else:
-        Resultado_1 = 'Membrana 1 - REPROVADA'    
-    if df_VarPeso['ResultadoP Membrana 2'][0] == 0.0:
-        Resultado_2 = 'Membrana 2 - APROVADA'
-    else:
-        Resultado_2 = 'Membrana 2 - REPROVADA'
-    if df_VarPeso['ResultadoP Membrana 3'][0] == 0.0:
-        Resultado_3 = 'Membrana 3 - APROVADA'
-    else:
-        Resultado_3 = 'Membrana 3 - REPROVADA'  
+
+    Resultado_1 = df_VarPeso['ResultadoP Membrana 1'][0]
+    Resultado_2 = df_VarPeso['ResultadoP Membrana 2'][0]
+    Resultado_3 = df_VarPeso['ResultadoP Membrana 3'][0]
 
     df_VarPeso = df_VarPeso.drop(columns=['ResultadoP Membrana 1','ResultadoP Membrana 2','ResultadoP Membrana 3'])          
     st.dataframe(df_VarPeso, 
@@ -248,7 +243,8 @@ def ShowRelatorio(novos_dados):
                 },
                 hide_index=True)
     # ------------------------- % Variação de Vazão ------------------------------------- 
-    st.markdown(f'<div style="text-align: center;"><h5>% Variação Vazão - Critério <= {novos_dados['crit_var_vazao']:.1f}%</h5></div>', unsafe_allow_html=True)
+    #st.markdown(f'<div style="text-align: center;"><h5>% Variação Vazão - Critério <= {novos_dados['crit_var_vazao']:.1f}%</h5></div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="text-align: left;"><h5>% Variação Vazão - Critério <= {novos_dados['crit_var_vazao']:.1f}%</h5></div>', unsafe_allow_html=True)
 
     df_VarVazao = df[['% Variação Vazao - Membrana 1',
                     '% Variação Vazao - Membrana 2',
@@ -256,19 +252,14 @@ def ShowRelatorio(novos_dados):
                     'ResultadoV Membrana 1',
                     'ResultadoV Membrana 2',
                     'ResultadoV Membrana 3', 
-                    'Média % Variação Vazão']]
-    if df_VarVazao['ResultadoV Membrana 1'][0] == 0.0:
-        Resultado_4 = 'Membrana 1 - APROVADA'
-    else:
-        Resultado_4 = 'Membrana 1 - REPROVADA'    
-    if df_VarVazao['ResultadoV Membrana 2'][0] == 0.0:
-        Resultado_5 = 'Membrana 2 - APROVADA'
-    else:
-        Resultado_5 = 'Membrana 2 - REPROVADA'
-    if df_VarVazao['ResultadoV Membrana 3'][0] == 0.0:
-        Resultado_6 = 'Membrana 3 - APROVADA'
-    else:
-        Resultado_6 = 'Membrana 3 - REPROVADA'
+                    # 'Média % Variação Vazão']]
+                    'Média % Fluxo',
+                    'Status Fluxo']]
+    
+    Resultado_4 = df_VarVazao['ResultadoV Membrana 1'][0]
+    Resultado_5 = df_VarVazao['ResultadoV Membrana 2'][0]
+    Resultado_6 = df_VarVazao['ResultadoV Membrana 3'][0]
+
     df_VarVazao = df_VarVazao.drop(columns=['ResultadoV Membrana 1','ResultadoV Membrana 2','ResultadoV Membrana 3'])          
     st.dataframe(df_VarVazao, 
                 column_config={
@@ -278,6 +269,16 @@ def ShowRelatorio(novos_dados):
                         
                 },
                 hide_index=True)
+    
+    # df_RPB = df[['RPB Membrana 1','RPB Membrana 2','RPB Membrana 3', 'Média RPB']]
+    df_RPB = df[['RPB Membrana 1','RPB Membrana 2','RPB Membrana 3', 'RPBG']]
+    
+    st.dataframe(df_RPB, hide_index=True)  
+
+    df_PBEstimado = df[['PB Estimado', 'PB Padrão']]   
+    st.dataframe(df_PBEstimado, hide_index=True, use_container_width=False, width= 185 )  
+    if novos_dados['estimado'] < novos_dados['pb_padraowfi']:
+        st.warning('PB Produto abaixo do valor esperado')
 
 
       
@@ -474,8 +475,10 @@ if st.session_state.aba == "Alterar":
             if submitted:
                 try:
                     erro = DadosVazios(novos_dados)
+                    print('Erro = ', erro)
                     if erro == 0:
                         dict_warning = ShowWarning(novos_dados)
+
                         if dict_warning:
                             st.session_state.campos_incompletos = dict_warning
                             st.session_state.novos_dados_cache = novos_dados
@@ -483,6 +486,7 @@ if st.session_state.aba == "Alterar":
                             st.session_state.exibir_alerta_alterar = True
                             #st.stop()
                         else:
+                            # st.write(novos_dados)
                             alterar_registro(registro["id"], novos_dados)
                             st.success("Planilha alterada com sucesso!")
                             st.session_state.aba = "Listar"
@@ -494,6 +498,7 @@ if st.session_state.aba == "Alterar":
                     st.error(f'Erro ao atualizar o registro {e}', icon="🔥")
 
             if verify2:
+                # st.write(novos_dados)
                 ShowRelatorio(novos_dados)
                 col1, col2 = st.columns(2)
                 with col1:
