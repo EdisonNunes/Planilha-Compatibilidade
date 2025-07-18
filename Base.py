@@ -204,9 +204,9 @@ def formulario_padrao(dados=None, combo_clientes=None):
             id_local = st.text_input('ID da Sala:', max_chars= 12, 
                                      value=dados.get("id_local", "") if dados else "")
         with col2:   
-            dt_chegada = st.text_input('Data e Hora - Chegada:',placeholder='DD-MM-AAAA',
+            dt_chegada = st.text_input('Data e Hora - Chegada ao Local:',placeholder='DD-MM-AAAA',
                                        value=dados.get("dt_chegada", "") if dados else "")
-            hr_chegada = st.text_input('Data e Hora - Chegada:',placeholder='DD-MM-AAAA',
+            hr_chegada = st.text_input('Data e Hora - Chegada da Pessoa:',placeholder='DD-MM-AAAA',
                                        value=dados.get("hr_chegada", "") if dados else "")
     
     st.markdown(':orange-background[Etapa 2]')    
@@ -332,10 +332,10 @@ def formulario_padrao(dados=None, combo_clientes=None):
         
         col1, col2, col3 = st.columns(3)
         with col1:
-            dt_wfip = st.text_input('Data:',placeholder='DD-MM-AAAA', 
+            dt_wfip = st.text_input('Data Final:',placeholder='DD-MM-AAAA', 
                                     value=dados.get("dt_wfip", "") if dados else "")
         with col2:
-            hr_wfip = st.text_input('Hora:',placeholder='HH:MM', value=dados.get("hr_wfip", "") if dados else "")
+            hr_wfip = st.text_input('Hora Final:',placeholder='HH:MM', value=dados.get("hr_wfip", "") if dados else "")
         
         if dt_wfi and hr_wfi and dt_wfip and hr_wfip:
             data1 = corrige_formato_dthr(dt_wfi  + ' ' + hr_wfi)
@@ -505,8 +505,8 @@ def formulario_padrao(dados=None, combo_clientes=None):
                                        value=float(dados.get("dis_res2", 0.0)) if dados else 0.0)
 
         with col3:
-            dis_id1 = st.text_input('ID #1:', max_chars= 20, value=dados.get("dis_id1", "") if dados else "")  
-            dis_id2 = st.text_input('ID #2:', max_chars= 20, value=dados.get("dis_id2", "") if dados else "")
+            dis_id1 = st.text_input('ID #1 Dispositivo:', max_chars= 20, value=dados.get("dis_id1", "") if dados else "")  
+            dis_id2 = st.text_input('ID #2 Dispositivo:', max_chars= 20, value=dados.get("dis_id2", "") if dados else "")
         
     
 

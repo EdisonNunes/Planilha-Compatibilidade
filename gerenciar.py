@@ -233,7 +233,36 @@ def ShowRelatorio(novos_dados):
     Resultado_2 = df_VarPeso['ResultadoP Membrana 2'][0]
     Resultado_3 = df_VarPeso['ResultadoP Membrana 3'][0]
 
-    df_VarPeso = df_VarPeso.drop(columns=['ResultadoP Membrana 1','ResultadoP Membrana 2','ResultadoP Membrana 3'])          
+    df_VarPeso = df_VarPeso.drop(columns=['ResultadoP Membrana 1','ResultadoP Membrana 2','ResultadoP Membrana 3']) 
+
+    # # Estilo CSS: cabeçalho em laranja, dados em cinza claro
+    # st.markdown("""
+    # <style>
+    # .custom-table thead th {
+    #     background-color: #1a1c24;
+    #     color: #8e8a7b;
+    #     text-align: center;
+    #     padding: 8px;
+    #     border: 1px solid #ddd;
+    # }
+    # .custom-table tbody td {
+    #     background-color: #d4d7e0;
+    #     color: black;
+    #     text-align: center;
+    #     padding: 8px;
+    #     border: 1px solid #ddd;
+    # }
+    # .custom-table {
+    #     border-collapse: collapse;
+    #     width: 100%;
+    # }
+    # </style>
+    # """, unsafe_allow_html=True)
+
+    # # Renderização HTML da tabela
+    # st.markdown(df_VarPeso.to_html(classes='custom-table', index=False), unsafe_allow_html=True)
+
+
     st.dataframe(df_VarPeso, 
                 column_config={
                         "% Variação Peso - Membrana 1": Resultado_1, 

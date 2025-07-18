@@ -182,5 +182,39 @@ def corrige_formato_dthr(data_str):
     return data_str
 
 
+import streamlit as st
+import pandas as pd
 
-#print(corrige_formato_dthr('18/06-2025 17:20'))
+# Dados de exemplo
+df = pd.DataFrame({
+    "Nome": ["Ana", "Bruno", "Carlos"],
+    "Nota": [8.5, 5.2, 9.1]
+})
+
+# # Estilo CSS: cabeçalho em laranja, dados em cinza claro
+# st.markdown("""
+# <style>
+# .custom-table thead th {
+#     background-color: orange;
+#     color: white;
+#     text-align: center;
+#     padding: 8px;
+#     border: 1px solid #ddd;
+# }
+# .custom-table tbody td {
+#     background-color: #f9f9f9;
+#     color: black;
+#     text-align: center;
+#     padding: 8px;
+#     border: 1px solid #ddd;
+# }
+# .custom-table {
+#     border-collapse: collapse;
+#     width: 100%;
+# }
+# </style>
+# """, unsafe_allow_html=True)
+
+# # Renderização HTML da tabela
+# st.markdown(df.to_html(classes='custom-table', index=False), unsafe_allow_html=True)
+
