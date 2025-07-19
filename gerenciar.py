@@ -3,6 +3,7 @@ from supabase import create_client, Client
 import uuid
 import pandas as pd
 from Base import *
+# from BaseComDefault import *
 from data_loader import *
 from datetime import datetime
 
@@ -58,12 +59,12 @@ def DadosVazios(dados) -> int:
         erro =  10
     elif dados['prd_res3'] == 0.0:      # Fluido Padrão Resultado #3
         erro =  11
-    # elif dados['wfif_res1'] == 0.0:     # Fluido Padrão final Resultado #1 0.0
-    #     erro =  12
-    # elif dados['wfif_res2'] == 0.0:     # Fluido Padrão final Resultado #2 0.0
-    #     erro =  13
-    # elif dados['wfif_res3'] == 0.0:     # Fluido Padrão final Resultado #3 0.0
-    #     erro =  14
+    elif dados['wfif_res1'] == 0.0:     # Fluido Padrão final Resultado #1 0.0
+        erro =  12
+    elif dados['wfif_res2'] == 0.0:     # Fluido Padrão final Resultado #2 0.0
+        erro =  13
+    elif dados['wfif_res3'] == 0.0:     # Fluido Padrão final Resultado #3 0.0
+        erro =  14
     elif dados['pf_memb_1'] == 0.0:      # Peso Final #1 0.000
         erro =  15   
     elif dados['pf_memb_2'] == 0.0:      # Peso Final #2 0.000
@@ -128,7 +129,7 @@ def ShowWarning(dados):
     if dados['tempera_local'] == '' : 
         dict_warning['Temperatura Local (°C)']= 'Etapa 2'                 
     if dados['lote'] == '' : 
-        dict_warning['Lote da Membrana']= 'Etapa 2'
+        dict_warning['Lote Do Produto']= 'Etapa 2'
     if dados['armaz'] == '' : 
         dict_warning['Armazenagem Local']= 'Etapa 2'
     if dados['umidade'] == '' : 
@@ -156,27 +157,27 @@ def ShowWarning(dados):
     if dados['wfi_id3'] == '' : 
         dict_warning['Fluido Padrão ID #3']= 'Etapa 4'
     if dados['dt_wfi'] == '' : 
-        dict_warning['Data - Tempo de contato Inicial']= 'Etapa 4'
+        dict_warning['Data']= 'Etapa 4'
     if dados['hr_wfi'] == '' : 
-        dict_warning['Hora - Tempo de contato Inicial']= 'Etapa 4'
+        dict_warning['Hora']= 'Etapa 4'
 
     if dados['dt_wfip'] == '' : 
-        dict_warning['Data - Tempo de contato Final']= 'Etapa 5'
+        dict_warning['Data Final']= 'Etapa 5'
     if dados['hr_wfip'] == '' : 
-        dict_warning['Hora - Tempo de contato Final']= 'Etapa 5'
+        dict_warning['Hora Final']= 'Etapa 5'
     if dados['prd_id1'] == '' : 
-        dict_warning['ID #1']= 'Etapa 5'
+        dict_warning['ID #1 Produto']= 'Etapa 5'
     if dados['prd_id2'] == '' : 
-        dict_warning['ID #2']= 'Etapa 5'
+        dict_warning['ID #2 Produto']= 'Etapa 5'
     if dados['prd_id3'] == '' : 
-        dict_warning['ID #3']= 'Etapa 5'
+        dict_warning['ID #3 Produto']= 'Etapa 5'
 
     if dados['wfif_id1'] == '' : 
-        dict_warning['ID #1 Fluido Padrão']= 'Etapa 7'
+        dict_warning['ID #1']= 'Etapa 7'
     if dados['wfif_id2'] == '' : 
-        dict_warning['ID #2 Fluido Padrão']= 'Etapa 7'
+        dict_warning['ID #2']= 'Etapa 7'
     if dados['wfif_id3'] == '' : 
-        dict_warning['ID #3 Fluido Padrão']= 'Etapa 7'
+        dict_warning['ID #3']= 'Etapa 7'
 
     if dados['dis_id1'] == '' : 
         dict_warning['ID #1 - Dispositivo']= 'Etapa 9'
@@ -204,6 +205,7 @@ def Salva_Planilha(dados, resultado, status):
     else:
         st.error(f"❌ Erro ao salvar dados: {resp['erro']}")
         st.json({"dados_digitados": dados, "resultado_dict": resultado})
+
 
 def ShowRelatorio(novos_dados):
     # Analizar se os dados estão totalmente preenchidos
@@ -282,8 +284,13 @@ def ShowRelatorio(novos_dados):
     st.dataframe(df_PBEstimado, hide_index=True, use_container_width=False, width= 285 )  
     # if novos_dados['estimado'] < novos_dados['pb_padraowfi']:
     #     st.warning('PB Produto abaixo do valor esperado')
-    if novos_dados['pb_padraowfi'] >= novos_dados['estimado']:
+    #st.write(novos_dados)
+    if novos_dados['pb_refproduto'] >= novos_dados['estimado']: # PB Referencial >= PB Estimado
+        # t1 = f'{novos_dados["pb_refproduto"]}'
+        # t2 = f'{novos_dados["estimado"]}'
         st.info('### :point_right:   APROVADO')
+        # st.info(t1)
+        # st.info(t2)
     else:    
         st.warning('#### :warning: PB Produto abaixo do valor esperado')
     
@@ -382,13 +389,16 @@ if st.session_state.aba == "Incluir":
 
     novos_dados = formulario_padrao(dados=None, combo_clientes=ComboBoxClientes())
 
+
+    desabilita_botoes = st.session_state.get("exibir_alerta", False)
     col1, col2, col3 = st.columns(3)
     with col1:
-        submitted_parcial = st.button("💾 Salvar Parcial")
+        submitted_parcial = st.button("💾 Salvar Parcial", disabled=desabilita_botoes)
     with col2:
-        submitted_verify = st.button("📄 Ver Relatório")
+        disabilita = False
+        submitted_verify = st.button("📄 Ver Relatório", disabled=desabilita_botoes)
     with col3:
-        submitted_return = st.button("🔙 Voltar")
+        submitted_return = st.button("🔙 Voltar", disabled=desabilita_botoes)
 
     if submitted_parcial:
         try:
@@ -399,7 +409,7 @@ if st.session_state.aba == "Incluir":
                     st.session_state.campos_incompletos = dict_warning
                     st.session_state.novos_dados_cache = novos_dados
                     st.session_state.exibir_alerta = True
-                    #st.stop()
+                    st.rerun()
                 else:
                     Salva_Planilha(dados=novos_dados, resultado=None, status=False)
                     st.success("Planilha salva com sucesso!")
@@ -410,6 +420,7 @@ if st.session_state.aba == "Incluir":
                 st.warning(f' ##### Campo :point_right: {message} :warning: INVÁLIDO !  :mag_right: ETAPA :point_right: {etapa}')
         except Exception as e:
             st.error(f'Erro ao atualizar o registro {e}', icon="🔥")
+            print(f'Erro ao atualizar o registro {e}', icon="🔥")
 
     if submitted_verify:
         erro = DadosVazios(novos_dados)
@@ -436,7 +447,7 @@ if st.session_state.aba == "Incluir":
 
     # ✅ FORA DO FORM — MOSTRAR ALERTA SE HOUVER CAMPOS INCOMPLETOS
     if st.session_state.get("exibir_alerta"):
-        st.warning("⚠️ Existem campos obrigatórios não preenchidos. Deseja continuar mesmo assim?", icon="⚠️")
+        st.warning("Existem campos obrigatórios não preenchidos. Deseja continuar mesmo assim?", icon="⚠️")
 
         for campo, etapa in st.session_state.campos_incompletos.items():
             st.markdown(
@@ -445,6 +456,12 @@ if st.session_state.aba == "Incluir":
 
         col1, col2 = st.columns(2)
         with col1:
+            if st.button("Voltar e corrigir"):
+                st.info("Você optou por revisar os dados.")
+                st.session_state.exibir_alerta = False
+                st.rerun()
+            
+        with col2:
             if st.button("Salvar mesmo assim"):
                 Salva_Planilha(
                    dados=st.session_state.novos_dados_cache,
@@ -453,11 +470,6 @@ if st.session_state.aba == "Incluir":
                 )
                 st.success("Salvo com campos incompletos.")
                 st.session_state.aba = "Listar"
-                st.session_state.exibir_alerta = False
-                st.rerun()
-        with col2:
-            if st.button("Voltar e corrigir"):
-                st.info("Você optou por revisar os dados.")
                 st.session_state.exibir_alerta = False
                 st.rerun()
  
@@ -473,18 +485,18 @@ if st.session_state.aba == "Alterar":
         else:
             novos_dados = formulario_padrao(dados=registro, combo_clientes=ComboBoxClientes())
 
+            desabilita_botoes_alterar = st.session_state.get("exibir_alerta_alterar", False)
             col1, col2, col3 = st.columns(3)
             with col1:
-                submitted = st.button("💾 Salvar Alterações")
+                submitted = st.button("💾 Salvar Alterações", disabled=desabilita_botoes_alterar)
             with col2:
-                verify2 = st.button("📄 Ver Relatório")
+                verify2 = st.button("📄 Ver Relatório", disabled=desabilita_botoes_alterar)
             with col3:
-                voltar1 = st.button("🔙 Retornar")
+                voltar1 = st.button("🔙 Retornar", disabled=desabilita_botoes_alterar)
 
             if submitted:
                 try:
                     erro = DadosVazios(novos_dados)
-                    print('Erro = ', erro)
                     if erro == 0:
                         dict_warning = ShowWarning(novos_dados)
 
@@ -493,21 +505,20 @@ if st.session_state.aba == "Alterar":
                             st.session_state.novos_dados_cache = novos_dados
                             st.session_state.registro_id_cache = registro["id"]
                             st.session_state.exibir_alerta_alterar = True
-                            #st.stop()
+                            st.rerun()  # <- ESSENCIAL!
                         else:
-                            # st.write(novos_dados)
                             alterar_registro(registro["id"], novos_dados)
                             st.success("Planilha alterada com sucesso!")
                             st.session_state.aba = "Listar"
                             st.rerun()
                     else:
                         message, etapa = ShowErro(erro)
+                        st.session_state.exibir_alerta_alterar = False
                         st.warning(f' ##### Campo :point_right: {message} :warning: INVÁLIDO !  :mag_right: ETAPA :point_right: {etapa}')
                 except Exception as e:
                     st.error(f'Erro ao atualizar o registro {e}', icon="🔥")
 
             if verify2:
-                # st.write(novos_dados)
                 ShowRelatorio(novos_dados)
                 col1, col2 = st.columns(2)
                 with col1:
@@ -569,7 +580,8 @@ if st.session_state.aba == "Excluir":
                     excluir_registro(registro["id"])
                     st.success("Relatório excluído com sucesso!")
                     st.session_state.item_selecionado = None
-                    # st.rerun()
+                    st.session_state.aba = "Listar"
+                    st.rerun()
                 except Exception  as e:  
                     st.error(f'Erro ao excluir o registro {e}', icon="🔥")  
         with col2:     

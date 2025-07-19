@@ -74,13 +74,13 @@ def CalculaPBEstimado(prd_res1, prd_res2, prd_res3,
 def ShowErro(erro):
     match(erro):
             case 1: 
-                message = 'Membrana PI #1'
+                message = 'Membrana #1 PI'
                 etapa = 4
             case 2: 
-                message = 'Membrana PI #2'
+                message = 'Membrana #2 PI'
                 etapa = 4
             case 3: 
-                message = 'Membrana PI #3'
+                message = 'Membrana #3 PI'
                 etapa = 4
             case 4: 
                 message = 'PB Padrão Fluido Padrão (psi)'
@@ -98,22 +98,22 @@ def ShowErro(erro):
                 message = 'PB Referencial (psi)'
                 etapa = 5
             case 9: 
-                message = 'PRD Resultado #1'
+                message = 'PB-P #1'
                 etapa = 5
             case 10: 
-                message = 'PRD Resultado #2'
+                message = 'PB-P #2'
                 etapa = 5
             case 11: 
-                message = 'PRD Resultado #3'
+                message = 'PB-P #3'
                 etapa = 5
             case 12: 
-                message = 'Fluido Padrão final Resultado #1'
+                message = 'Resultado #1'
                 etapa = 7
             case 13: 
-                message = 'Fluido Padrão final Resultado #2'
+                message = 'Resultado #2'
                 etapa = 7
             case 14: 
-                message = 'Fluido Padrão final Resultado #3'
+                message = 'Resultado #3'
                 etapa = 7
             case 15: 
                 message = 'Peso Final #1'
@@ -125,10 +125,10 @@ def ShowErro(erro):
                 message = 'Peso Final #3'
                 etapa = 8
             case 18: 
-                message = 'Resultado PRD#1'
+                message = 'Resultado #1 Dispositivo'
                 etapa = 9
             case 19: 
-                message = 'Resultado PRD#2'
+                message = 'Resultado #2 Dispositivo'
                 etapa = 9
             case 20: 
                 message = 'Critério Variação Peso ≤ (%)'
@@ -137,22 +137,22 @@ def ShowErro(erro):
                 message = 'Critério Variação Vazão ≤ (%)'
                 etapa = 10
             case 22: 
-                message = 'Membrana FI #1'
+                message = 'Membrana #1 FI'
                 etapa = 4            
             case 23: 
-                message = 'Membrana FI #2'
+                message = 'Membrana #2 FI'
                 etapa = 4           
             case 24: 
-                message = 'Membrana FI #3'
+                message = 'Membrana #3 FI'
                 etapa = 4   
             case 25: 
-                message = 'Fluxo Final #1'
+                message = 'Tempo Final #1'
                 etapa = 6            
             case 26: 
-                message = 'Fluxo Final #2'
+                message = 'Tempo Final #2'
                 etapa = 6            
             case 27: 
-                message = 'Fluxo Final #3'
+                message = 'Tempo Final #3'
                 etapa = 6            
  
     return message, etapa      
@@ -209,9 +209,9 @@ def formulario_padrao(dados=None, combo_clientes=None):
             id_local = st.text_input('ID da Sala:', max_chars= 12, 
                                      value=dados.get("id_local", "") if dados else "")
         with col2:   
-            dt_chegada = st.text_input('Data e Hora - Chegada ao Local:',placeholder='DD-MM-AAAA',
+            dt_chegada = st.text_input('Data e Hora - Chegada ao Local:',placeholder='DD-MM-AAAA HH:MM',
                                        value=dados.get("dt_chegada", "") if dados else "")
-            hr_chegada = st.text_input('Data e Hora - Chegada da Pessoa:',placeholder='DD-MM-AAAA',
+            hr_chegada = st.text_input('Data e Hora - Chegada da Pessoa:',placeholder='DD-MM-AAAA HH:MM',
                                        value=dados.get("hr_chegada", "") if dados else "")
     
     st.markdown(':orange-background[Etapa 2]')    
@@ -355,14 +355,7 @@ def formulario_padrao(dados=None, combo_clientes=None):
                                         help='Diferença entre hora do teste Fluido Padrão e hora do teste de integridade do produto')
 
 
-        # col1, col2, col3 = st.columns(3)
-        # with col1:
-        #     texto = f'PB Referencial : {pb_padraowfi:.1f}'
-            # st.markdown(f"<div style='color: orange; font-size: 22px; font-weight: bold;'>{texto}</div>", unsafe_allow_html=True)
-
-            # pb_refproduto = st.number_input('PB Referencial (psi):', format=format_1casa, 
-            #                                 value=float(dados.get("pb_refproduto", 0.0)) if dados else 0.0, 
-            #                                 help= 'Usar teste Referencial', step=0.1)
+        
         # # texto1 = 'Inserir ponto de bolha referencial aqui'
         # # st.info(f'\n###### :point_right: {texto1}')
         st.markdown('<div style="text-align: center;"><h5>Teste de Integridade - PRODUTO</h5></div>', unsafe_allow_html=True)
@@ -459,12 +452,12 @@ def formulario_padrao(dados=None, combo_clientes=None):
 #             prd_id3 = st.text_input('ID #3:', max_chars= 20, value=dados.get("prd_id3", "") if dados else "") 
 
 
-    wfif_id1 = ''
-    wfif_id2 = ''
-    wfif_id3 = ''
-    wfif_res1 = 0.0 
-    wfif_res2 = 0.0
-    wfif_res3 = 0.0
+    # wfif_id1 = ''
+    # wfif_id2 = ''
+    # wfif_id3 = ''
+    # wfif_res1 = 0.0 
+    # wfif_res2 = 0.0
+    # wfif_res3 = 0.0
     # pb_refproduto = 0.0
 
 
