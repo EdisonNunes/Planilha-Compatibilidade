@@ -217,7 +217,6 @@ def ShowRelatorio(novos_dados):
 
     
     # ------------------------- % Variação de Peso ------------------------------------- 
-    #st.markdown(f'<div style="text-align: center;"><h5>% Variação Peso - Critério <= {novos_dados['crit_var_peso']:.1f}%</h5></div>', unsafe_allow_html=True)
     st.markdown(f'<div style="text-align: left;"><h5>% Variação Peso - Critério <= {novos_dados['crit_var_peso']:.1f}%</h5></div>', unsafe_allow_html=True)
 
     df_VarPeso = df[['% Variação Peso - Membrana 1',
@@ -247,7 +246,6 @@ def ShowRelatorio(novos_dados):
                 },
                 hide_index=True)
     # ------------------------- % Variação de Vazão ------------------------------------- 
-    #st.markdown(f'<div style="text-align: center;"><h5>% Variação Vazão - Critério <= {novos_dados['crit_var_vazao']:.1f}%</h5></div>', unsafe_allow_html=True)
     st.markdown(f'<div style="text-align: left;"><h5>% Variação Vazão - Critério <= {novos_dados['crit_var_vazao']:.1f}%</h5></div>', unsafe_allow_html=True)
 
     df_VarVazao = df[['% Variação Vazao - Membrana 1',
@@ -274,17 +272,11 @@ def ShowRelatorio(novos_dados):
                 },
                 hide_index=True)
     
-    # df_RPB = df[['RPB Membrana 1','RPB Membrana 2','RPB Membrana 3', 'Média RPB']]
-    # df_RPB = df[['RPB Membrana 1','RPB Membrana 2','RPB Membrana 3', 'RPBG']]
     df_RPB = df[['RPB Membrana 1','RPB Membrana 2','RPB Membrana 3']]
-    
     st.dataframe(df_RPB, hide_index=True)  
 
     df_PBEstimado = df[['RPBG','PB Referencial','PB Estimado']]   
     st.dataframe(df_PBEstimado, hide_index=True, use_container_width=False, width= 285 )  
-    # if novos_dados['estimado'] < novos_dados['pb_padraowfi']:
-    #     st.warning('PB Produto abaixo do valor esperado')
-    #st.write(novos_dados)
     if novos_dados['pb_refproduto'] >= novos_dados['estimado']: # PB Referencial >= PB Estimado
         # t1 = f'{novos_dados["pb_refproduto"]}'
         # t2 = f'{novos_dados["estimado"]}'
@@ -294,13 +286,9 @@ def ShowRelatorio(novos_dados):
     else:    
         st.warning('#### :warning: PB Produto abaixo do valor esperado')
     
-    
-
-
       
 # Interface de listagem
 if st.session_state.aba == "Listar":
-    # st.subheader("Lista de Registros")
     busca = st.text_input("Buscar por relatório", st.session_state.busca_relatorio)
     if busca != st.session_state.busca_relatorio:
         st.session_state.busca_relatorio = busca
@@ -362,12 +350,59 @@ if st.session_state.aba == "Listar":
                 st.session_state.pagina += 1
                 st.rerun()
 
-    st.download_button(
-        label="⬇️ Exportar para CSV",
-        data=exportar_para_csv(),
-        file_name="planilha.csv",
-        mime="text/csv"
-    )
+    with st.expander("⬇️ Exportar Registros", expanded=False):
+        if 'confirmar_exportar' not in st.session_state:
+            st.session_state.confirmar_exportar = False
+        if 'cancelar_exportar' not in st.session_state:
+            st.session_state.cancelar_exportar = False
+
+        selecionados = resultado[resultado["Selecionar"] == True]
+
+        if len(selecionados) == 1:
+            nome_relatorio = selecionados.iloc[0]["relatorio"]
+            st.warning(f'Deseja exportar o relatório: **{nome_relatorio}** ?')
+            col1, col2 = st.columns(2)
+            with col1:
+                if st.button("✅ Confirmar Exportação"):
+                    st.session_state.confirmar_exportar = True
+            with col2:
+                if st.button("❌ Cancelar"):
+                    st.session_state.confirmar_exportar = False
+                    st.rerun()
+
+            if st.session_state.confirmar_exportar:
+                id_sel = selecionados.iloc[0]["id"]
+                registro_completo = next((r for r in listar_todos_registros() if r["id"] == id_sel), None)
+                if registro_completo:
+                    df_sel = pd.DataFrame([registro_completo])
+                    # csv_bytes = df_sel.to_csv(index=False, sep=';').encode("utf-8")
+                    csv_bytes = ('\ufeff' + df_sel.to_csv(index=False, sep=';')).encode("utf-8")
+                    st.download_button("📁 Baixar CSV (1 item completo)", data=csv_bytes, 
+                                       file_name=f"{registro_completo['relatorio']}.csv", mime="text/csv")
+ 
+                    st.session_state.confirmar_exportar = False
+
+        elif len(selecionados) == 0:
+            st.warning("Nenhum item selecionado. Deseja exportar TODOS os registros?")
+            col1, col2 = st.columns(2)
+            with col1:
+                if st.button("✅ Exportar Todos"):
+                    st.session_state.confirmar_exportar = True
+            with col2:
+                if st.button("❌ Cancelar"):
+                    st.session_state.confirmar_exportar = False
+                    st.rerun()
+
+            if st.session_state.confirmar_exportar:
+                registros_todos = listar_todos_registros()
+                df_all = pd.DataFrame(registros_todos)
+                csv_bytes = ('\ufeff' + df_all.to_csv(index=False, sep=';')).encode("utf-8")
+                st.download_button("📁 Baixar CSV (todos)", data=csv_bytes, file_name="planilha_completa.csv", mime="text/csv")
+                st.session_state.confirmar_exportar = False
+
+        else:
+            st.error("Selecione apenas 1 item para exportar individualmente.")
+
 
     with st.container():
         col1, col2, col3, col4 = st.columns(4)
@@ -420,7 +455,7 @@ if st.session_state.aba == "Incluir":
                 st.warning(f' ##### Campo :point_right: {message} :warning: INVÁLIDO !  :mag_right: ETAPA :point_right: {etapa}')
         except Exception as e:
             st.error(f'Erro ao atualizar o registro {e}', icon="🔥")
-            print(f'Erro ao atualizar o registro {e}', icon="🔥")
+            # print(f'Erro ao atualizar o registro {e}', icon="🔥")
 
     if submitted_verify:
         erro = DadosVazios(novos_dados)

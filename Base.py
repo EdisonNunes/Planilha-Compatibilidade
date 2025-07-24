@@ -31,7 +31,7 @@ def validar_datas_e_calcular_horas(data1_str, data2_str):
     
     diferenca = abs(data2 - data1)
     total_minutos = int(diferenca.total_seconds() // 60)
-    # horas = int(diferenca.total_seconds() // 3600)
+
     horas = total_minutos // 60
     minutos = total_minutos % 60
 
@@ -280,7 +280,6 @@ def formulario_padrao(dados=None, combo_clientes=None):
             pi_memb_3 = st.number_input('Membrana #3 PI:', format=format_3casas, 
                                         value=float(dados.get("pi_memb_3", 0.0)) if dados else 0.0)
         with col3:   
-            # st.markdown('<div style="text-align: center;"><h6>Fluxo Inicial(tempo em minutos)</h6></div>', unsafe_allow_html=True)
             st.markdown("""
             <div style="height: 280px; display: flex; justify-content: center; align-items: center;">
                 <div style="writing-mode: vertical-rl; transform: rotate(180deg); font-size: 20px;">
@@ -328,7 +327,6 @@ def formulario_padrao(dados=None, combo_clientes=None):
     st.markdown(':orange-background[Etapa 5]')
     container5 = st.container(border=True)
     with container5:
-        # st.markdown('<div style="text-align: center;"><h5>Teste de Integridade - PRODUTO</h5></div>', unsafe_allow_html=True)
         texto1 = 'Realizar a análise visual.'
         texto2 = 'Registrar com fotográfico.'
         st.warning(f' :warning: ATENÇÃO !\n###### :point_right: {texto1} \n###### :point_right: {texto2} ')
@@ -353,7 +351,6 @@ def formulario_padrao(dados=None, combo_clientes=None):
                 horas_contato = '00:00'    
             contato_wfip = st.text_input('Total de Horas:',value= str(horas_contato), disabled= True, 
                                         help='Diferença entre hora do teste Fluido Padrão e hora do teste de integridade do produto')
-
 
         
         # # texto1 = 'Inserir ponto de bolha referencial aqui'
@@ -418,50 +415,8 @@ def formulario_padrao(dados=None, combo_clientes=None):
             wfif_id1 = st.text_input('ID #1:', max_chars= 20, value=dados.get("wfif_id1", "") if dados else "")  
             wfif_id2 = st.text_input('ID #2:', max_chars= 20, value=dados.get("wfif_id2", "") if dados else "")
             wfif_id3 = st.text_input('ID #3:', max_chars= 20, value=dados.get("wfif_id3", "") if dados else "") 
-        # # # with col2:
-        # # #     prd_res1 = st.number_input('PB-P #1', format=format_1casa, step=0.1, 
-        # # #                                 value=float(dados.get("prd_res1", 0.0)) if dados else 0.0)  
-        # # #     prd_res2 = st.number_input('PB-P #2', format=format_1casa, step=0.1, 
-        # # #                                 value=float(dados.get("prd_res2", 0.0)) if dados else 0.0)
-        # # #     prd_res3 = st.number_input('PB-P #3', format=format_1casa, step=0.1, 
-        # # #                                 value=float(dados.get("prd_res3", 0.0)) if dados else 0.0)
-        # # # with col3:
-        # # #     prd_id1 = st.text_input('ID #1:', max_chars= 20, value=dados.get("prd_id1", "") if dados else "")  
-        # # #     prd_id2 = st.text_input('ID #2:', max_chars= 20, value=dados.get("prd_id2", "") if dados else "")
-        # # #     prd_id3 = st.text_input('ID #3:', max_chars= 20, value=dados.get("prd_id3", "") if dados else "")   
 
 
-# # texto1 = 'Inserir ponto de bolha referencial aqui'
-#         # st.info(f'\n###### :point_right: {texto1}')
-#         st.markdown('<div style="text-align: center;"><h5>Teste de Integridade - PRODUTO</h5></div>', unsafe_allow_html=True)
-#         col1, col2, col3 = st.columns(3)
-#         with col1:
-#             pb_refproduto = st.number_input('PB Referencial (psi):', format=format_1casa, 
-#                                             value=float(dados.get("pi_memb_1", 0.0)) if dados else 0.0, 
-#                                             help= 'Usar teste Referencial', step=0.1)
-#         with col2:
-#             prd_res1 = st.number_input('PB-P #1', format=format_1casa, step=0.1, 
-#                                         value=float(dados.get("prd_res1", 0.0)) if dados else 0.0)  
-#             prd_res2 = st.number_input('PB-P #2', format=format_1casa, step=0.1, 
-#                                         value=float(dados.get("prd_res2", 0.0)) if dados else 0.0)
-#             prd_res3 = st.number_input('PB-P #3', format=format_1casa, step=0.1, 
-#                                         value=float(dados.get("prd_res3", 0.0)) if dados else 0.0)
-#         with col3:
-#             prd_id1 = st.text_input('ID #1:', max_chars= 20, value=dados.get("prd_id1", "") if dados else "")  
-#             prd_id2 = st.text_input('ID #2:', max_chars= 20, value=dados.get("prd_id2", "") if dados else "")
-#             prd_id3 = st.text_input('ID #3:', max_chars= 20, value=dados.get("prd_id3", "") if dados else "") 
-
-
-    # wfif_id1 = ''
-    # wfif_id2 = ''
-    # wfif_id3 = ''
-    # wfif_res1 = 0.0 
-    # wfif_res2 = 0.0
-    # wfif_res3 = 0.0
-    # pb_refproduto = 0.0
-
-
-        
     # st.markdown('<div style="text-align: center;"><h3>Teste de Integridade - Dispositivo</h3></div>', unsafe_allow_html=True) 
     st.markdown(':orange-background[Etapa 8 - Aferiçao de Massa Final]')
     container8 = st.container(border=True)

@@ -51,20 +51,7 @@ def Previsao_Relat(dados):
    
     # Critério : < 10 %
     criterio_peso = dados['crit_var_peso']
-    # if var_peso_perc_memb_1 <= criterio_peso:
-    #     var_peso_result_mem_1 = 'Peso 1 - APROVADA' # 0.0 #'Aprovado'
-    # else:
-    #     var_peso_result_mem_1 = 'Peso 1 - REPROVADA' # 1.0 #'Reprovado'    	
-   
-    # if var_peso_perc_memb_2 <= criterio_peso:
-    #     var_peso_result_mem_2 = 'Peso 2 - APROVADA'
-    # else:
-    #     var_peso_result_mem_2 = 'Peso 2 - REPROVADA'
-    
-    # if var_peso_perc_memb_3 <= criterio_peso:
-    #     var_peso_result_mem_3 = 'Peso 3 - APROVADA'
-    # else:
-    #     var_peso_result_mem_3 = 'Peso 3 - REPROVADA'
+
     var_peso_result_mem_1 = '     Peso 1     '
     var_peso_result_mem_2 = '     Peso 2     '
     var_peso_result_mem_3 = '     Peso 3     '
@@ -88,18 +75,7 @@ def Previsao_Relat(dados):
 
     # Critério : < 10 %
     criterio_vazao = dados['crit_var_vazao']
-    # if var_vazao_perc_memb_1 <= criterio_vazao:
-    #     var_vazao_result_mem_1 = 'Membrana 1 - APROVADA' # 0.0 #'Aprovado'
-    # else:
-    #     var_vazao_result_mem_1 = 'Membrana 1 - REPROVADA' # 1.0 #'Reprovado'  
-    # if var_vazao_perc_memb_2 <= criterio_vazao:
-    #     var_vazao_result_mem_2 = 'Membrana 2 - APROVADA' # 0.0 #'Aprovado'
-    # else:
-    #     var_vazao_result_mem_2 = 'Membrana 2 - REPROVADA' # 1.0 #'Reprovado'
-    # if var_vazao_perc_memb_3 <= criterio_vazao:
-    #     var_vazao_result_mem_3 = 'Membrana 1 - APROVADA' # 0.0 #'Aprovado'
-    # else:
-    #     var_vazao_result_mem_3 = 'Membrana 1 - REPROVADA' # 1.0 #'Reprovado'        
+        
     var_vazao_result_mem_1 = '    Fluxo 1    '
     var_vazao_result_mem_2 = '    Fluxo 2    '
     var_vazao_result_mem_3 = '    Fluxo 3    '
@@ -116,7 +92,6 @@ def Previsao_Relat(dados):
         'RPB Membrana 1': str(round(rpb_membr_1,6)),
         'RPB Membrana 2': str(round(rpb_membr_2,6)),
         'RPB Membrana 3': str(round(rpb_membr_3,6)),
-        # 'Média RPB': str(round(rpb_media,5)),
         'RPBG': str(round(rpb_media,5)),
         'PB Estimado': str(round(pb_estimado,1)),
         'PB Padrão': dados['pb_padraowfi'],
@@ -128,7 +103,6 @@ def Previsao_Relat(dados):
         'ResultadoP Membrana 2': var_peso_result_mem_2,
         '% Variação Peso - Membrana 3': str(round(var_peso_perc_memb_3,1)) + '%',
         'ResultadoP Membrana 3': var_peso_result_mem_3,
-        # 'Média % Variação Peso': str(round(var_peso_media,2)) + '%',
         'Média % Peso': str(round(var_peso_media,2)) + '%',
         'Status Peso': status_peso,
 
@@ -141,7 +115,6 @@ def Previsao_Relat(dados):
         'ResultadoV Membrana 2': var_vazao_result_mem_2,
         '% Variação Vazao - Membrana 3': str(round(var_vazao_perc_memb_3,1)) + '%',
         'ResultadoV Membrana 3': var_vazao_result_mem_3,
-        #'Média % Variação Vazão': str(round(var_vazao_media,2)) + '%',
         'Média % Fluxo': str(round(var_vazao_media,2)) + '%',
         'Status Fluxo': status_fluxo,
         
@@ -183,40 +156,4 @@ def corrige_formato_dthr(data_str):
     # 3. Se tudo falhar, retorna original
     return data_str
 
-
-import streamlit as st
-import pandas as pd
-
-# Dados de exemplo
-df = pd.DataFrame({
-    "Nome": ["Ana", "Bruno", "Carlos"],
-    "Nota": [8.5, 5.2, 9.1]
-})
-
-# # Estilo CSS: cabeçalho em laranja, dados em cinza claro
-# st.markdown("""
-# <style>
-# .custom-table thead th {
-#     background-color: orange;
-#     color: white;
-#     text-align: center;
-#     padding: 8px;
-#     border: 1px solid #ddd;
-# }
-# .custom-table tbody td {
-#     background-color: #f9f9f9;
-#     color: black;
-#     text-align: center;
-#     padding: 8px;
-#     border: 1px solid #ddd;
-# }
-# .custom-table {
-#     border-collapse: collapse;
-#     width: 100%;
-# }
-# </style>
-# """, unsafe_allow_html=True)
-
-# # Renderização HTML da tabela
-# st.markdown(df.to_html(classes='custom-table', index=False), unsafe_allow_html=True)
 

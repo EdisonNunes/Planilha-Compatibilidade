@@ -88,10 +88,6 @@ if st.session_state.aba == "Listar":
         df["Selecionar"] = False
         df["id"] = df["id"].astype(str)
 
-        # if st.session_state.cliente_selecionado:
-        #     for i, row in df.iterrows():
-        #         if row["id"] == st.session_state.cliente_selecionado.get("id"):
-        #             df.at[i, "Selecionar"] = True
 
         resultado = st.data_editor(df,
                     use_container_width=True,
