@@ -248,13 +248,16 @@ def formulario_padrao(dados=None, combo_clientes=None):
     with container3:
         col1, col2, col3 = st.columns(3)   
         with col1:  
-            lote1 = st.text_input('Lote #1:', max_chars= 10, value=dados.get("lote1", "") if dados else "") 
+            lotem1 = st.text_input('Lote Membrana #1:', max_chars= 10, value=dados.get("lotem1", "") if dados else "") 
+            lotes1 = st.text_input('Lote Serial #1:', max_chars= 10, value=dados.get("lotes1", "") if dados else "") 
             cat_disp = st.text_input('Catálogo do Dispositivo:', max_chars= 12, value=dados.get("cat_disp", "") if dados else "") 
         with col2:  
-            lote2 = st.text_input('Lote #2:', max_chars= 10, value=dados.get("lote2", "") if dados else "") 
+            lotem2 = st.text_input('Lote Membrana #2:', max_chars= 10, value=dados.get("lotem2", "") if dados else "") 
+            lotes2 = st.text_input('Lote Serial #2:', max_chars= 10, value=dados.get("lotes2", "") if dados else "")
             lote_disp = st.text_input('Lote do Dispositivo:', max_chars= 10, value=dados.get("lote_disp", "") if dados else "")
         with col3:  
-            lote3 = st.text_input('Lote #3:', max_chars= 10, value=dados.get("lote3", "") if dados else "") 
+            lotem3 = st.text_input('Lote Membrana #3:', max_chars= 10, value=dados.get("lotem3", "") if dados else "") 
+            lotes3 = st.text_input('Lote Serial #3:', max_chars= 10, value=dados.get("lotes3", "") if dados else "")
             serial_cat_disp = st.text_input('Serial Dispositivo:', max_chars= 6, 
                                             value=dados.get("serial_cat_disp", "") if dados else "")    
 
@@ -506,9 +509,12 @@ def formulario_padrao(dados=None, combo_clientes=None):
         "produto": produto,
         'lote':lote,
         'volume':volume,
-        'lote1':lote1,
-        'lote2':lote2,
-        'lote3':lote3,
+        'lotem1':lotem1,
+        'lotem2':lotem2,
+        'lotem3':lotem3,
+        'lotes1':lotes1,
+        'lotes2':lotes2,
+        'lotes3':lotes3,
         'cat_disp':cat_disp,
         'lote_disp':lote_disp,
         'serial_cat_disp':serial_cat_disp,

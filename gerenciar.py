@@ -137,12 +137,18 @@ def ShowWarning(dados):
     if dados['volume'] == '' : 
         dict_warning['Volume']= 'Etapa 2'
 
-    if dados['lote1'] == '' : 
-        dict_warning['Lote #1']= 'Etapa 3'
-    if dados['lote2'] == '' : 
-        dict_warning['Lote #2']= 'Etapa 3'
-    if dados['lote3'] == '' : 
-        dict_warning['Lote #3']= 'Etapa 3'
+    if dados['lotem1'] == '' : 
+        dict_warning['Lote Membrana #1']= 'Etapa 3'
+    if dados['lotem2'] == '' : 
+        dict_warning['Lote Membrana  #2']= 'Etapa 3'
+    if dados['lotem3'] == '' : 
+        dict_warning['Lote Membrana  #3']= 'Etapa 3'
+    if dados['lotes1'] == '' : 
+        dict_warning['Lote Serial #1']= 'Etapa 3'
+    if dados['lotes2'] == '' : 
+        dict_warning['Lote Serial #2']= 'Etapa 3'
+    if dados['lotes3'] == '' : 
+        dict_warning['Lote Serial #3']= 'Etapa 3'
     if dados['cat_disp'] == '' : 
         dict_warning['Catálogo do Dispositivo']= 'Etapa 3'
     if dados['lote_disp'] == '' : 
