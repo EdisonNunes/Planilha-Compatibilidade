@@ -381,7 +381,17 @@ if st.session_state.aba == "Listar":
                 registro_completo = next((r for r in listar_todos_registros() if r["id"] == id_sel), None)
                 if registro_completo:
                     df_sel = pd.DataFrame([registro_completo])
-                    # csv_bytes = df_sel.to_csv(index=False, sep=';').encode("utf-8")
+                    # Sim — dá para usar um caractere invisível para que o Excel continue interpretando como texto, 
+                    # mas sem que apareça algo visível no resultado.
+                    # O truque é usar um caractere de largura zero (Zero-Width Space — \u200B) ou um tabulação oculta (\t) 
+                    # antes do valor.
+                    for campo in ['wfi_id1','wfi_id2','wfi_id3',
+                                  'prd_id1','prd_id2','prd_id3',
+                                  'wfif_id1','wfif_id2','wfif_id3'
+                                  ]:
+                        if campo in df_sel.columns:
+                            df_sel[campo] = df_sel[campo].apply(lambda x: f"\u200B{x}" if pd.notnull(x) and x != '' else '')
+
                     csv_bytes = ('\ufeff' + df_sel.to_csv(index=False, sep=';')).encode("utf-8")
                     st.download_button("📁 Baixar CSV (1 item completo)", data=csv_bytes, 
                                        file_name=f"{registro_completo['relatorio']}.csv", mime="text/csv")

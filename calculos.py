@@ -73,6 +73,23 @@ def Previsao_Relat(dados):
     var_vazao_perc_memb_3 = abs((inic_3 - final_3 ) / inic_3) * 100
     var_vazao_media = (var_vazao_perc_memb_1 + var_vazao_perc_memb_2 + var_vazao_perc_memb_3) / 3
 
+# --------------------------------------------------------------------
+    # print('inic_1= ', inic_1)
+    # print('inic_2= ', inic_2)
+    # print('inic_3= ', inic_3)
+
+    # print('final_1= ', final_1)
+    # print('final_2= ', final_2)
+    # print('final_3= ', final_3)
+
+    # print('var_vazao_perc_memb_1= ', var_vazao_perc_memb_1)
+    # print('var_vazao_perc_memb_2= ', var_vazao_perc_memb_2)
+    # print('var_vazao_perc_memb_3= ', var_vazao_perc_memb_3)
+    # print('var_vazao_media= ', var_vazao_media)
+
+# --------------------------------------------------------------------
+
+
     # Critério : < 10 %
     criterio_vazao = dados['crit_var_vazao']
         
