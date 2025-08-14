@@ -73,26 +73,31 @@ def Previsao_Relat(dados):
     # var_vazao_perc_memb_2 = abs((inic_2 - final_2 ) / inic_2) * 100
     # var_vazao_perc_memb_3 = abs((inic_3 - final_3 ) / inic_3) * 100
     # var_vazao_media = (var_vazao_perc_memb_1 + var_vazao_perc_memb_2 + var_vazao_perc_memb_3) / 3
-    fator_inic1 = 60 * 100 / inic_1
-    fator_inic2 = 60 * 100 / inic_2
-    fator_inic3 = 60 * 100 / inic_3
 
-    fator_final1 = 60 * 100 / final_1
-    fator_final2 = 60 * 100 / final_2
-    fator_final3 = 60 * 100 / final_3
-    var_vazao_perc_memb_1 = abs((fator_inic1 - fator_final1 ) / fator_inic1) * 100
-    var_vazao_perc_memb_2 = abs((fator_inic2 - fator_final2 ) / fator_inic2) * 100
-    var_vazao_perc_memb_3 = abs((fator_inic3 - fator_final3 ) / fator_inic3) * 100
+    # Volume referencial = 100 ml
+    # fator = ml / min
+    # tempo medido ------- 100 ml
+    # 60 segundos  ------- vazao
+    vazao_inic1 = 60 * 100 / inic_1
+    vazao_inic2 = 60 * 100 / inic_2
+    vazao_inic3 = 60 * 100 / inic_3
+
+    vazao_final1 = 60 * 100 / final_1
+    vazao_final2 = 60 * 100 / final_2
+    vazao_final3 = 60 * 100 / final_3
+    var_vazao_perc_memb_1 = abs((vazao_inic1 - vazao_final1 ) / vazao_inic1) * 100
+    var_vazao_perc_memb_2 = abs((vazao_inic2 - vazao_final2 ) / vazao_inic2) * 100
+    var_vazao_perc_memb_3 = abs((vazao_inic3 - vazao_final3 ) / vazao_inic3) * 100
     var_vazao_media = (var_vazao_perc_memb_1 + var_vazao_perc_memb_2 + var_vazao_perc_memb_3) / 3
 
 # --------------------------------------------------------------------
-    # print('fator_inic1= ', fator_inic1)
-    # print('fator_inic2= ', fator_inic2)
-    # print('fator_inic3= ', fator_inic3)
+    # print('vazao_inic1= ', vazao_inic1)
+    # print('vazao_inic2= ', vazao_inic2)
+    # print('vazao_inic3= ', vazao_inic3)
 
-    # print('fator_final1= ', fator_final1)
-    # print('fator_final2= ', fator_final2)
-    # print('fator_final3= ', fator_final3)
+    # print('vazao_final1= ', vazao_final1)
+    # print('vazao_final2= ', vazao_final2)
+    # print('vazao_final3= ', vazao_final3)
 
     # print('var_vazao_perc_memb_1= ', var_vazao_perc_memb_1)
     # print('var_vazao_perc_memb_2= ', var_vazao_perc_memb_2)
@@ -135,8 +140,8 @@ def Previsao_Relat(dados):
         'RPB Membrana 1': str(round(rpb_membr_1,6)),
         'RPB Membrana 2': str(round(rpb_membr_2,6)),
         'RPB Membrana 3': str(round(rpb_membr_3,6)),
-        'RPBG': str(round(rpb_media,5)),
-        'PB Estimado': str(round(pb_estimado,1)),
+        'RPB': str(round(rpb_media,5)),
+        'PB Estimado (PBMe)': str(round(pb_estimado,1)),
         'PB Padrão': dados['pb_padraowfi'],
 
         '% Variação Peso - Membrana 1': str(round(var_peso_perc_memb_1,1)) + '%',
@@ -146,7 +151,7 @@ def Previsao_Relat(dados):
         'ResultadoP Membrana 2': var_peso_result_mem_2,
         '% Variação Peso - Membrana 3': str(round(var_peso_perc_memb_3,1)) + '%',
         'ResultadoP Membrana 3': var_peso_result_mem_3,
-        'Média % Peso': str(round(var_peso_media,2)) + '%',
+        'Perc Variação Massa (PVM)': str(round(var_peso_media,2)) + '%',
         'Status Peso': status_peso,
 
         'PB Referencial' : str(dados['pb_refproduto']),
@@ -158,7 +163,7 @@ def Previsao_Relat(dados):
         'ResultadoV Membrana 2': var_vazao_result_mem_2,
         '% Variação Vazao - Membrana 3': str(round(var_vazao_perc_memb_3,1)) + '%',
         'ResultadoV Membrana 3': var_vazao_result_mem_3,
-        'Média % Fluxo': str(round(var_vazao_media,2)) + '%',
+        'Perc Variação Vazão (PVV)': str(round(var_vazao_media,2)) + '%',
         'Status Fluxo': status_fluxo,
         
     }

@@ -232,7 +232,7 @@ def ShowRelatorio(novos_dados):
                     'ResultadoP Membrana 2',
                     'ResultadoP Membrana 3',
                     # 'Média % Variação Peso']]
-                    'Média % Peso',
+                    'Perc Variação Massa (PVM)',
                     'Status Peso']]
     
 
@@ -261,7 +261,7 @@ def ShowRelatorio(novos_dados):
                     'ResultadoV Membrana 2',
                     'ResultadoV Membrana 3', 
                     # 'Média % Variação Vazão']]
-                    'Média % Fluxo',
+                    'Perc Variação Vazão (PVV)',
                     'Status Fluxo']]
     
     Resultado_4 = df_VarVazao['ResultadoV Membrana 1'][0]
@@ -281,8 +281,8 @@ def ShowRelatorio(novos_dados):
     df_RPB = df[['RPB Membrana 1','RPB Membrana 2','RPB Membrana 3']]
     st.dataframe(df_RPB, hide_index=True)  
 
-    df_PBEstimado = df[['RPBG','PB Referencial','PB Estimado']]   
-    st.dataframe(df_PBEstimado, hide_index=True, use_container_width=False, width= 285 )  
+    df_PBEstimado = df[['RPB','PB Referencial','PB Estimado (PBMe)']]   
+    st.dataframe(df_PBEstimado, hide_index=True, use_container_width=False, width= 295 )  
     if novos_dados['pb_refproduto'] >= novos_dados['estimado']: # PB Referencial >= PB Estimado
         # t1 = f'{novos_dados["pb_refproduto"]}'
         # t2 = f'{novos_dados["estimado"]}'
