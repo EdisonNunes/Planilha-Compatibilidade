@@ -68,11 +68,38 @@ def Previsao_Relat(dados):
     final_2 = stringtime_para_seg(dados['flf_memb_2'])
     final_3 = stringtime_para_seg(dados['flf_memb_3'])
 
-    var_vazao_perc_memb_1 = abs((inic_1 - final_1 ) / inic_1) * 100
-    var_vazao_perc_memb_2 = abs((inic_2 - final_2 ) / inic_2) * 100
-    var_vazao_perc_memb_3 = abs((inic_3 - final_3 ) / inic_3) * 100
+
+    # var_vazao_perc_memb_1 = abs((inic_1 - final_1 ) / inic_1) * 100
+    # var_vazao_perc_memb_2 = abs((inic_2 - final_2 ) / inic_2) * 100
+    # var_vazao_perc_memb_3 = abs((inic_3 - final_3 ) / inic_3) * 100
+    # var_vazao_media = (var_vazao_perc_memb_1 + var_vazao_perc_memb_2 + var_vazao_perc_memb_3) / 3
+    fator_inic1 = 60 * 100 / inic_1
+    fator_inic2 = 60 * 100 / inic_2
+    fator_inic3 = 60 * 100 / inic_3
+
+    fator_final1 = 60 * 100 / final_1
+    fator_final2 = 60 * 100 / final_2
+    fator_final3 = 60 * 100 / final_3
+    var_vazao_perc_memb_1 = abs((fator_inic1 - fator_final1 ) / fator_inic1) * 100
+    var_vazao_perc_memb_2 = abs((fator_inic2 - fator_final2 ) / fator_inic2) * 100
+    var_vazao_perc_memb_3 = abs((fator_inic3 - fator_final3 ) / fator_inic3) * 100
     var_vazao_media = (var_vazao_perc_memb_1 + var_vazao_perc_memb_2 + var_vazao_perc_memb_3) / 3
 
+# --------------------------------------------------------------------
+    # print('fator_inic1= ', fator_inic1)
+    # print('fator_inic2= ', fator_inic2)
+    # print('fator_inic3= ', fator_inic3)
+
+    # print('fator_final1= ', fator_final1)
+    # print('fator_final2= ', fator_final2)
+    # print('fator_final3= ', fator_final3)
+
+    # print('var_vazao_perc_memb_1= ', var_vazao_perc_memb_1)
+    # print('var_vazao_perc_memb_2= ', var_vazao_perc_memb_2)
+    # print('var_vazao_perc_memb_3= ', var_vazao_perc_memb_3)
+    # print('var_vazao_media= ', var_vazao_media)
+
+# --------------------------------------------------------------------
 # --------------------------------------------------------------------
     # print('inic_1= ', inic_1)
     # print('inic_2= ', inic_2)
@@ -88,7 +115,6 @@ def Previsao_Relat(dados):
     # print('var_vazao_media= ', var_vazao_media)
 
 # --------------------------------------------------------------------
-
 
     # Critério : < 10 %
     criterio_vazao = dados['crit_var_vazao']

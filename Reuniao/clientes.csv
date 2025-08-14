@@ -1,0 +1,47 @@
+id,empresa,cnpj,cep,endereco,cidade,uf,contato,departamento,telefone,mobile,email
+7,Ache Laboratórios Farmacêuticos S/A,53.162.095/0001-06,04795-000,"AV DAS NACOES UNIDAS, 22428",São Paulo,SP,Leandro Silva,Instrumentação,11 5546-6756,,leandro.silva@ache.com.br
+36,ADV Farma,60.879.848/0001-64,13380-240,"Av. Ampélio Gazzetta, 4200",Nova Odessa,SP,Igor Piotto,Operações,(19) 3476-8550,(11) 99990-6643,igor.piotto@advfarma.com.br
+37,ANOVIS Ind. Farmacêuitca LTDA,19.426.695/0001-04,06785-300,"Av. Ibirama, 518",Taboão da Serra,SP,Laercio Alves Da Silva,Administrativo,(11) 9 4788-9968,(11) 9 4788-9968,laedsilva@anovis.com.br
+13,Apsen Farmaceutica S A,62.462.015/0001-29,04755-020,"R La Paz, 162 ",São Paulo,SP,Cleiton Ubiratan,Manutenção,11 5645-5204,,cleiton.leite@apsen.com.br
+40,Arese Pharma LTDA.,07.670.111/0001-54,13273-902,"Marginal A. Rod. Dom Pedro 1, 1081",Valinhos,SP,Fernanda Macarini,Produção,(11) 96750-6047,(19) 3829-6600,fernanda.macarini@arese.com.br
+8,Bimeda Brasil S.A.,00.328.741/0001-04,13190-000,"Rodovia Cônego Cyriaco Scaranello Pires, 421",Monte Mor,SP,Leticia B. Oliveira,Validação,19 38797400,,lberton@bimeda.com.br
+19,Boehringer Ingelhein do Brasil Quim.Farm. Ltda.,60.831.658/0021-10 ,06888-700,"Rdv Regis Bittencourt, 0 Km 286",Itapecerica,SP,Ana Clara Jesus,Manutenção,19 3745-6171 ,,ana_clara.silva_de_jesus.ext@boehringer-ingelheim.com
+39,Cellera Farmaceutica S.A.,33.173.097/0002-74,13347-310,"Alameda do Capovilla, 129",Indaiatuba,SP,Kleber Egidio,Engenharia,(11) 98527-0029,(11) 98527-0029,kleber.egidio@cellerafarma.com.br
+4,CEVA Saúde Animal S/A,07.086.487/0001-16,35675-000,"Rod Mg 050 Km 18,5",Juatuba,MG,Victor Silva,Validação,31 3537-4143,31 99177-7166,victor.silva@ceva.com
+24,CEVA - Sespo Indústria e Comércio Ltda,50.464.692/0001-05,13148-115,"Rua Manoel Joaquim Filho, 303",Paulínia,SP,Jose Lucas,Manutenção,(19) 3833-7719,,jose-lucas.souza@ceva.com
+16,Cristalia Latinofarma,60.084.456/0001-09,06711-270,"R Thomas Sepe, 489 Fr",Cotia,SP,Joyce R. Chagas,Garantia  Qualidade,(11) 4613-5895,,joyce.chagas@cristalia.com.br
+17,Cristalia Prod Quim Farm Ltda,044.734.671/0004-02 ,05359-001,"AV. NOSSA SENHORA ASSUNÇÃO, 574",São Paulo,SP,Paloma Ramalho,Garantia  Qualidade,11 3732-2377,11-3732 2299, paloma.ramalho@cristalia.com.br
+18,Cristália Produtos Químicos Farmacêuticos Ltda.,44.734.671/0001-51,13.974-900,"Rodovia Itapira-Lindóia , S/N - Km 14 ",Itapira,SP,Jaqueline A. Dionizio,DNP,(19) 3843-9471,(19) 3843-9530,jaqueline.dionizio@cristalia.com.br
+35,Cross Filter Brasil LTDA,00.281.679/0001-34,13050-066,"R. Das Azaleias, 110",São Paulo ,SP,Emilio Pasetti,Compras,(11) 2619-6766,(11) 98345-5807,vendastecnicas1@crossfilter.com.br
+9,Eurofarma Laboratórios S/A,61.190.096/0011-64,14095-000,"Av. Pres. Castelo Branco, 1385",Ribeirão Preto,SP,Maita Santos,Produção,16 3512-4900,16 3512-4900,maita.santos@eurofarma.com.br
+26,Eurofarma Laboratorios S/A - Itapevi,61.190.096/0008-69,06696-000,"Rod. Pres. Castelo Branco, S/n",Itapevi,SP,Marcelo Silva,BL5,(11) 4144-9500,R 9971,marcelo.dasilva@eurofarma.com
+23,Fabiani Saude Animal Ltda,15.741.848/0001-49,04730-050,"Rua Centro Africana, 219",São Paulo,SP,Adilson Querino,Calibração,(11) 2117-2337,(11) 2117-2337,adilson.querino@fabianisaudeanimal.com.br
+28,Farmace Industria Quim. Farma. Cearense Ltda,06.628.333/0001-46,63180-000,"Rod. Dr. Antônio Lírio Callou, S/N – KM 02",Barbalha,CE,Maxwell Cortez,Garantia  Qualidade,(88) 3532-7000 ,Ramal: 7088,maxwell.cortez@farmace.com.br
+3,Farmarin Industria E Comercio Ltda,58.635.830/0001-75,07140-000,"Rua Pedro de Toledo, 600 ",Guarulhos,SP,Davi Maia,Manutenção,11 2402-8800,11 94054-3971,david.maia@farmarin.com.br
+1,Fresenius Hemocare Ltda,49.601.107/0001-84,06855-690,"R. Roque Gonzáles, 128",Itapecerica,SP,Jakson Sebastiao,Manutenção,11 2183-8982,,Jakson.Sebastiao@fresenius-kabi.com
+10,Fresenius Kabi Brasil Ltda,49.324.221/0001-04,61700-000,"Rod Ce 040, 0 Km 10 ",Aquiraz,CE,Diassis Maciel,Manutenção,85 3421-6785,85 3421-6785,disssis.maciel@fresenius-kabi.com 
+6,Grifols Brasil Ltda.,02.513.899/0001-71,83607-430,"AV GIANNI AGNELLI, 1909",Campo Largo,PR,Everson S. de Andrade,Predução,41 3375-5450,41 9 8855-0451,everson.deandrade@grifols.com
+22,HALEX ISTAR INDUSTRIA FARMACEUTICA AS,01.571.702/0008-64,30200-302,"Rua Manoel Mavignier, 5000 ",Eusébio,CE,Francisco de A Silva,Manutenção,(85) 3878-0900, 985 099201-3276,francisco.maciel@halexistar.com.br
+14,Halex Istar Industria Farmaceutica Ltda,01.571.702/0001-98,74665-833,BR 153 S/N  Km 3 - QD A Lt. 01,Goiania ,GO,Lidiany Miranda ,Compras,11 3265-6500,11 3265-6500,lidiany.miranda@halexistar.com.br
+33,HIPOLABOR FARMACEUTICA LTDA,19.570.720/0007-06,39404-621,"Av. Das Industrias, 263",Montes Claros,MG,Davi Matos,Validação,(38) 9 8811-1049,(38) 9 8811-1049,gevl01.moc@hipolabor.com.br
+45,HIPOLABOR FARMACEUTICA LTDA,19.570.720/0007-06,39404-621,"Rodovia BR-262, Km 12,3",Sabará,MG,Davi Matos,Validação,(38) 9 8811-1049,(38) 9 8811-1049,gevl01.moc@hipolabor.com.br
+20,Ind Quimico Farm Cearense Ltda,06.628.333/0001-46,63180-000,RODOVIA DR. ANTONIO LIRIO CALLOUnS/N,Barbalha,CE,Leonardo Alves,Validação,88 3532-7082,,leonardo.validacao@farmace.com.br
+11,Inovat Indústria Farmacêutica Ltda,27.864.378/0001-90,07112-900,"Av. Pres. Tancredo de Almeida Neves, 1555",Guarulhos,SP,André Leonardo G.Moura,Instrumentação,11 2464-1405,11 2464-1757,algaspar@inovatlab.com.br
+15,Inst Tecnol Do Parana - Tecpar,77.964.393/0001-88,81350-010,"R Professor Algacyr Munhoz Mader, 3775",Curitiba,PR,Oswaldo Schreder,Dir. Industrial,41 3316-3073,41 3316-3073,oswaldo@tecpar.br
+21,Laboratil Farmacêutica Ltda.,47.100.862/0001-50,04810-050,Rua Anibal dos A. Carvalho,São Paulo,SP,Amélia Nogueira,Produção,(11) 4082-1904,(11) 4082-1900,anogueira@laboratil.com.br
+2,Lab Quim Farmac Do Exercito,10.266.175/0001-07,20911-015," R. Licínio Cardoso, 96",Rio de Janeiro,RJ,Ana Paula F. d Magalhães,Trat. Água,21 96675-8379,21 96411-6635,ana_dosanjos@yahoo.com.br
+5,Merial Saude Animal Ltda, 57.600.249/0017-12,13140-000, Rdv Dr Roberto Moreira,Paulínia,SP,Julio Martin,,,,
+41,Metal Limpo Conexões Santárias LTDA,04.386.988/0001-20,02188-070,"R. Srg. Jeter Augusto Pereira, 341",Pq. Novo Mundo,SP,Daniel Takamoto,Comercial,(11) 9 8257-5501,(11) 2207-7476,daniel@metallimpo.com.br
+25,Momenta Farmaceutica Ltda,14.806.008/0001-54,02911-000,"Rua Eneas Luis Carlos Barbanti, 216",São Paulo,SP,Guilherme B. Dos Santos ,Produção,(11)4081-6200,R 6105,guilherme.bsantos@momentafarma.com.br
+44,Natulab Laboratório S. A.,02.456.955/0001-83,44444-312,R. Jose Rocha Galvao,Salgadeira,BA,Fabio Holffmam,Validação,(75) 4444-4312,(75) 4444-4312,fabiohoffmann@natulab.com.br>
+46,NUTRIEX IND. DE NUTRACEUTICOS LTDA - ME,22.966.065/0001-29,74850-370,"ROD. BR-153,QUAD. AREA LOTE1",FAZ. BOTAFOGO,GO,Kassyus Santos,Validação,(62) 3272-8965,(62) 9520-7000,kassyus.silva@nutriex.com.br
+38,Oriontech Filtros Com. E Consultoria,32.862.400/0001-00,06803-290,Rua Solano Trindade,Embu das Artes,SP,Auro Wolff,Desenvolvimento,(11) 4557-0582,(11) 9 8553-0484,auro.wolff@oriontechfiltros.com.br
+12,Ouro Fino Agronegocio Ltda,57.624.462/0001-05,14.140-000,"V ANHANGUERA, SSP 330, S/N, KM 298",Cravinhos,SP,Rafael A. A. Luiz,Manutenção,16 3518-4175,16 3518-4175,Rafael.Luiz@ourofino.com
+32,Primaserv Inst. E montagem de equip. LTDA-ME,27.899.309/0001-11,03733-000,"Av. Tarumã, 664 SL04",São Paulo,SP,Renato,CEO,(11) 2958-0036,(11) 97320-9137,renato@primaservps.com.br
+43,SYNTECH RESEARCH LABORATORIO BRASIL LTDA,24 950 006 0001-98,04057-000,Av. José Maria Whitaker,São Paulo,SP,Debora A. Pereira,Operações,(11) 4302-2883,(15) 9 9694-2999,debora.alves@syntechresearch.com
+29,Trouw Nutrition Brasil Nutricao Animal Ltda,03.022.008/0001-47,15132-112,"Av Pino Vendramini, 1550",Mirassol,SP,Lucas O. Assis,Compras CAPEX,,,lucas.assis@trouwnutrition.com
+27,União Quimica Internacional LTDA,56.990.534/0001-67,04708-010,Cancioneiro de Évora N° 355,São Paulo,SP,Jorge Sampaio,Produção,11 99165-7699,11 99165-7699,Jsampaio@uniaoquimica.com.br
+34,Unimed de Araraquara Cooperativa de Trab.,45.272.366/0015-53,14802-412,"Rua Major Carvalho Filho, 1550",Araraquara,SP,Cláudia,Compras,(16) 9 9605-2349,(16) 9 9605-2349,ccoliveira@unimedara.com.br
+31,UNIMED de Lins Cooperativa de Trab. Médico,71.695.746/0003-77,16400-472,"Rua Luiz Gama, 1677",JD. Arapuã,SP,Renato Silva,Manutenção,(14) 3533-4834,(14) 3533-4834,manutencao@unimedlins.com.br
+42,WATERPURE SIST. TRATAMENTO DE ÁGUA LTDA,05.742.680/0001-32,06709-450,Rua Sítio do Ribeirão n° 523,Cotia,SP,Wellington Novaes,Comercial,(11) 4777-1551,(11) 9 8923-1551,wellington@waterpure.com.br
+30,WORKING SERVIÇOS HOSPITALARES LTDA - ME,19.524.342/0001-39,03727 - 080,"Rua Souto Soares, 140",São Paulo,SP,Jefferson,Comercial,(11) 2625-21164,(11) 3533-1606,administrativo@workingservicos.com
