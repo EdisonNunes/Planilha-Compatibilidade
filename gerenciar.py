@@ -51,30 +51,30 @@ def DadosVazios(dados) -> int:
         erro =  6
     elif dados['wfi_res3'] == 0.0:      # Fluido Padrão Resultado #3 0.0
         erro =  7
-    elif dados['pb_refproduto'] == 0.0:      # PB Referencial (psi)
-        erro =  8
+    # elif dados['pb_refproduto'] == 0.0:      # PB Referencial (psi)
+    #     erro =  8
     elif dados['prd_res1'] == 0.0:      # Fluido Padrão Resultado #1
         erro =  9
     elif dados['prd_res2'] == 0.0:      # Fluido Padrão Resultado #2
         erro =  10
     elif dados['prd_res3'] == 0.0:      # Fluido Padrão Resultado #3
         erro =  11
-    elif dados['wfif_res1'] == 0.0:     # Fluido Padrão final Resultado #1 0.0
-        erro =  12
-    elif dados['wfif_res2'] == 0.0:     # Fluido Padrão final Resultado #2 0.0
-        erro =  13
-    elif dados['wfif_res3'] == 0.0:     # Fluido Padrão final Resultado #3 0.0
-        erro =  14
+    # elif dados['wfif_res1'] == 0.0:     # Fluido Padrão final Resultado #1 0.0
+    #     erro =  12
+    # elif dados['wfif_res2'] == 0.0:     # Fluido Padrão final Resultado #2 0.0
+    #     erro =  13
+    # elif dados['wfif_res3'] == 0.0:     # Fluido Padrão final Resultado #3 0.0
+    #     erro =  14
     elif dados['pf_memb_1'] == 0.0:      # Peso Final #1 0.000
         erro =  15   
     elif dados['pf_memb_2'] == 0.0:      # Peso Final #2 0.000
         erro =  16
     elif dados['pf_memb_3'] == 0.0:      # Peso Final #3 0.000
         erro =  17 
-    elif dados['dis_res1'] == 0.0:      # Resultado PRD#1
-        erro =  18  
-    elif dados['dis_res2'] == 0.0:      # Resultado PRD#2
-        erro =  19
+    # elif dados['dis_res1'] == 0.0:      # Resultado PRD#1
+    #     erro =  18  
+    # elif dados['dis_res2'] == 0.0:      # Resultado PRD#2
+    #     erro =  19
     elif dados['crit_var_peso'] == 0.0:  #Critério Variação Peso 0.0
         erro =  20                                                       
     elif dados['crit_var_vazao'] == 0.0: # Critério Variação Vazão 0.0
@@ -94,7 +94,7 @@ def DadosVazios(dados) -> int:
 
     return erro
 
-def ShowWarning(dados):    
+def ShowWarning(dados, condicao):    
 
     # Variaveis string que não necessariamente deverão ser preenchidas
     dict_warning = {}
@@ -190,6 +190,9 @@ def ShowWarning(dados):
     if dados['dis_id2'] == '' : 
         dict_warning['ID #2 - Dispositivo']= 'Etapa 9'
 
+    if condicao  == False:
+        dict_warning['Data Final anterior a Data Inicial']= 'Etapa 5'  
+
     return dict_warning
 
 def Salva_Planilha(dados, resultado, status):
@@ -283,14 +286,16 @@ def ShowRelatorio(novos_dados):
 
     df_PBEstimado = df[['RPB','PB Referencial','PB Estimado (PBMe)']]   
     st.dataframe(df_PBEstimado, hide_index=True, use_container_width=False, width= 295 )  
-    if novos_dados['pb_refproduto'] >= novos_dados['estimado']: # PB Referencial >= PB Estimado
-        # t1 = f'{novos_dados["pb_refproduto"]}'
-        # t2 = f'{novos_dados["estimado"]}'
-        st.info('### :point_right:   APROVADO')
-        # st.info(t1)
-        # st.info(t2)
-    else:    
-        st.warning('#### :warning: PB Produto abaixo do valor esperado')
+
+    # Retirado na versão 5.00
+    # if novos_dados['pb_refproduto'] >= novos_dados['estimado']: # PB Referencial >= PB Estimado
+    #     # t1 = f'{novos_dados["pb_refproduto"]}'
+    #     # t2 = f'{novos_dados["estimado"]}'
+    #     st.info('### :point_right:   APROVADO')
+    #     # st.info(t1)
+    #     # st.info(t2)
+    # else:    
+    #     st.warning('#### :warning: PB Produto abaixo do valor esperado')
     
       
 # Interface de listagem
@@ -438,16 +443,17 @@ if st.session_state.aba == "Listar":
 if st.session_state.aba == "Incluir":
     st.subheader("Incluir Nova Planilha")
 
-    novos_dados = formulario_padrao(dados=None, combo_clientes=ComboBoxClientes())
-
+    novos_dados, dataOK = formulario_padrao(dados=None, combo_clientes=ComboBoxClientes())
 
     desabilita_botoes = st.session_state.get("exibir_alerta", False)
     col1, col2, col3 = st.columns(3)
     with col1:
-        submitted_parcial = st.button("💾 Salvar Parcial", disabled=desabilita_botoes)
+        #submitted_parcial = st.button("💾 Salvar Parcial", disabled=desabilita_botoes)
+        submitted_parcial = st.button("💾 Salvar Parcial", disabled=True)
     with col2:
         disabilita = False
-        submitted_verify = st.button("📄 Ver Relatório", disabled=desabilita_botoes)
+        #submitted_verify = st.button("📄 Ver Relatório", disabled=desabilita_botoes)
+        submitted_verify = st.button("📄 Ver Relatório", disabled=True)
     with col3:
         submitted_return = st.button("🔙 Voltar", disabled=desabilita_botoes)
 
@@ -455,7 +461,7 @@ if st.session_state.aba == "Incluir":
         try:
             erro = DadosVazios(novos_dados)
             if erro == 0:
-                dict_warning = ShowWarning(novos_dados)
+                dict_warning = ShowWarning(novos_dados, True)
                 if dict_warning:
                     st.session_state.campos_incompletos = dict_warning
                     st.session_state.novos_dados_cache = novos_dados
@@ -534,14 +540,16 @@ if st.session_state.aba == "Alterar":
                 st.session_state.aba = "Listar"
                 st.rerun()
         else:
-            novos_dados = formulario_padrao(dados=registro, combo_clientes=ComboBoxClientes())
+            novos_dados, dataOK = formulario_padrao(dados=registro, combo_clientes=ComboBoxClientes())
 
             desabilita_botoes_alterar = st.session_state.get("exibir_alerta_alterar", False)
             col1, col2, col3 = st.columns(3)
             with col1:
-                submitted = st.button("💾 Salvar Alterações", disabled=desabilita_botoes_alterar)
+                #submitted = st.button("💾 Salvar Alterações", disabled=desabilita_botoes_alterar)
+                submitted = st.button("💾 Salvar Alterações", disabled=True)
             with col2:
-                verify2 = st.button("📄 Ver Relatório", disabled=desabilita_botoes_alterar)
+                # verify2 = st.button("📄 Ver Relatório", disabled=desabilita_botoes_alterar)
+                verify2 = st.button("📄 Ver Relatório", disabled=True)
             with col3:
                 voltar1 = st.button("🔙 Retornar", disabled=desabilita_botoes_alterar)
 
@@ -549,7 +557,7 @@ if st.session_state.aba == "Alterar":
                 try:
                     erro = DadosVazios(novos_dados)
                     if erro == 0:
-                        dict_warning = ShowWarning(novos_dados)
+                        dict_warning = ShowWarning(novos_dados, dataOK)
 
                         if dict_warning:
                             st.session_state.campos_incompletos = dict_warning
@@ -594,7 +602,7 @@ if st.session_state.aba == "Alterar":
 
     # ✅ FORA DO FORM — ALERTA DE CAMPOS PENDENTES NA ALTERAÇÃO
     if st.session_state.get("exibir_alerta_alterar"):
-        st.warning("⚠️ Existem campos obrigatórios não preenchidos. Deseja salvar mesmo assim?", icon="⚠️")
+        st.warning(" Existem campos obrigatórios não preenchidos. Deseja salvar mesmo assim?", icon="⚠️")
 
         for campo, etapa in st.session_state.campos_incompletos.items():
             st.markdown(f"- ❌ **{campo}** ({etapa})")

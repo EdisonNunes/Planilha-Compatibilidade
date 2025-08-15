@@ -68,6 +68,7 @@ def Previsao_Relat(dados):
     final_2 = stringtime_para_seg(dados['flf_memb_2'])
     final_3 = stringtime_para_seg(dados['flf_memb_3'])
 
+    volume_ref = dados['volume_ref']
 
     # var_vazao_perc_memb_1 = abs((inic_1 - final_1 ) / inic_1) * 100
     # var_vazao_perc_memb_2 = abs((inic_2 - final_2 ) / inic_2) * 100
@@ -78,9 +79,9 @@ def Previsao_Relat(dados):
     # fator = ml / min
     # tempo medido ------- 100 ml
     # 60 segundos  ------- vazao
-    vazao_inic1 = 60 * 100 / inic_1
-    vazao_inic2 = 60 * 100 / inic_2
-    vazao_inic3 = 60 * 100 / inic_3
+    vazao_inic1 = 60 * volume_ref / inic_1
+    vazao_inic2 = 60 * volume_ref / inic_2
+    vazao_inic3 = 60 * volume_ref / inic_3
 
     vazao_final1 = 60 * 100 / final_1
     vazao_final2 = 60 * 100 / final_2

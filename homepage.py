@@ -11,7 +11,7 @@ if 'username' in sessao_usuario:
 coluna_esquerda, coluna_direita = st.columns([1,1.5]) # Cria 2 colunas e a segunda é 50% maior que a primeira
 
 coluna_esquerda.title('SA SOLUTIONS')
-coluna_esquerda.markdown('Versão 4.16') 
+coluna_esquerda.markdown('Versão 5.00') 
 if nome_usuario:
     coluna_esquerda.write(f'#### Bem vindo, {nome_usuario}')  # markdown
 
