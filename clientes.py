@@ -1,6 +1,6 @@
 import streamlit as st
 from supabase import create_client, Client
-import uuid
+# import uuid
 import os
 import pandas as pd
 
@@ -30,7 +30,7 @@ def alternar_modo():
     st.session_state.modo = "registro" if st.session_state.modo == "login" else "login"
 
 def listar_clientes(filtro_empresa=""):
-    query = supabase.table("Clientes").select("id, empresa, cidade, telefone, contato")
+    query = supabase.table("clientes").select("id, empresa, cidade, telefone, contato")
     if filtro_empresa:
         query = query.filter("empresa", "ilike", f"%{filtro_empresa}%")
     query = query.order("empresa", desc=False)
@@ -38,24 +38,24 @@ def listar_clientes(filtro_empresa=""):
     return response.data
 
 def listar_todos_dados_clientes():
-    query = supabase.table("Clientes").select("*").order("empresa", desc=False)
+    query = supabase.table("clientes").select("*").order("empresa", desc=False)
     response = query.execute()
     # print(response.data)
     return response.data
 
 def incluir_cliente(dados):
-    existe = supabase.table("Clientes").select("*") \
+    existe = supabase.table("clientes").select("*") \
         .eq("empresa", dados["empresa"]).eq("cidade", dados["cidade"]).execute()
     if existe.data:
         raise ValueError("Já existe um cliente com essa empresa e cidade.")
-    dados["id"] = uuid.uuid4().int >> 64
-    supabase.table("Clientes").insert(dados).execute()
+    # dados["id"] = uuid.uuid4().int >> 64
+    supabase.table("clientes").insert(dados).execute()
 
 def alterar_cliente(id, dados):
-    supabase.table("Clientes").update(dados).eq("id", id).execute()
+    supabase.table("clientes").update(dados).eq("id", id).execute()
 
 def excluir_cliente(id):
-    supabase.table("Clientes").delete().eq("id", id).execute()
+    supabase.table("clientes").delete().eq("id", id).execute()
 
 def exportar_clientes_para_csv():
     clientes = listar_todos_dados_clientes()
@@ -90,7 +90,7 @@ if st.session_state.aba == "Listar":
                     use_container_width=True,
                     hide_index=True,
                     column_order=["Selecionar"] + [col for col in df.columns if col not in ("Selecionar", "id")],
-                    key="tabela_clientes",
+                    # key="tabela_clientes",
                     num_rows="dynamic")
 
 
@@ -162,14 +162,19 @@ elif st.session_state.aba == "Incluir":
             "mobile": st.text_input("Celular"),
             "email": st.text_input("Email"),
         }
-        submitted = st.form_submit_button("Incluir")
-        voltar_inc = st.form_submit_button("Voltar sem incluir")
+        col1, col2 = st.columns(2)
+        with col1:
+            submitted = st.form_submit_button("Incluir")
+        with col2:    
+            voltar_inc = st.form_submit_button("Voltar sem incluir")
         if submitted:
             try:
                 incluir_cliente(dados)
                 st.success("Cliente incluído com sucesso!")
             except ValueError as e:
                 st.error(str(e))
+            st.session_state.aba = "Listar"
+            st.rerun()
         if voltar_inc:
                 # print('Voltar sem incluir')
                 st.session_state.aba = "Listar"
@@ -195,15 +200,21 @@ elif st.session_state.aba == "Alterar":
                 "mobile": st.text_input("Celular", value=cliente.get("mobile", "")),
                 "email": st.text_input("Email", value=cliente.get("email", "")),
             }
-            submitted = st.form_submit_button("Salvar Alterações")
-            voltar = st.form_submit_button("Voltar sem alterar")
-            if submitted:
+            col1, col2 = st.columns(2)
+            with col1:
+                submitted_alter = st.form_submit_button("Salvar Alterações")
+            with col2:    
+                voltar_alter = st.form_submit_button("Voltar sem Alterar")
+          
+            if submitted_alter:
                 try:
                     alterar_cliente(cliente["id"], dados)
                     st.success("Cliente alterado com sucesso!")
                 except ValueError as e:
                     st.error(str(e))
-            if voltar:
+                st.session_state.aba = "Listar"   
+                st.rerun() 
+            if voltar_alter:
                 st.session_state.aba = "Listar"
                 st.rerun()        
 
@@ -214,12 +225,15 @@ elif st.session_state.aba == "Excluir":
 
     if cliente:
         st.write(f"Deseja realmente excluir o cliente: {cliente['empresa']} Filial : {cliente['cidade']}?")
-        if st.button("Excluir Cliente"):
-            excluir_cliente(cliente["id"])
-            st.success("Cliente excluído com sucesso!")
-            st.session_state.cliente_selecionado = None
-            st.rerun()
-
-    if st.button("Voltar sem excluir"):
-        st.session_state.aba = "Listar"
-        st.rerun()
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("Excluir Cliente"):
+                excluir_cliente(cliente["id"])
+                st.success("Cliente excluído com sucesso!")
+                st.session_state.cliente_selecionado = None
+                st.session_state.aba = "Listar"
+                st.rerun()
+        with col2:
+            if st.button("Voltar sem excluir"):
+                st.session_state.aba = "Listar"
+                st.rerun()

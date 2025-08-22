@@ -1,6 +1,8 @@
+# https://streamlit-emoji-shortcodes-streamlit-app-gwckff.streamlit.app/
+
 import streamlit as st
 from supabase import create_client, Client
-import uuid
+# import uuid
 import pandas as pd
 from Base import *
 # from BaseComDefault import *
@@ -8,8 +10,6 @@ from data_loader import *
 from datetime import datetime
 
 # Inicialização do cliente Supabase
-
-
 supabase_url = st.secrets['supabase']['SUPABASE_URL']
 supabase_key = st.secrets['supabase']['SUPABASE_KEY']
 supabase: Client = create_client(supabase_url, supabase_key)
@@ -17,47 +17,48 @@ supabase: Client = create_client(supabase_url, supabase_key)
 st.info(f'### Gerenciar Relatórios',icon=':material/thumb_up:')
 
 # Inicializa session_state
-if "aba" not in st.session_state:
-    st.session_state.aba = "Listar"
-if "pagina" not in st.session_state:
-    st.session_state.pagina = 0
-if "busca_relatorio" not in st.session_state:
-    st.session_state.busca_relatorio = ""
-if "item_selecionado" not in st.session_state:
-    st.session_state.item_selecionado = None
+if "ger_aba" not in st.session_state:
+    st.session_state.ger_aba = "Listar"
+if "ger_pagina" not in st.session_state:
+    st.session_state.ger_pagina = 0
+if "ger_busca_relatorio" not in st.session_state:
+    st.session_state.ger_busca_relatorio = ""
+if "ger_item_selecionado" not in st.session_state:
+    st.session_state.ger_item_selecionado = None
 
 PAGE_SIZE = 10
+# 🔹 Inicializar resultado como None
+resultado = None
 
-
-def exportar_para_csv():
-    registros = listar_todos_registros()
-    # df = pd.DataFrame(registros)[["relatorio", "cliente"]]
-    df = pd.DataFrame(registros)
-    return df.to_csv(index=False, sep=';').encode("utf-8")
+# def exportar_para_csv():
+#     registros = listar_todos_registros()
+#     # df = pd.DataFrame(registros)[["relatorio", "cliente"]]
+#     df = pd.DataFrame(registros)
+#     return df.to_csv(index=False, sep=';').encode("utf-8")
 
 def DadosVazios(dados) -> int:
     erro = 0
-    if dados['pi_memb_1'] == 0.0:        # Membrana PI #1 0.000
+    if dados['pi_memb_1_09'] == 0.0:        # Membrana PI #1 0.000
         erro =  1
-    elif dados['pi_memb_2'] == 0.0:      # Membrana PI #2 0.000
+    elif dados['pi_memb_2_09'] == 0.0:      # Membrana PI #2 0.000
         erro = 2
-    elif dados['pi_memb_3'] == 0.0:      # Membrana PI #3 0.000
+    elif dados['pi_memb_3_09'] == 0.0:      # Membrana PI #3 0.000
         erro =  3
-    elif dados['pb_padraowfi'] == 0.0:  # PB Padrão Fluido Padrão 0.0
+    elif dados['pb_padraowfi_09'] == 0.0:  # PB Padrão Fluido Padrão 0.0
         erro =  4
-    elif dados['wfi_res1'] == 0.0:      # Fluido Padrão Resultado #1 0.0
+    elif dados['wfi_res1_09'] == 0.0:      # Fluido Padrão Resultado #1 0.0
         erro =  5 
-    elif dados['wfi_res2'] == 0.0:      # Fluido Padrão Resultado #2 0.0
+    elif dados['wfi_res2_09'] == 0.0:      # Fluido Padrão Resultado #2 0.0
         erro =  6
-    elif dados['wfi_res3'] == 0.0:      # Fluido Padrão Resultado #3 0.0
+    elif dados['wfi_res3_09'] == 0.0:      # Fluido Padrão Resultado #3 0.0
         erro =  7
     # elif dados['pb_refproduto'] == 0.0:      # PB Referencial (psi)
     #     erro =  8
-    elif dados['prd_res1'] == 0.0:      # Fluido Padrão Resultado #1
+    elif dados['prd_res1_10'] == 0.0:      # Fluido Padrão Resultado #1
         erro =  9
-    elif dados['prd_res2'] == 0.0:      # Fluido Padrão Resultado #2
+    elif dados['prd_res2_10'] == 0.0:      # Fluido Padrão Resultado #2
         erro =  10
-    elif dados['prd_res3'] == 0.0:      # Fluido Padrão Resultado #3
+    elif dados['prd_res3_10'] == 0.0:      # Fluido Padrão Resultado #3
         erro =  11
     # elif dados['wfif_res1'] == 0.0:     # Fluido Padrão final Resultado #1 0.0
     #     erro =  12
@@ -65,31 +66,31 @@ def DadosVazios(dados) -> int:
     #     erro =  13
     # elif dados['wfif_res3'] == 0.0:     # Fluido Padrão final Resultado #3 0.0
     #     erro =  14
-    elif dados['pf_memb_1'] == 0.0:      # Peso Final #1 0.000
+    elif dados['pf_memb_1_13'] == 0.0:      # Peso Final #1 0.000
         erro =  15   
-    elif dados['pf_memb_2'] == 0.0:      # Peso Final #2 0.000
+    elif dados['pf_memb_2_13'] == 0.0:      # Peso Final #2 0.000
         erro =  16
-    elif dados['pf_memb_3'] == 0.0:      # Peso Final #3 0.000
+    elif dados['pf_memb_3_13'] == 0.0:      # Peso Final #3 0.000
         erro =  17 
     # elif dados['dis_res1'] == 0.0:      # Resultado PRD#1
     #     erro =  18  
     # elif dados['dis_res2'] == 0.0:      # Resultado PRD#2
     #     erro =  19
-    elif dados['crit_var_peso'] == 0.0:  #Critério Variação Peso 0.0
+    elif dados['crit_var_peso_15'] == 0.0:  #Critério Variação Peso 0.0
         erro =  20                                                       
-    elif dados['crit_var_vazao'] == 0.0: # Critério Variação Vazão 0.0
+    elif dados['crit_var_vazao_15'] == 0.0: # Critério Variação Vazão 0.0
         erro =  21  
-    elif string_para_float(dados['fli_memb_1']) == 0.0:     # Membrana FI #1 mm:ss string_para_float(tempo_str) --> 0.0
+    elif string_para_float(dados['fli_memb_1_09']) == 0.0:     # Membrana FI #1 mm:ss string_para_float(tempo_str) --> 0.0
         erro =  22
-    elif string_para_float(dados['fli_memb_2']) == 0.0:     # Membrana FI #2 mm:ss
+    elif string_para_float(dados['fli_memb_2_09']) == 0.0:     # Membrana FI #2 mm:ss
         erro =  23
-    elif string_para_float(dados['fli_memb_3']) == 0.0:     # Membrana FI #3 mm:ss
+    elif string_para_float(dados['fli_memb_3_09']) == 0.0:     # Membrana FI #3 mm:ss
         erro =  24
-    elif string_para_float(dados['flf_memb_1']) == 0.0:     # Fluxo Final #1 mm:ss 
+    elif string_para_float(dados['tmp_final1_11']) == 0.0:     # Fluxo Final #1 mm:ss 
         erro =  25    
-    elif string_para_float(dados['flf_memb_2']) == 0.0:     # Fluxo Final #2 mm:ss 
+    elif string_para_float(dados['tmp_final2_11']) == 0.0:     # Fluxo Final #2 mm:ss 
         erro =  26    
-    elif string_para_float(dados['flf_memb_3']) == 0.0:     # Fluxo Final #3 mm:ss 
+    elif string_para_float(dados['tmp_final3_11']) == 0.0:     # Fluxo Final #3 mm:ss 
         erro =  27    
 
     return erro
@@ -99,134 +100,162 @@ def ShowWarning(dados, condicao):
     # Variaveis string que não necessariamente deverão ser preenchidas
     dict_warning = {}
 
-    if dados['local_teste'] == '':
-        dict_warning['Local de Teste']= 'Etapa 1'
-    if dados['pessoa_local'] == '' : 
-        dict_warning['Pessoa Local']= 'Etapa 1'  
-    if dados['id_local'] == '' : 
-        dict_warning['ID da Sala']= 'Etapa 1'  
-    if dados['dt_chegada'] == '' : 
-        dict_warning['Data e Hora - Chegada Local']= 'Etapa 1'  
-    if dados['hr_chegada'] == '' : 
-        dict_warning['Data e Hora - Chegada Pessoa']= 'Etapa 1' 
+    if dados['local_teste_02'] == '':
+        dict_warning['Local de Teste']= 'Etapa 2'
+    if dados['pessoa_local_02'] == '' : 
+        dict_warning['Pessoa Local']= 'Etapa 2'  
+    if dados['id_local_02'] == '' : 
+        dict_warning['ID da Sala']= 'Etapa 2'  
+    if dados['dt_chegada_02'] == '' : 
+        dict_warning['Data e Hora - Chegada Local']= 'Etapa 2'  
+    if dados['hr_chegada_02'] == '' : 
+        dict_warning['Data e Hora - Chegada Pessoa']= 'Etapa 2' 
 
-    if dados['linha'] == '' : 
-        dict_warning['Linha do Filtro']= 'Etapa 2'
-    if dados['fabricante'] == '' : 
-        dict_warning['Fabricante do Filtro']= 'Etapa 2'
-    if dados['cat_membr'] == '' : 
-        dict_warning['Nº Catálogo da Membrana']= 'Etapa 2'
-    if dados['poro_cat_membr'] == '' : 
-        dict_warning['Poro']= 'Etapa 2'
-    if dados['temp_filtra'] == '' : 
-        dict_warning['Temperatura de Filtração (°C)']= 'Etapa 2'
-    if dados['tara'] == '' : 
-        dict_warning['Tara da Balança (g)']= 'Etapa 2' 
-    if dados['produto'] == '' : 
-        dict_warning['Produto']= 'Etapa 2'       
-    if dados['tmp_contato'] == '' : 
-        dict_warning['Tempo de contato (h)']= 'Etapa 2'
-    if dados['tempera_local'] == '' : 
-        dict_warning['Temperatura Local (°C)']= 'Etapa 2'                 
-    if dados['lote'] == '' : 
-        dict_warning['Lote Do Produto']= 'Etapa 2'
-    if dados['armaz'] == '' : 
-        dict_warning['Armazenagem Local']= 'Etapa 2'
-    if dados['umidade'] == '' : 
-        dict_warning['Umidade (%)']= 'Etapa 2'
-    if dados['volume'] == '' : 
-        dict_warning['Volume']= 'Etapa 2'
+    if dados['endereco_03'] == '':
+        dict_warning['Endereço']= 'Etapa 3'    
+    if dados['cidade_03'] == '':
+        dict_warning['Cidade']= 'Etapa 3'    
+    if dados['setor_03'] == '':
+        dict_warning['Setor']= 'Etapa 3'    
+    if dados['uf_03'] == '':
+        dict_warning['UF']= 'Etapa 3'    
+    if dados['id_sala_03'] == '':
+        dict_warning['ID da Sala']= 'Etapa 3'    
+    if dados['cargo_03'] == '':
+        dict_warning['Cargo']= 'Etapa 3'    
+    if dados['tel_03'] == '':
+        dict_warning['Telefone']= 'Etapa 3'    
+    if dados['email_03'] == '':
+        dict_warning['E-mail']= 'Etapa 3'    
 
-    if dados['lotem1'] == '' : 
-        dict_warning['Lote Membrana #1']= 'Etapa 3'
-    if dados['lotem2'] == '' : 
-        dict_warning['Lote Membrana  #2']= 'Etapa 3'
-    if dados['lotem3'] == '' : 
-        dict_warning['Lote Membrana  #3']= 'Etapa 3'
-    if dados['lotes1'] == '' : 
-        dict_warning['Lote Serial #1']= 'Etapa 3'
-    if dados['lotes2'] == '' : 
-        dict_warning['Lote Serial #2']= 'Etapa 3'
-    if dados['lotes3'] == '' : 
-        dict_warning['Lote Serial #3']= 'Etapa 3'
-    if dados['cat_disp'] == '' : 
-        dict_warning['Catálogo do Dispositivo']= 'Etapa 3'
-    if dados['lote_disp'] == '' : 
-        dict_warning['Lote do Dispositivo']= 'Etapa 3'
-    if dados['serial_cat_disp'] == '' : 
-        dict_warning['Serial Dispositivo']= 'Etapa 3'
+    if dados['linha_05'] == '' : 
+        dict_warning['Linha do Filtro']= 'Etapa 5'
+    if dados['fabricante_05'] == '' : 
+        dict_warning['Fabricante do Filtro']= 'Etapa 5'
+    if dados['cat_membr_05'] == '' : 
+        dict_warning['Nº Catálogo da Membrana']= 'Etapa 5'
+    if dados['poro_cat_membr_05'] == '' : 
+        dict_warning['Poro']= 'Etapa 5'
+    if dados['temp_filtra_05'] == '' : 
+        dict_warning['Temperatura de Filtração (°C)']= 'Etapa 5'
+    if dados['tara_05'] == '' : 
+        dict_warning['Tara da Balança (g)']= 'Etapa 5' 
+    if dados['produto_05'] == '' : 
+        dict_warning['Produto']= 'Etapa 5'       
+    if dados['tmp_contato_05'] == '' : 
+        dict_warning['Tempo de contato (h)']= 'Etapa 5'
+    if dados['tempera_local_05'] == '' : 
+        dict_warning['Temperatura Local (°C)']= 'Etapa 5'                 
+    if dados['lote_05'] == '' : 
+        dict_warning['Lote Do Produto']= 'Etapa 5'
+    if dados['armaz_05'] == '' : 
+        dict_warning['Armazenagem Local']= 'Etapa 5'
+    if dados['umidade_05'] == '' : 
+        dict_warning['Umidade (%)']= 'Etapa 5'
+    if dados['volume_05'] == '' : 
+        dict_warning['Volume']= 'Etapa 5'
+    if dados['area_mem_05'] == '' : 
+        dict_warning['Area efetiva da membrana']= 'Etapa 5'
+    if dados['area_dis_05'] == '' : 
+        dict_warning['Area efetiva do dispositivo']= 'Etapa 5'
 
-    if dados['wfi_id1'] == '' : 
-        dict_warning['Fluido Padrão ID #1']= 'Etapa 4'
-    if dados['wfi_id2'] == '' : 
-        dict_warning['Fluido Padrão ID #2']= 'Etapa 4'
-    if dados['wfi_id3'] == '' : 
-        dict_warning['Fluido Padrão ID #3']= 'Etapa 4'
-    if dados['dt_wfi'] == '' : 
-        dict_warning['Data']= 'Etapa 4'
-    if dados['hr_wfi'] == '' : 
-        dict_warning['Hora']= 'Etapa 4'
+    if dados['lotem1_06'] == '' : 
+        dict_warning['Lote Membrana #1']= 'Etapa 6'
+    if dados['lotem2_06'] == '' : 
+        dict_warning['Lote Membrana  #2']= 'Etapa 6'
+    if dados['lotem3_06'] == '' : 
+        dict_warning['Lote Membrana  #3']= 'Etapa 6'
+    if dados['lotes1_06'] == '' : 
+        dict_warning['Lote Serial #1']= 'Etapa 6'
+    if dados['lotes2_06'] == '' : 
+        dict_warning['Lote Serial #2']= 'Etapa 6'
+    if dados['lotes3_06'] == '' : 
+        dict_warning['Lote Serial #3']= 'Etapa 6'
+    if dados['cat_disp_06'] == '' : 
+        dict_warning['Catálogo do Dispositivo']= 'Etapa 6'
+    if dados['lote_disp_06'] == '' : 
+        dict_warning['Lote do Dispositivo']= 'Etapa 6'
+    if dados['serial_cat_disp_06'] == '' : 
+        dict_warning['Serial Dispositivo']= 'Etapa 6'
 
-    if dados['dt_wfip'] == '' : 
-        dict_warning['Data Final']= 'Etapa 5'
-    if dados['hr_wfip'] == '' : 
-        dict_warning['Hora Final']= 'Etapa 5'
-    if dados['prd_id1'] == '' : 
-        dict_warning['ID #1 Produto']= 'Etapa 5'
-    if dados['prd_id2'] == '' : 
-        dict_warning['ID #2 Produto']= 'Etapa 5'
-    if dados['prd_id3'] == '' : 
-        dict_warning['ID #3 Produto']= 'Etapa 5'
+    if dados['estab_08'] == '' : 
+        dict_warning['Estabilidade do Produto']= 'Etapa 8'
 
-    if dados['wfif_id1'] == '' : 
-        dict_warning['ID #1']= 'Etapa 7'
-    if dados['wfif_id2'] == '' : 
-        dict_warning['ID #2']= 'Etapa 7'
-    if dados['wfif_id3'] == '' : 
-        dict_warning['ID #3']= 'Etapa 7'
+    if dados['wfi_res1_09'] == '' : 
+        dict_warning['Fluido Padrão ID #1']= 'Etapa 9'
+    if dados['wfi_res2_09'] == '' : 
+        dict_warning['Fluido Padrão ID #2']= 'Etapa 9'
+    if dados['wfi_res3_09'] == '' : 
+        dict_warning['Fluido Padrão ID #3']= 'Etapa 9'
+    if dados['dt_wfi_09'] == '' : 
+        dict_warning['Data']= 'Etapa 9'
+    if dados['hr_wfi_09'] == '' : 
+        dict_warning['Hora']= 'Etapa 9'
 
-    if dados['dis_id1'] == '' : 
-        dict_warning['ID #1 - Dispositivo']= 'Etapa 9'
-    if dados['dis_id2'] == '' : 
-        dict_warning['ID #2 - Dispositivo']= 'Etapa 9'
+    if dados['dt_wfip_10'] == '' : 
+        dict_warning['Data Final']= 'Etapa 10'
+    if dados['hr_wfip_10'] == '' : 
+        dict_warning['Hora Final']= 'Etapa 10'
+    if dados['prd_id1_10'] == '' : 
+        dict_warning['ID #1 Produto']= 'Etapa 10'
+    if dados['prd_id2_10'] == '' : 
+        dict_warning['ID #2 Produto']= 'Etapa 10'
+    if dados['prd_id3_10'] == '' : 
+        dict_warning['ID #3 Produto']= 'Etapa 10'
+
+    if dados['id_padr1_12'] == '' : 
+        dict_warning['ID #1']= 'Etapa 12'
+    if dados['id_padr2_12'] == '' : 
+        dict_warning['ID #2']= 'Etapa 12'
+    if dados['id_padr3_12'] == '' : 
+        dict_warning['ID #3']= 'Etapa 12'
+
+    if dados['dis_id1_14'] == '' : 
+        dict_warning['ID #1 - Dispositivo']= 'Etapa 14'
+    if dados['dis_id2_14'] == '' : 
+        dict_warning['ID #2 - Dispositivo']= 'Etapa 14'
 
     if condicao  == False:
-        dict_warning['Data Final anterior a Data Inicial']= 'Etapa 5'  
+        dict_warning['Data Final anterior a Data Inicial']= 'Etapa 10'  
 
     return dict_warning
 
-def Salva_Planilha(dados, resultado, status):
+# def Salva_Planilha(dados, resultado, status):
     
-    """
-    Grava os dados de um dicionário na tabela comp_quimica e resultado no banco de dados SASOLUTIONS usando API Supabase.
-    Cada chave do dicionário deve corresponder a um campo da tabela.
+#     """
+#     Grava os dados de um dicionário na tabela comp_quimica e resultado no banco de dados SASOLUTIONS usando API Supabase.
+#     Cada chave do dicionário deve corresponder a um campo da tabela.
     
-    :param dados: Dicionário contendo os dados a serem inseridos na tabela comp_quimica.
-    :param dados: Dicionário contendo os dados a serem inseridos na tabela resultado.
-    """
+#     :param dados: Dicionário contendo os dados a serem inseridos na tabela comp_quimica.
+#     :param dados: Dicionário contendo os dados a serem inseridos na tabela resultado.
+#     """
     
-    resp = inserir_planilha_e_resultadonew(dados, resultado, status=status)
+#     # resp = inserir_planilha_e_resultadonew(dados, resultado, status=status)
+#     resp = incluir_registro(dados, resultado)
+#     # resp = inserir_registro_com_rollback(dados, resultado, status=status)
+#     # print('resp=',resp)
+#     # Exibe resultado para o usuário
+#     if resp["success"]:
+#         # st.success(f"✅ Dados inseridos com sucesso! ID: {resp['id']}")
+#         st.success("✅ Dados inseridos com sucesso! ")
+#     else:
+#         st.error(f"❌ Erro ao salvar dados: {resp['erro']}")
+#         # st.json({"dados_digitados": dados, "resultado_dict": resultado})
 
-    # Exibe resultado para o usuário
-    if resp["success"]:
-        # st.success(f"✅ Dados inseridos com sucesso! ID: {resp['id']}")
-        st.success("✅ Dados inseridos com sucesso! ")
-    else:
-        st.error(f"❌ Erro ao salvar dados: {resp['erro']}")
-        st.json({"dados_digitados": dados, "resultado_dict": resultado})
+#     print('resp = ', resp)    
 
 
 def ShowRelatorio(novos_dados):
     # Analizar se os dados estão totalmente preenchidos
     df = Previsao_Relat(novos_dados)
-
+    dict_ret = {}
     col1, col2, col3 = st.columns([1, 4, 1])  # col2 maior, centralizada
     with col2:
         st.info('## :point_right:   Prévia  dos  Resultados')
 
     
     # ------------------------- % Variação de Peso ------------------------------------- 
-    st.markdown(f'<div style="text-align: left;"><h5>% Variação Peso - Critério <= {novos_dados['crit_var_peso']:.1f}%</h5></div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="text-align: left;"><h5>% Variação Peso - Critério <= {novos_dados['crit_var_peso_15']:.1f}%</h5></div>', unsafe_allow_html=True)
 
     df_VarPeso = df[['% Variação Peso - Membrana 1',
                     '% Variação Peso - Membrana 2',
@@ -254,8 +283,23 @@ def ShowRelatorio(novos_dados):
                         
                 },
                 hide_index=True)
+    
+    xxx = df_VarPeso.to_dict(orient='records')
+    var_peso_membr_1 = xxx[0]['% Variação Peso - Membrana 1']
+    var_peso_membr_2 = xxx[0]['% Variação Peso - Membrana 2']
+    var_peso_membr_3 = xxx[0]['% Variação Peso - Membrana 3']
+    pvm = xxx[0]['Perc Variação Massa (PVM)']
+    status_peso = xxx[0]['Status Peso']
+
+    dict_ret['var_peso_membr_1']= var_peso_membr_1
+    dict_ret['var_peso_membr_2']= var_peso_membr_2
+    dict_ret['var_peso_membr_3']= var_peso_membr_3
+    dict_ret['pvm']= pvm
+    dict_ret['status_peso']= status_peso
+
+
     # ------------------------- % Variação de Vazão ------------------------------------- 
-    st.markdown(f'<div style="text-align: left;"><h5>% Variação Vazão - Critério <= {novos_dados['crit_var_vazao']:.1f}%</h5></div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="text-align: left;"><h5>% Variação Vazão - Critério <= {novos_dados['crit_var_vazao_15']:.1f}%</h5></div>', unsafe_allow_html=True)
 
     df_VarVazao = df[['% Variação Vazao - Membrana 1',
                     '% Variação Vazao - Membrana 2',
@@ -281,50 +325,82 @@ def ShowRelatorio(novos_dados):
                 },
                 hide_index=True)
     
+    xxx = df_VarVazao.to_dict(orient='records')
+    var_vazao_membr_1 = xxx[0]['% Variação Vazao - Membrana 1']
+    var_vazao_membr_2 = xxx[0]['% Variação Vazao - Membrana 2']
+    var_vazao_membr_3 = xxx[0]['% Variação Vazao - Membrana 3']
+    pvv = xxx[0]['Perc Variação Vazão (PVV)']
+    status_vazao = xxx[0]['Status Fluxo']
+
+    dict_ret['var_vazao_membr_1']= var_vazao_membr_1
+    dict_ret['var_vazao_membr_2']= var_vazao_membr_2
+    dict_ret['var_vazao_membr_3']= var_vazao_membr_3
+    dict_ret['pvv']= pvv
+    dict_ret['status_vazao']= status_vazao
+    
     df_RPB = df[['RPB Membrana 1','RPB Membrana 2','RPB Membrana 3']]
     st.dataframe(df_RPB, hide_index=True)  
 
-    df_PBEstimado = df[['RPB','PB Referencial','PB Estimado (PBMe)']]   
-    st.dataframe(df_PBEstimado, hide_index=True, use_container_width=False, width= 295 )  
+    xxx = df_RPB.to_dict(orient='records')
+    rpb_membrana_1 = xxx[0]['RPB Membrana 1']
+    rpb_membrana_2 = xxx[0]['RPB Membrana 2']
+    rpb_membrana_3 = xxx[0]['RPB Membrana 3']
+    dict_ret['rpb_membrana_1']= rpb_membrana_1
+    dict_ret['rpb_membrana_2']= rpb_membrana_2
+    dict_ret['rpb_membrana_3']= rpb_membrana_3
 
-    # Retirado na versão 5.00
-    # if novos_dados['pb_refproduto'] >= novos_dados['estimado']: # PB Referencial >= PB Estimado
-    #     # t1 = f'{novos_dados["pb_refproduto"]}'
-    #     # t2 = f'{novos_dados["estimado"]}'
-    #     st.info('### :point_right:   APROVADO')
-    #     # st.info(t1)
-    #     # st.info(t2)
-    # else:    
-    #     st.warning('#### :warning: PB Produto abaixo do valor esperado')
+
+    df_PBEstimado = df[['RPB','PB Referencial','PB Estimado (PBMe)']]   
+    st.dataframe(df_PBEstimado, hide_index=True, use_container_width=False, width= 295 ) 
+
+    xxx = df_PBEstimado.to_dict(orient='records')
+    pb_referencial = xxx[0]['PB Referencial']
+    pb_estimado = xxx[0]['PB Estimado (PBMe)']
+    media_rpb = xxx[0]['RPB']
+    dict_ret['media_rpb']= media_rpb
+    dict_ret['pb_referencial']= pb_referencial
+    dict_ret['pb_estimado']= pb_estimado
     
-      
+    return  dict_ret
+
+
 # Interface de listagem
-if st.session_state.aba == "Listar":
-    busca = st.text_input("Buscar por relatório", st.session_state.busca_relatorio)
-    if busca != st.session_state.busca_relatorio:
-        st.session_state.busca_relatorio = busca
-        st.session_state.pagina = 0
+if st.session_state.ger_aba == "Listar":
+    busca = st.text_input("Buscar por relatório", st.session_state.ger_busca_relatorio)
+    if busca != st.session_state.ger_busca_relatorio:
+        st.session_state.ger_busca_relatorio = busca
+        st.session_state.ger_pagina = 0
         st.rerun()
 
-    registros = listar_registros(filtro_relatorio=st.session_state.busca_relatorio)
-    #registros = listar_todos_registros(filtro_relatorio=st.session_state.busca_relatorio)
-    
+    registros = listar_registros(filtro_relatorio=st.session_state.ger_busca_relatorio)
+      
     total = len(registros)
-    inicio = st.session_state.pagina * PAGE_SIZE
+    inicio = st.session_state.ger_pagina * PAGE_SIZE
     fim = inicio + PAGE_SIZE
 
     st.write(f"Mostrando {inicio + 1} - {min(fim, total)} de {total} registros")
 
-    st.session_state.item_selecionado = None  # Reset seleção ao carregar listagem
+    st.session_state.ger_item_selecionado = None  # Reset seleção ao carregar listagem
 
     if registros:
         paginados = registros[inicio:fim]
 
         df = pd.DataFrame(paginados)
 
+        # Adicionar coluna Selecionar
         df["Selecionar"] = False
-        df["OK"] = df.get("finalizado", False).apply(lambda x: "✅Concluído" if x else "🕗 Parcial")
-        df["id"] = df["id"].astype(str)
+
+        # Dicionário de equivalência para status
+        status_map = {
+            "Cancelado": "❌ Cancelado",    # "❌ Cancelado"
+            "Concluído": "✅ Concluído",    # "✅Concluído"  :white_check_mark: 11
+            "Pendente": "🕗 Pendente",      # "🕗 Pendente" :clock9: 1060
+            "Agendado": "📅 Agendado",      # "📅 Agendado" :date: 924
+            "Parcial": "📝 Parcial",        # "📝 Parcial" :memo: 949
+            }
+        
+        # Criar coluna OK com base no status_rel_01
+        df["OK"] = df["status_rel_01"].map(status_map).fillna("")
         
         resultado = st.data_editor(df,
                                    use_container_width=True,
@@ -335,30 +411,30 @@ if st.session_state.aba == "Listar":
                                         "relatorio": st.column_config.TextColumn("Relatório"),
                                         "cliente": st.column_config.TextColumn("Empresa"),
                                    },
-                                   key="tabela_planilha",
+                                   #key="tabela_planilhanova",
                                    num_rows="dynamic")
         
-
-        selecionados = resultado[resultado["Selecionar"] == True]
-        if len(selecionados) > 1:
-            st.error("Selecione apenas 1 registro por vez.")
-        elif len(selecionados) == 1:
-            idx = selecionados.index[0]
-            id_sel = resultado.loc[idx, "id"]
-            registro_completo = next((r for r in listar_todos_registros() if r["id"] == id_sel), None)
-            if registro_completo:
-                st.session_state.item_selecionado = registro_completo
+        if resultado is not None:
+            selecionados = resultado[resultado["Selecionar"] == True]
+            if len(selecionados) > 1:
+                st.error("Selecione apenas 1 registro por vez.")
+            elif len(selecionados) == 1:
+                idx = selecionados.index[0]
+                id_sel = resultado.loc[idx, "id"]
+                registro_completo = next((r for r in listar_todos_registros() if r["id"] == id_sel), None)
+                if registro_completo:
+                    st.session_state.ger_item_selecionado = registro_completo
 
     col1, col2 = st.columns(2)
     with col1:
-        if st.session_state.pagina > 0:
+        if st.session_state.ger_pagina > 0:
             if st.button("⬅ Página anterior"):
-                st.session_state.pagina -= 1
+                st.session_state.ger_pagina -= 1
                 st.rerun()
     with col2:
         if fim < total:
             if st.button("Próxima página ➡"):
-                st.session_state.pagina += 1
+                st.session_state.ger_pagina += 1
                 st.rerun()
 
     with st.expander("⬇️ Exportar Registros", expanded=False):
@@ -367,80 +443,83 @@ if st.session_state.aba == "Listar":
         if 'cancelar_exportar' not in st.session_state:
             st.session_state.cancelar_exportar = False
 
-        selecionados = resultado[resultado["Selecionar"] == True]
+        if resultado is not None:
+            selecionados = resultado[resultado["Selecionar"] == True]
 
-        if len(selecionados) == 1:
-            nome_relatorio = selecionados.iloc[0]["relatorio"]
-            st.warning(f'Deseja exportar o relatório: **{nome_relatorio}** ?')
-            col1, col2 = st.columns(2)
-            with col1:
-                if st.button("✅ Confirmar Exportação"):
-                    st.session_state.confirmar_exportar = True
-            with col2:
-                if st.button("❌ Cancelar"):
+            if len(selecionados) == 1:
+                nome_relatorio = selecionados.iloc[0]["relatorio"]
+                st.warning(f'Deseja exportar o relatório: **{nome_relatorio}** ?')
+                col1, col2 = st.columns(2)
+                with col1:
+                    if st.button("✅ Confirmar Exportação"):
+                        st.session_state.confirmar_exportar = True
+                with col2:
+                    if st.button("❌ Cancelar"):
+                        st.session_state.confirmar_exportar = False
+                        st.rerun()
+
+                if st.session_state.confirmar_exportar:
+                    id_sel = selecionados.iloc[0]["id"]
+                    registro_completo = next((r for r in listar_todos_registros() if r["id"] == id_sel), None)
+                    if registro_completo:
+                        df_sel = pd.DataFrame([registro_completo])
+                        # Sim — dá para usar um caractere invisível para que o Excel continue interpretando como texto, 
+                        # mas sem que apareça algo visível no resultado.
+                        # O truque é usar um caractere de largura zero (Zero-Width Space — \u200B) ou um tabulação oculta (\t) 
+                        # antes do valor.
+                        for campo in ['wfi_id1_09','wfi_id2_09','wfi_id3_09',
+                                    'prd_id1_10','prd_id2_10','prd_id3_10',
+                                    'id_padr1_12','id_padr2_12','id_padr3_12'
+                                    ]:
+                            if campo in df_sel.columns:
+                                df_sel[campo] = df_sel[campo].apply(lambda x: f"\u200B{x}" if pd.notnull(x) and x != '' else '')
+
+                        csv_bytes = ('\ufeff' + df_sel.to_csv(index=False, sep=';')).encode("utf-8")
+                        st.download_button("📁 Baixar CSV (1 item completo)", data=csv_bytes, 
+                                        file_name=f"{registro_completo['relatorio']}.csv", mime="text/csv")
+    
+                        st.session_state.confirmar_exportar = False
+
+            elif len(selecionados) == 0:
+                st.warning("Nenhum item selecionado. Deseja exportar TODOS os registros?")
+                col1, col2 = st.columns(2)
+                with col1:
+                    if st.button("✅ Exportar Todos"):
+                        st.session_state.confirmar_exportar = True
+                with col2:
+                    if st.button("❌ Cancelar"):
+                        st.session_state.confirmar_exportar = False
+                        st.rerun()
+
+                if st.session_state.confirmar_exportar:
+                    registros_todos = listar_todos_registros()
+                    df_all = pd.DataFrame(registros_todos)
+                    csv_bytes = ('\ufeff' + df_all.to_csv(index=False, sep=';')).encode("utf-8")
+                    st.download_button("📁 Baixar CSV (todos)", data=csv_bytes, file_name="planilha_completa.csv", mime="text/csv")
                     st.session_state.confirmar_exportar = False
-                    st.rerun()
 
-            if st.session_state.confirmar_exportar:
-                id_sel = selecionados.iloc[0]["id"]
-                registro_completo = next((r for r in listar_todos_registros() if r["id"] == id_sel), None)
-                if registro_completo:
-                    df_sel = pd.DataFrame([registro_completo])
-                    # Sim — dá para usar um caractere invisível para que o Excel continue interpretando como texto, 
-                    # mas sem que apareça algo visível no resultado.
-                    # O truque é usar um caractere de largura zero (Zero-Width Space — \u200B) ou um tabulação oculta (\t) 
-                    # antes do valor.
-                    for campo in ['wfi_id1','wfi_id2','wfi_id3',
-                                  'prd_id1','prd_id2','prd_id3',
-                                  'wfif_id1','wfif_id2','wfif_id3'
-                                  ]:
-                        if campo in df_sel.columns:
-                            df_sel[campo] = df_sel[campo].apply(lambda x: f"\u200B{x}" if pd.notnull(x) and x != '' else '')
-
-                    csv_bytes = ('\ufeff' + df_sel.to_csv(index=False, sep=';')).encode("utf-8")
-                    st.download_button("📁 Baixar CSV (1 item completo)", data=csv_bytes, 
-                                       file_name=f"{registro_completo['relatorio']}.csv", mime="text/csv")
- 
-                    st.session_state.confirmar_exportar = False
-
-        elif len(selecionados) == 0:
-            st.warning("Nenhum item selecionado. Deseja exportar TODOS os registros?")
-            col1, col2 = st.columns(2)
-            with col1:
-                if st.button("✅ Exportar Todos"):
-                    st.session_state.confirmar_exportar = True
-            with col2:
-                if st.button("❌ Cancelar"):
-                    st.session_state.confirmar_exportar = False
-                    st.rerun()
-
-            if st.session_state.confirmar_exportar:
-                registros_todos = listar_todos_registros()
-                df_all = pd.DataFrame(registros_todos)
-                csv_bytes = ('\ufeff' + df_all.to_csv(index=False, sep=';')).encode("utf-8")
-                st.download_button("📁 Baixar CSV (todos)", data=csv_bytes, file_name="planilha_completa.csv", mime="text/csv")
-                st.session_state.confirmar_exportar = False
-
+            else:
+                st.error("Selecione apenas 1 item para exportar individualmente.")
         else:
-            st.error("Selecione apenas 1 item para exportar individualmente.")
+            st.info("Nenhuma tabela carregada para exportação.")        
 
 
     with st.container():
         col1, col2, col3, col4 = st.columns(4)
-        if col1.button("Listar"):
-            st.session_state.aba = "Listar"
+        if col1.button("Mostrar"):
+            st.session_state.ger_aba = "Listar"
             st.rerun()
-        if col2.button("Incluir"):
-            st.session_state.aba = "Incluir"
+        if col2.button("Novo"):
+            st.session_state.ger_aba = "Incluir"
             st.rerun()
-        if col3.button("Alterar"):
-            st.session_state.aba = "Alterar"
+        if col3.button("Altera Selecionado"):
+            st.session_state.ger_aba = "Alterar"
             st.rerun()
-        if col4.button("Excluir"):
-            st.session_state.aba = "Excluir"
+        if col4.button("Exclui Selecionado"):
+            st.session_state.ger_aba = "Excluir"
             st.rerun()
 
-if st.session_state.aba == "Incluir":
+if st.session_state.ger_aba == "Incluir":
     st.subheader("Incluir Nova Planilha")
 
     novos_dados, dataOK = formulario_padrao(dados=None, combo_clientes=ComboBoxClientes())
@@ -448,12 +527,10 @@ if st.session_state.aba == "Incluir":
     desabilita_botoes = st.session_state.get("exibir_alerta", False)
     col1, col2, col3 = st.columns(3)
     with col1:
-        #submitted_parcial = st.button("💾 Salvar Parcial", disabled=desabilita_botoes)
-        submitted_parcial = st.button("💾 Salvar Parcial", disabled=True)
+        submitted_parcial = st.button("💾 Salvar Parcial", disabled=desabilita_botoes)
     with col2:
         disabilita = False
-        #submitted_verify = st.button("📄 Ver Relatório", disabled=desabilita_botoes)
-        submitted_verify = st.button("📄 Ver Relatório", disabled=True)
+        submitted_verify = st.button("📄 Ver Relatório", disabled=desabilita_botoes)
     with col3:
         submitted_return = st.button("🔙 Voltar", disabled=desabilita_botoes)
 
@@ -468,9 +545,9 @@ if st.session_state.aba == "Incluir":
                     st.session_state.exibir_alerta = True
                     st.rerun()
                 else:
-                    Salva_Planilha(dados=novos_dados, resultado=None, status=False)
+                    incluir_registro(dados=novos_dados )
                     st.success("Planilha salva com sucesso!")
-                    st.session_state.aba = "Listar"
+                    st.session_state.ger_aba = "Listar"
                     st.rerun()
             else:
                 message, etapa = ShowErro(erro)
@@ -485,22 +562,37 @@ if st.session_state.aba == "Incluir":
             message, etapa = ShowErro(erro)
             st.warning(f' ##### Campo :point_right: {message} :warning: INVÁLIDO !  :mag_right: ETAPA :point_right: {etapa}')
         if erro == 0 or erro >= 100:
-            ShowRelatorio(novos_dados)
-            col1, col2 = st.columns(2)
-            with col1:
-                submitted_salvar = st.button("💾 Salvar e Concluir")
-            with col2:
-                submitted_voltar5 = st.button("🔙 Voltar")
-            if submitted_salvar:
-                Salva_Planilha(dados=novos_dados, resultado=None, status=True)
-                st.session_state.aba = "Listar"
-                st.rerun()
-            if submitted_voltar5:
-                st.session_state.aba = "Incluir"
+            dict_rel = ShowRelatorio(novos_dados)
+            st.session_state.ger_dict_rel = dict_rel
 
     if submitted_return:
-        st.session_state.aba = "Listar"
+        st.session_state.ger_aba = "Listar"
         st.rerun()
+
+    # ✅ FORA DO FORM — SALVA DADOS - INCLUIR
+    if st.session_state.get("ger_dict_rel"):
+
+        conclusao  = st.text_area('CONCLUSÃO:', value= novos_dados.get("conclusao", "") if novos_dados else "")
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            submitted_salvar = st.button("💾 Salvar e Concluir")
+        with col2:
+            submitted_voltar5 = st.button("🔙 Voltar a Edição")
+        if submitted_salvar:
+            dadoscomrelatorio = novos_dados | st.session_state.ger_dict_rel
+            # print('dadoscomrelatorio =' , dadoscomrelatorio)
+            dadoscomrelatorio['status_rel_01'] = 'Concluído'
+            dadoscomrelatorio['conclusao'] = conclusao
+            incluir_registro(dados=dadoscomrelatorio )
+            st.success("Planilha salva com sucesso!")
+            st.session_state.ger_dict_rel = None
+            st.session_state.ger_aba = "Listar"
+            st.rerun()
+        if submitted_voltar5:
+            st.session_state.ger_dict_rel = None
+            st.session_state.ger_aba = "Incluir"
+            st.rerun()
 
     # ✅ FORA DO FORM — MOSTRAR ALERTA SE HOUVER CAMPOS INCOMPLETOS
     if st.session_state.get("exibir_alerta"):
@@ -520,24 +612,20 @@ if st.session_state.aba == "Incluir":
             
         with col2:
             if st.button("Salvar mesmo assim"):
-                Salva_Planilha(
-                   dados=st.session_state.novos_dados_cache,
-                   resultado=None,
-                   status=False
-                )
+                incluir_registro(dados=novos_dados )
                 st.success("Salvo com campos incompletos.")
-                st.session_state.aba = "Listar"
+                st.session_state.ger_aba = "Listar"
                 st.session_state.exibir_alerta = False
                 st.rerun()
  
-if st.session_state.aba == "Alterar":
+if st.session_state.ger_aba == "Alterar":
     st.subheader("Alterar Registro")
-    registro = st.session_state.item_selecionado
+    registro = st.session_state.ger_item_selecionado
     if registro:
-        if registro.get("finalizado") == True:
+        if registro.get("status_rel_01") == 'Concluído':
             st.error(f"### O relatório :point_right: {registro.get('relatorio')} já foi concluído.")
-            if st.button("Listar Relatórios"):
-                st.session_state.aba = "Listar"
+            if st.button("Mostra Relatórios"):
+                st.session_state.ger_aba = "Listar"
                 st.rerun()
         else:
             novos_dados, dataOK = formulario_padrao(dados=registro, combo_clientes=ComboBoxClientes())
@@ -545,11 +633,9 @@ if st.session_state.aba == "Alterar":
             desabilita_botoes_alterar = st.session_state.get("exibir_alerta_alterar", False)
             col1, col2, col3 = st.columns(3)
             with col1:
-                #submitted = st.button("💾 Salvar Alterações", disabled=desabilita_botoes_alterar)
-                submitted = st.button("💾 Salvar Alterações", disabled=True)
+                submitted = st.button("💾 Salvar Alterações", disabled=desabilita_botoes_alterar)
             with col2:
-                # verify2 = st.button("📄 Ver Relatório", disabled=desabilita_botoes_alterar)
-                verify2 = st.button("📄 Ver Relatório", disabled=True)
+                verify2 = st.button("📄 Ver Relatório", disabled=desabilita_botoes_alterar)
             with col3:
                 voltar1 = st.button("🔙 Retornar", disabled=desabilita_botoes_alterar)
 
@@ -568,7 +654,7 @@ if st.session_state.aba == "Alterar":
                         else:
                             alterar_registro(registro["id"], novos_dados)
                             st.success("Planilha alterada com sucesso!")
-                            st.session_state.aba = "Listar"
+                            st.session_state.ger_aba = "Listar"
                             st.rerun()
                     else:
                         message, etapa = ShowErro(erro)
@@ -578,27 +664,47 @@ if st.session_state.aba == "Alterar":
                     st.error(f'Erro ao atualizar o registro {e}', icon="🔥")
 
             if verify2:
-                ShowRelatorio(novos_dados)
-                col1, col2 = st.columns(2)
-                with col1:
-                    submitted_salvar = st.button("💾 Salvar e Concluir")
-                with col2:
-                    submitted_voltar5 = st.button("🔙 Voltar")
-                if submitted_salvar:
-                    Salva_Planilha(dados=novos_dados, resultado=None, status=True)
-                    st.session_state.aba = "Listar"
-                    st.rerun()
-                if submitted_voltar5:
-                    st.session_state.aba = "Alterar"
+                erro = DadosVazios(novos_dados)
+                if erro > 0 and erro < 100:
+                    message, etapa = ShowErro(erro)
+                    st.warning(f' ##### Campo :point_right: {message} :warning: INVÁLIDO !  :mag_right: ETAPA :point_right: {etapa}')
+                if erro == 0 or erro >= 100:
+                    dict_rel = ShowRelatorio(novos_dados)
+                    st.session_state.ger_dict_rel = dict_rel
 
             if voltar1:
-                st.session_state.aba = "Listar"
+                st.session_state.ger_aba = "Listar"
                 st.rerun()
     else:
         st.info("Selecione um item na aba 'Listar' para editar.")
         if st.button('Retorna para listar'):
-            st.session_state.aba = "Listar"
+            st.session_state.ger_aba = "Listar"
             st.rerun()
+
+    # ✅ FORA DO FORM — SALVA DADOS - ALTERAR
+    if st.session_state.get("ger_dict_rel"):
+
+        conclusao  = st.text_area('CONCLUSÃO:', value= novos_dados.get("conclusao", "") if novos_dados else "") 
+
+        col1, col2 = st.columns(2)
+        with col1:
+            submitted_salvar = st.button("💾 Salvar e Concluir")
+        with col2:
+            submitted_voltar5 = st.button("🔙 Voltar a Edição")
+        if submitted_salvar:
+            dadoscomrelatorio = novos_dados | st.session_state.ger_dict_rel
+            # print('dadoscomrelatorio =' , dadoscomrelatorio)
+            dadoscomrelatorio['status_rel_01'] = 'Concluído'
+            dadoscomrelatorio['conclusao'] = conclusao
+            alterar_registro(id= registro['id'], dados=dadoscomrelatorio)   
+            st.success("Planilha salva com sucesso!")
+            st.session_state.ger_dict_rel = None
+            st.session_state.ger_aba = "Listar"
+            st.rerun()
+        if submitted_voltar5:
+            st.session_state.ger_dict_rel = None
+            st.session_state.ger_aba = "Alterar"
+            st.rerun()        
 
     # ✅ FORA DO FORM — ALERTA DE CAMPOS PENDENTES NA ALTERAÇÃO
     if st.session_state.get("exibir_alerta_alterar"):
@@ -615,7 +721,7 @@ if st.session_state.aba == "Alterar":
                     st.session_state.novos_dados_cache
                 )
                 st.success("Alterações salvas com campos incompletos.")
-                st.session_state.aba = "Listar"
+                st.session_state.ger_aba = "Listar"
                 st.session_state.exibir_alerta_alterar = False
                 st.rerun()
         with col2:
@@ -624,9 +730,9 @@ if st.session_state.aba == "Alterar":
                 st.session_state.exibir_alerta_alterar = False
                 st.rerun()
 
-if st.session_state.aba == "Excluir":
+if st.session_state.ger_aba == "Excluir":
     st.subheader("Excluir Relatório")
-    registro = st.session_state.item_selecionado
+    registro = st.session_state.ger_item_selecionado
     if registro:
         texto1 = f'Deseja realmente excluir o relatório {registro['relatorio']} ?'
         texto2 = f"Cliente: {registro['cliente']}"
@@ -638,14 +744,14 @@ if st.session_state.aba == "Excluir":
                 try:
                     excluir_registro(registro["id"])
                     st.success("Relatório excluído com sucesso!")
-                    st.session_state.item_selecionado = None
-                    st.session_state.aba = "Listar"
+                    st.session_state.ger_item_selecionado = None
+                    st.session_state.ger_aba = "Listar"
                     st.rerun()
                 except Exception  as e:  
                     st.error(f'Erro ao excluir o registro {e}', icon="🔥")  
         with col2:     
             if st.button("Retornar"):
-                st.session_state.aba = "Listar"
+                st.session_state.ger_aba = "Listar"
                 st.rerun()   
     else:
         st.info("Selecione um item na aba 'Listar' para excluir.")

@@ -2,7 +2,7 @@ import streamlit as st
 from calculos import *
 from data_loader import *
 from datetime import datetime
-from clientes import listar_clientes
+
 
 def validar_datas_e_calcular_horas(data1_str, data2_str):
     """
@@ -43,31 +43,31 @@ def validar_datas_e_calcular_horas(data1_str, data2_str):
 
     return f"{horas:02}:{minutos:02}", condicao
 
-def CalculaPBEstimado(prd_res1, prd_res2, prd_res3,
-                      wfi_res1, wfi_res2, wfi_res3, pb_padraowfi):
+def CalculaPBEstimado(prd_res1_10, prd_res2_10, prd_res3_10,
+                      wfi_res1_09, wfi_res2_09, wfi_res3_09, pb_padraowfi_09):
     erro = 0
     if erro < 14 or erro > 19:
         try:
                	
-            # rpb_membr_1 = pi_memb_1 / pf_memb_1
-            # rpb_membr_2 = pi_memb_2 / pf_memb_2
-            # rpb_membr_3 = pi_memb_3 / pf_memb_3
+            # rpb_membr_1 = pi_memb_1_09 / pf_memb_1_13
+            # rpb_membr_2 = pi_memb_2_09 / pf_memb_2_13
+            # rpb_membr_3 = pi_memb_3_09 / pf_memb_3_13
 
-            rpb_membr_1 = prd_res1 / wfi_res1
-            rpb_membr_2 = prd_res2 / wfi_res2
-            rpb_membr_3 = prd_res3 / wfi_res3
+            rpb_membr_1 = prd_res1_10 / wfi_res1_09
+            rpb_membr_2 = prd_res2_10 / wfi_res2_09
+            rpb_membr_3 = prd_res3_10 / wfi_res3_09
 
             rpb_media = (rpb_membr_1 + rpb_membr_2 + rpb_membr_3) / 3
 
             # PB Estimado	=C28*L3		Célula J7		ETAPA 8		2 casas
-            pb_estimado = pb_padraowfi * rpb_media
+            pb_estimado = pb_padraowfi_09 * rpb_media
 
             # print('================= CalculaPBEstimado ====================================================')
-            # print('RPB Membrana 1 : ', rpb_membr_1,'   ',prd_res1,'   ',wfi_res1)
-            # print('RPB Membrana 2 : ', rpb_membr_2,'   ',prd_res2,'   ',wfi_res2)
-            # print('RPB Membrana 3 : ', rpb_membr_3,'   ',prd_res3,'   ',wfi_res3)
+            # print('RPB Membrana 1 : ', rpb_membr_1,'   ',prd_res1_10,'   ',wfi_res1_09)
+            # print('RPB Membrana 2 : ', rpb_membr_2,'   ',prd_res2_10,'   ',wfi_res2_09)
+            # print('RPB Membrana 3 : ', rpb_membr_3,'   ',prd_res3_10,'   ',wfi_res3_09)
             # print('rpb_media : ', rpb_media)
-            # print('pb_padrao : ', pb_padraoWFI)
+            # print('pb_padrao : ', pb_padraowfi_09)
             # print('pb_estimado : ', pb_estimado)
             # print('pb_estimado arredondado : ', round(pb_estimado,1))
             return round(pb_estimado,1), 0
@@ -81,87 +81,87 @@ def ShowErro(erro):
     match(erro):
             case 1: 
                 message = 'Membrana #1 PI'
-                etapa = 4
+                etapa = 9
             case 2: 
                 message = 'Membrana #2 PI'
-                etapa = 4
+                etapa = 9
             case 3: 
                 message = 'Membrana #3 PI'
-                etapa = 4
+                etapa = 9
             case 4: 
                 message = 'PB Padrão Fluido Padrão (psi)'
-                etapa = 4
+                etapa = 9
             case 5: 
                 message = 'Fluido Padrão Resultado #1'
-                etapa = 4
+                etapa = 9
             case 6: 
                 message = 'Fluido Padrão Resultado #2'
-                etapa = 4
+                etapa = 9
             case 7: 
                 message = 'Fluido Padrão Resultado #3'
-                etapa = 4
+                etapa = 9
             case 8: 
                 message = 'PB Referencial (psi)'
-                etapa = 5
+                etapa = 10
             case 9: 
                 message = 'PB-P #1'
-                etapa = 5
+                etapa = 10
             case 10: 
                 message = 'PB-P #2'
-                etapa = 5
+                etapa = 10
             case 11: 
                 message = 'PB-P #3'
-                etapa = 5
+                etapa = 10
             case 12: 
                 message = 'Resultado #1'
-                etapa = 7
+                etapa = 12
             case 13: 
                 message = 'Resultado #2'
-                etapa = 7
+                etapa = 12
             case 14: 
                 message = 'Resultado #3'
-                etapa = 7
+                etapa = 12
             case 15: 
                 message = 'Peso Final #1'
-                etapa = 8
+                etapa = 13
             case 16: 
                 message = 'Peso Final #2'
-                etapa = 8
+                etapa = 13
             case 17: 
                 message = 'Peso Final #3'
-                etapa = 8
+                etapa = 13
             case 18: 
                 message = 'Resultado #1 Dispositivo'
-                etapa = 9
+                etapa = 14
             case 19: 
                 message = 'Resultado #2 Dispositivo'
-                etapa = 9
+                etapa = 14
             case 20: 
                 message = 'Critério Variação Peso ≤ (%)'
-                etapa = 10
+                etapa = 15
             case 21: 
                 message = 'Critério Variação Vazão ≤ (%)'
-                etapa = 10
+                etapa = 15
             case 22: 
-                message = 'Membrana #1 FI'
-                etapa = 4            
+                message = 'Membrana #1 FI' 
+                etapa = 9            
             case 23: 
                 message = 'Membrana #2 FI'
-                etapa = 4           
+                etapa = 9           
             case 24: 
                 message = 'Membrana #3 FI'
-                etapa = 4   
+                etapa = 9   
             case 25: 
                 message = 'Tempo Final #1'
-                etapa = 6            
+                etapa = 11            
             case 26: 
                 message = 'Tempo Final #2'
-                etapa = 6            
+                etapa = 11            
             case 27: 
                 message = 'Tempo Final #3'
-                etapa = 6            
+                etapa = 11            
  
-    return message, etapa      
+    return message, etapa        
 
 def string_para_float(tempo_str):
     """
@@ -185,6 +185,10 @@ def formulario_padrao(dados=None, combo_clientes=None):
     format_1casa='%0.1f'
     format_2casas='%0.2f'
     format_3casas='%0.3f'
+    # Exemplo de chamada da função de inicialização de campos
+    motivo_01 = None
+    dt_agendada_01 = None
+    dt_emissao_01 = None
 
     if dados:       # Alterar
         relatorio= dados['relatorio']
@@ -192,31 +196,39 @@ def formulario_padrao(dados=None, combo_clientes=None):
         hoje = GetHoraLocal('America/Sao_Paulo')
         relatorio = hoje.strftime('%Y%m%d-%H%M%S')
         condicao = True
+
     titulo = f'Planilha de Compatibilidade Química\n Relatório :point_right: {relatorio}'
     st.info(f'### {titulo}',icon=':material/thumb_up:')
 
-    ################## Etapa 1 - Status - container0 ##################
-    st.markdown(':orange-background[Etapa 1 - Status]')
-    container0 = st.container(border=True)
-    with container0:
-        opcoes = ['Pendente', 'Agendado', 'Cancelado', 'Parcial', 'Concluído']
-        status_rel = st.radio('Status Atual', options=opcoes, horizontal=True)
-        if status_rel == 'Agendado':
-            dt_agendada = st.text_input('Data Agendada:',placeholder='DD-MM-AAAA',
-                                       value=dados.get("dt_agendada", "") if dados else "")
-        if status_rel == 'Cancelado':
-            motivo = st.text_area('Motivo do cancelamento:', max_chars= 200, placeholder='Digite o motivo do cancelamento',
-                                       value=dados.get("motivo", "") if dados else "")
-        if status_rel == 'Parcial' or status_rel == 'Concluído':
-            dt_emissao = st.text_input('Data de emissão do Relatório Preliminar:',placeholder='DD-MM-AAAA',
-                                       value=dados.get("dt_emissao", "") if dados else "")    
-
-    
-    ################## Etapa 2 - Cliente - container1 ##################
-    st.markdown(':orange-background[Etapa 2 - Cliente]')
-
+    ################## Etapa 1 - Status de pedido ##################
+    st.markdown(':orange-background[Etapa 1 - Status de pedido]')
     container1 = st.container(border=True)
     with container1:
+        opcoes = ['Pendente', 'Agendado', 'Cancelado', 'Parcial', 'Concluído']
+        try:
+            valor_status_rel01  = dados.get("status_rel_01", "")
+        except:
+            valor_status_rel01 = 'Agendado'
+
+        idx_status_rel_01  = opcoes.index(valor_status_rel01)  if valor_status_rel01 in opcoes  else 1 
+
+        status_rel_01 = st.radio('Status Atual', options=opcoes, index=idx_status_rel_01, horizontal=True)
+        if status_rel_01 == 'Agendado':
+            dt_agendada_01 = st.text_input('Data Agendada:',placeholder='DD-MM-AAAA',
+                                       value=dados.get("dt_agendada_01", "") if dados else "")
+        if status_rel_01 == 'Cancelado':
+            motivo_01 = st.text_area('Motivo do cancelamento:', placeholder='Digite o motivo do cancelamento',
+                                       value=dados.get("motivo_01", "") if dados else "")
+        if status_rel_01 == 'Parcial' or status_rel_01 == 'Concluído':
+            dt_emissao_01 = st.text_input('Data de emissão do Relatório Preliminar:',placeholder='DD-MM-AAAA',
+                                       value=dados.get("dt_emissao_01", "") if dados else "")    
+
+    
+    ################## Etapa 2 - Identificação do Cliente  ##################
+    st.markdown(':orange-background[Etapa 2 - Identificação do Cliente]')
+
+    container2 = st.container(border=True)
+    with container2:
         cliente_valor = dados.get("cliente", "") if dados else ""
         # Encontra índice com tolerância a erros
         cliente_default = 0
@@ -226,136 +238,201 @@ def formulario_padrao(dados=None, combo_clientes=None):
                  break
         cliente = st.selectbox("Empresa:", combo_clientes, index=cliente_default)
         nome_empresa = f"{cliente.split('-')[0].strip()}"
-        resposta = supabase.table("Clientes").select("*").eq("empresa", nome_empresa).execute()
+        resposta = supabase.table("clientes").select("*").eq("empresa", nome_empresa).execute()
         empresa = resposta.data[0]
         # print('empresa = ', empresa)
 
         col1, col2 = st.columns(2)
         with col1:
-            local_teste  = st.text_input('Local de Teste:', max_chars= 20, 
-                                         value=dados.get("local_teste", "") if dados else "")
-            pessoa_local = st.text_input('Pessoa Local:', max_chars= 20, 
-                                         value=dados.get("pessoa_local", "") if dados else "")
-            id_local = st.text_input('ID da Sala:', max_chars= 12, 
-                                     value=dados.get("id_local", "") if dados else "")
+            local_teste_02  = st.text_input('Local de Teste:', max_chars= 20, 
+                                         value=dados.get("local_teste_02", "") if dados else "")
+            pessoa_local_02 = st.text_input('Pessoa Local:', max_chars= 20, 
+                                         value=dados.get("pessoa_local_02", "") if dados else "")
+            id_local_02 = st.text_input('ID da Sala:', max_chars= 12, 
+                                     value=dados.get("id_local_02", "") if dados else "")
         with col2:   
-            dt_chegada = st.text_input('Data e Hora - Chegada ao Local:',placeholder='DD-MM-AAAA HH:MM',
-                                       value=dados.get("dt_chegada", "") if dados else "")
-            hr_chegada = st.text_input('Data e Hora - Chegada da Pessoa:',placeholder='DD-MM-AAAA HH:MM',
-                                       value=dados.get("hr_chegada", "") if dados else "")
+            dt_chegada_02 = st.text_input('Data e Hora - Chegada ao Local:',placeholder='DD-MM-AAAA HH:MM',
+                                       value=dados.get("dt_chegada_02", "") if dados else "")
+            hr_chegada_02 = st.text_input('Data e Hora - Chegada da Pessoa:',placeholder='DD-MM-AAAA HH:MM',
+                                       value=dados.get("hr_chegada_02", "") if dados else "")
             pedido_02 = st.text_input('Número do Pedido:',
                                        value=dados.get("pedido_02", "") if dados else "")
-            
+            # ### Pedido pelo Leandro
+            # if valor_status_rel01 == 'Pendente':
+            #     if pedido_02 != '':
+            #         valor_status_rel01.index = 1 # 'Agendado'
 
-    ################## Etapa 3 - Local de Realização dos Serviços - container011 ##################
+    ################## Etapa 3 - Local de Realização dos Serviços  ##################
     st.markdown(':orange-background[Etapa 3 - Local de Realização dos Serviços]')
-    container011 = st.container(border=True)
-    with container011:
+    container3 = st.container(border=True)
+    with container3:
         opcoes = ['SIM', 'NÃO']
-        local_realizado = st.radio('O local de realização é o mesmo do cadastro?', options=opcoes, horizontal=True)
-        if local_realizado == 'SIM':
-            editar = True
+        local_realizado_03 = st.radio('O local de realização é o mesmo do cadastro?', options=opcoes, horizontal=True)
+        if local_realizado_03 == 'SIM':
+            endereco_03  = st.text_input('Endereço:', max_chars= 100, value= empresa['endereco'], disabled=True)
         else:
-            editar = False    
-
-        endereco_03  = st.text_input('Endereço:', max_chars= 100, value= empresa['endereco'], disabled=editar)
+            endereco_03  = st.text_input('Endereço:', max_chars= 100, 
+                                         value= dados.get("endereco_03", "") if dados else '', disabled=False)
 
         col1, col2, col3 = st.columns(3)
         with col1:
-            cidade_03 = st.text_input('Cidade:', max_chars= 50, value= empresa['cidade'], disabled=editar)
-            setor_03 = st.text_input('Setor:',   max_chars= 30, value= dados.get("setor_03", "") if dados else "")
+            if local_realizado_03 == 'SIM':
+                cidade_03 = st.text_input('Cidade:', max_chars= 50, value= empresa['cidade'], disabled=True)
+            else:    
+                cidade_03 = st.text_input('Cidade:', max_chars= 50, 
+                                          value= dados.get("cidade_03", "") if dados else '', disabled=False)
+            setor_03 = st.text_input('Setor:', max_chars= 30, value= dados.get("setor_03", "") if dados else "")
         with col2:  
-            uf_03 =      st.text_input('UF:',         max_chars= 50, value= empresa['uf'],        disabled=editar) 
-            id_sala_03 = st.text_input('ID da Sala:',                value= id_local,             disabled=True)
+            if local_realizado_03 == 'SIM':
+                uf_03 = st.text_input('UF:', max_chars= 50, value= empresa['uf'], disabled=True) 
+            else:
+                uf_03 = st.text_input('UF:', max_chars= 50, 
+                                      value= dados.get("uf_03", "") if dados else '', disabled=False)     
+            id_sala_03 = st.text_input('ID da Sala:', value= id_local_02, disabled=True)
         with col3:  
-            pessoa_03 = st.text_input('Pessoa Local:',                 value= pessoa_local,      disabled=True)  
+            pessoa_03 = st.text_input('Pessoa Local:', value= pessoa_local_02,      disabled=True)  
             
         col1, col2, col3 = st.columns(3)    
         with col1:
             cargo_03 = st.text_input('Cargo:',   max_chars= 50, value= dados.get("cargo_03", "") if dados else "")
-        with col2:  
-            tel_03 =     st.text_input('Telefone:',   max_chars= 50, value= empresa['telefone'],  disabled=editar)
-        with col3:    
-            email_03 =  st.text_input('E-mail:',        max_chars= 50, value= empresa['email'],  disabled=editar)
+        with col2: 
+            if local_realizado_03 == 'SIM':
+                tel_03 = st.text_input('Telefone:', max_chars= 50, value= empresa['telefone'],  disabled=True)
+            else:
+                tel_03 = st.text_input('Telefone:', max_chars= 50, 
+                                       value= dados.get("tel_03", "") if dados else '', disabled=False)    
+        with col3:   
+            if local_realizado_03 == 'SIM': 
+                email_03 = st.text_input('E-mail:', max_chars= 50, value= empresa['email'],  disabled=True)
+            else:
+                email_03 = st.text_input('E-mail:', max_chars= 50, 
+                                         value= dados.get("email_03", "") if dados else '', disabled=False)    
 
         coment_03  = st.text_area('Comentários:', value= dados.get("coment_03", "") if dados else "")    
     
-    ################## Etapa 4 - Checklist do local - container012 ##################
+    ################## Etapa 4 - Checklist do local  ##################
     st.markdown(':orange-background[Etapa 4 - Checklist do local]')   
-    container012 = st.container(border=True)
-    with container012:
+
+    try:
+       valor_ckl_ponto_04  = dados.get("ckl_ponto_04", "")
+       valor_ckl_espaco_04 = dados.get("ckl_espaco_04", "")   
+       valor_ckl_tomada_04 = dados.get("ckl_tomada_04", "")
+       valor_ckl_balan_04  = dados.get("ckl_balan_04", "")
+       valor_ckl_agua_04   = dados.get("ckl_agua_04", "")
+       valor_ckl_conex_04  = dados.get("ckl_conex_04", "")
+       valor_ckl_veda_04   = dados.get("ckl_veda_04", "")
+       valor_ckl_freez_04  = dados.get("ckl_freez_04", "")
+    except:
+       valor_ckl_ponto_04  = 'Não OK'
+       valor_ckl_espaco_04 = 'Não OK'   
+       valor_ckl_tomada_04 = 'Não OK'
+       valor_ckl_balan_04  = 'Não OK'
+       valor_ckl_agua_04   = 'Não OK'
+       valor_ckl_conex_04  = 'Não OK'
+       valor_ckl_veda_04   = 'Não OK'
+       valor_ckl_freez_04  = 'Não OK'
+
+    opcoes_ckl = ['OK', 'Não OK']
+    idx_ckl_ponto_04  = opcoes_ckl.index(valor_ckl_ponto_04)  if opcoes_ckl in opcoes_ckl  else 1
+    idx_ckl_espaco_04 = opcoes_ckl.index(valor_ckl_espaco_04) if opcoes_ckl in opcoes_ckl  else 1
+    idx_ckl_tomada_04 = opcoes_ckl.index(valor_ckl_tomada_04) if opcoes_ckl in opcoes_ckl  else 1
+    idx_ckl_balan_04  = opcoes_ckl.index(valor_ckl_balan_04)  if opcoes_ckl in opcoes_ckl  else 1
+    idx_ckl_agua_04   = opcoes_ckl.index(valor_ckl_agua_04)   if opcoes_ckl in opcoes_ckl  else 1
+    idx_ckl_conex_04  = opcoes_ckl.index(valor_ckl_conex_04)  if opcoes_ckl in opcoes_ckl  else 1
+    idx_ckl_veda_04   = opcoes_ckl.index(valor_ckl_veda_04)   if opcoes_ckl in opcoes_ckl  else 1
+    idx_ckl_freez_04  = opcoes_ckl.index(valor_ckl_freez_04)  if opcoes_ckl in opcoes_ckl  else 1
+
+
+    container4 = st.container(border=True)
+    with container4:
         opcoes_ckl = ['OK', 'Não OK']
         col1, col2 = st.columns(2)
         with col1:
-            ckl_ponto_04 = st.radio('Ponto de Ar Comprimido Regulado e com Tubo de 6mm?', options=opcoes_ckl, horizontal=True)
-            ckl_espaco_04 = st.radio('Espaço da bancada: pelo menos 2000mm x 800mm', options=opcoes_ckl, horizontal=True)
-            ckl_tomada_04 = st.radio('3 Tomadas padrão Nacional NBR14136', options=opcoes_ckl, horizontal=True)
-            ckl_balan_04 = st.radio('Estabilizador de Balança', options=opcoes_ckl, horizontal=True)
+            ckl_ponto_04 = st.radio('Ponto de Ar Comprimido Regulado e com Tubo de 6mm?', 
+                                    options=opcoes_ckl, index=idx_ckl_ponto_04,  horizontal=True)
+            ckl_espaco_04 = st.radio('Espaço da bancada: pelo menos 2000mm x 800mm', 
+                                    options=opcoes_ckl, index=idx_ckl_espaco_04, horizontal=True)
+            ckl_tomada_04 = st.radio('3 Tomadas padrão Nacional NBR14136',
+                                    options=opcoes_ckl, index=idx_ckl_tomada_04, horizontal=True)
+            ckl_balan_04 = st.radio('Estabilizador de Balança', 
+                                    options=opcoes_ckl, index=idx_ckl_balan_04,  horizontal=True)
         with col2:    
-            ckl_agua_04 = st.radio('10L de água purificada (WFI) a temperatura ambiente (23-25ºC)', options=opcoes_ckl, horizontal=True)
-            ckl_conex_04 = st.radio('Tubulações e conexões triclamps de 1” e ½”', options=opcoes_ckl, horizontal=True)
-            ckl_veda_04 = st.radio('Abraçadeiras e vedações triclamps', options=opcoes_ckl, horizontal=True)
-            ckl_freez_04 = st.radio('Geladeira/Freezer ou Estufas', options=opcoes_ckl, horizontal=True)
+            ckl_agua_04 = st.radio('10L de água purificada (WFI) a temperatura ambiente (23-25ºC)', 
+                                    options=opcoes_ckl, index=idx_ckl_agua_04,  horizontal=True)
+            ckl_conex_04 = st.radio('Tubulações e conexões triclamps de 1” e ½”', 
+                                    options=opcoes_ckl, index=idx_ckl_conex_04, horizontal=True)
+            ckl_veda_04 = st.radio('Abraçadeiras e vedações triclamps', 
+                                    options=opcoes_ckl, index=idx_ckl_veda_04,  horizontal=True)
+            ckl_freez_04 = st.radio('Geladeira/Freezer ou Estufas', 
+                                    options=opcoes_ckl, index=idx_ckl_freez_04, horizontal=True)
 
         coment_04  = st.text_area('Comentários Checklist:', value= dados.get("coment_03", "") if dados else "")
 
-    ################## Etapa 5 - Checklist do local - container2 ##################
+    ################## Etapa 5 - Checklist do local  ##################
     st.markdown(':orange-background[Etapa 5 - Identificação do Material de Estudo]') 
 
-    container2 = st.container(border=True)
-    with container2:
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            linha  = st.text_input('Linha do Filtro:', max_chars= 40, value=dados.get("linha", "") if dados else "")
-            cat_membr = st.text_input('Nº Catálogo da Membrana:',max_chars= 40, value=dados.get("cat_membr", "") if dados else "")
-        with col2:   
-            fabricante = st.text_input('Fabricante do Filtro:',max_chars= 40, value=dados.get("fabricante", "") if dados else "") 
-            poro_cat_membr= st.text_input('Poro:', max_chars= 12, value=dados.get("poro_cat_membr", "") if dados else "")
+    container5 = st.container(border=True)
+    with container5:
+        opcoes_gas = ['Nitrogênio','Ar Comprimido']
+        try:
+            valor_tipo_gas_05  = dados.get("tipo_gas_05", "")
+        except:
+            valor_tipo_gas_05 = 'Ar Comprimido'
+
+        idx_tipo_gas_05  = opcoes_ckl.index(valor_tipo_gas_05)  if opcoes_ckl in opcoes_ckl  else 1     
 
         col1, col2, col3 = st.columns(3)
         with col1:
-            temp_filtra = st.text_input('Temperatura de Filtração (°C):', max_chars= 12, 
-                                        value=dados.get("temp_filtra", "") if dados else "")
-            tara  = st.text_input('Tara da Balança (g):', max_chars= 12, value=dados.get("tara", "") if dados else "")
-            produto = st.text_input('Produto', max_chars= 20, value=dados.get("produto", "") if dados else "")
+            linha_05  = st.text_input('Linha do Filtro:', max_chars= 40, value=dados.get("linha_05", "") if dados else "")
+            cat_membr_05 = st.text_input('Nº Catálogo da Membrana:',max_chars= 40, value=dados.get("cat_membr_05", "") if dados else "")
+        with col2:   
+            fabricante_05 = st.text_input('Fabricante do Filtro:',max_chars= 40, value=dados.get("fabricante_05", "") if dados else "") 
+            poro_cat_membr_05= st.text_input('Poro:', max_chars= 12, value=dados.get("poro_cat_membr_05", "") if dados else "")
+
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            temp_filtra_05 = st.text_input('Temperatura de Filtração (°C):', max_chars= 12, 
+                                        value=dados.get("temp_filtra_05", "") if dados else "")
+            tara_05  = st.text_input('Tara da Balança (g):', max_chars= 12, value=dados.get("tara_05", "") if dados else "")
+            produto_05 = st.text_input('Produto', max_chars= 20, value=dados.get("produto_05", "") if dados else "")
             area_mem_05 = st.text_input('Area efetiva da membrana', max_chars= 20, value=dados.get("area_mem_05", "") if dados else "")
         with col2:   
-            tmp_contato = st.text_input('Tempo de Contato (h):', max_chars= 10, 
-                                        value=dados.get("tmp_contato", "") if dados else "")  
-            tempera_local = st.text_input('Temperatura Local (°C):',max_chars= 12, 
-                                          value=dados.get("tempera_local", "") if dados else "")
-            lote = st.text_input('Lote Do Produto:', max_chars= 12, value=dados.get("lote", "") if dados else "") 
+            tmp_contato_05 = st.text_input('Tempo de Contato (h):', max_chars= 10, 
+                                        value=dados.get("tmp_contato_05", "") if dados else "")  
+            tempera_local_05 = st.text_input('Temperatura Local (°C):',max_chars= 12, 
+                                          value=dados.get("tempera_local_05", "") if dados else "")
+            lote_05 = st.text_input('Lote Do Produto:', max_chars= 12, value=dados.get("lote_05", "") if dados else "") 
             area_dis_05 = st.text_input('Area efetiva do dispositivo', max_chars= 20, value=dados.get("area_dis_05", "") if dados else "")
         with col3:  
-            armaz = st.text_input('Armazenagem Local:',max_chars= 20, value=dados.get("armaz", "") if dados else "")  
-            umidade = st.text_input('Umidade (%):',max_chars= 20, value=dados.get("umidade", "") if dados else "") 
-            volume = st.text_input('Volume:', max_chars= 12, value=dados.get("volume", "") if dados else "")   
-            ckl_gas_05 = st.radio('Tipo de gás exigido', options=['Nitrogênio','Ar Comprimido']) 
+            armaz_05 = st.text_input('Armazenagem Local:',max_chars= 20, value=dados.get("armaz_05", "") if dados else "")  
+            umidade_05 = st.text_input('Umidade (%):',max_chars= 20, value=dados.get("umidade_05", "") if dados else "") 
+            volume_05 = st.text_input('Volume:', max_chars= 12, value=dados.get("volume_05", "") if dados else "")   
+            tipo_gas_05 = st.radio('Tipo de gás exigido', options=opcoes_gas, index=idx_tipo_gas_05) 
 
-    ################## Etapa 6 - Lote / Catálogo / Serial - container3 ##################
+    ################## Etapa 6 - Lote / Catálogo / Serial  ##################
     st.markdown(':orange-background[Etapa 6 - Lote / Catálogo / Serial]')
-    container3 = st.container(border=True)
+    container6 = st.container(border=True)
 
-    with container3:
+    with container6:
         col1, col2, col3 = st.columns(3)   
         with col1:  
-            lotem1 = st.text_input('Lote Membrana #1:', max_chars= 10, value=dados.get("lotem1", "") if dados else "") 
-            lotes1 = st.text_input('Lote Serial #1:', max_chars= 10, value=dados.get("lotes1", "") if dados else "") 
-            cat_disp = st.text_input('Catálogo do Dispositivo:', max_chars= 12, value=dados.get("cat_disp", "") if dados else "") 
+            lotem1_06 = st.text_input('Lote Membrana #1:', max_chars= 10, value=dados.get("lotem1_06", "") if dados else "") 
+            lotes1_06 = st.text_input('Lote Serial #1:', max_chars= 10, value=dados.get("lotes1_06", "") if dados else "") 
+            cat_disp_06 = st.text_input('Catálogo do Dispositivo:', max_chars= 12, value=dados.get("cat_disp_06", "") if dados else "") 
         with col2:  
-            lotem2 = st.text_input('Lote Membrana #2:', max_chars= 10, value=dados.get("lotem2", "") if dados else "") 
-            lotes2 = st.text_input('Lote Serial #2:', max_chars= 10, value=dados.get("lotes2", "") if dados else "")
-            lote_disp = st.text_input('Lote do Dispositivo:', max_chars= 10, value=dados.get("lote_disp", "") if dados else "")
+            lotem2_06 = st.text_input('Lote Membrana #2:', max_chars= 10, value=dados.get("lotem2_06", "") if dados else "") 
+            lotes2_06 = st.text_input('Lote Serial #2:', max_chars= 10, value=dados.get("lotes2_06", "") if dados else "")
+            lote_disp_06 = st.text_input('Lote do Dispositivo:', max_chars= 10, value=dados.get("lote_disp_06", "") if dados else "")
         with col3:  
-            lotem3 = st.text_input('Lote Membrana #3:', max_chars= 10, value=dados.get("lotem3", "") if dados else "") 
-            lotes3 = st.text_input('Lote Serial #3:', max_chars= 10, value=dados.get("lotes3", "") if dados else "")
-            serial_cat_disp = st.text_input('Serial Dispositivo:', max_chars= 6, 
-                                            value=dados.get("serial_cat_disp", "") if dados else "")    
+            lotem3_06 = st.text_input('Lote Membrana #3:', max_chars= 10, value=dados.get("lotem3_06", "") if dados else "") 
+            lotes3_06 = st.text_input('Lote Serial #3:', max_chars= 10, value=dados.get("lotes3_06", "") if dados else "")
+            serial_cat_disp_06 = st.text_input('Serial Dispositivo:', max_chars= 6, 
+                                            value=dados.get("serial_cat_disp_06", "") if dados else "")    
 
-    ################## Etapa 7 - Formulação - container013 ##################
+    ################## Etapa 7 - Formulação  ##################
     st.markdown(':orange-background[Etapa 7 - Formulação]')
-    container013 = st.container(border=True)
-    with container013:
+    container7 = st.container(border=True)
+    with container7:
         col1, col2 = st.columns(2)
         with col1:
             st.markdown('<div style="text-align: center;"><h5>FORMULAÇÃO</h5></div>', unsafe_allow_html=True)
@@ -383,27 +460,36 @@ def formulario_padrao(dados=None, combo_clientes=None):
             conc_09_07 = st.text_input('Concentração 9:',   max_chars= 40, value= dados.get("conc_09_07", "") if dados else "")
             conc_10_07 = st.text_input('Concentração 10:',  max_chars= 40, value= dados.get("conc_10_07", "") if dados else "")
 
-    ################## Etapa 8 - Informações adicionais - container014 ##################
-    st.markdown(':orange-background[Etapa 8 - Informações adicionais]')   
-    container014 = st.container(border=True)
-    with container014:
-        opcoes_mat = ['Silicone', 'Aço', 'Policarbonato', 'Nenhuma incompatibilidade conhecida']
-        opcoes_sens = ['Sensível á Oxigênio', 'Sensível á Luz', 'Sensibilidade ao Aço', 
-                       'Sensibilidade a borbulhamento','Nenhuma sensibilidade conhecida']
+    ################## Etapa 8 - Informações adicionais  ##################
+    st.markdown(':orange-background[Etapa 8 - Informações adicionais]')
+    try:
+        valor_mat   = dados.get("ckl_mat_08", "")
+        valor_sens  = dados.get("ckl_sens_08", "")   
+    except:
+        valor_mat   = 'Policarbonato' 
+        valor_sens  = 'Sensibilidade ao Aço'
+
+    opcoes_mat  = ['Silicone', 'Aço', 'Policarbonato', 'Nenhuma incompatibilidade conhecida']
+    opcoes_sens = ['Sensível á Oxigênio', 'Sensível á Luz', 'Sensibilidade ao Aço','Sensibilidade a borbulhamento',
+                   'Nenhuma sensibilidade conhecida']
+    idx_mat  = opcoes_mat.index(valor_mat)   if valor_mat  in opcoes_mat  else 3
+    idx_sens = opcoes_sens.index(valor_sens) if valor_sens in opcoes_sens else 4
+    container8 = st.container(border=True)
+    with container8:
         col1, col2 = st.columns(2)
         with col1:
-            ckl_mat_08 = st.radio('Incompatibilidade do produto / material', options=opcoes_mat, index=3)
+            ckl_mat_08 = st.radio('Incompatibilidade do produto / material', options=opcoes_mat, index=idx_mat)
         with col2:    
-            ckl_sens_08 = st.radio('Sensibilidade do Produto', options=opcoes_sens, index=4)
+            ckl_sens_08 = st.radio('Sensibilidade do Produto', options=opcoes_sens, index=idx_sens)
+
         estab_08 = st.text_input('Estabilidade do Produto:',  max_chars= 50, value= dados.get("estab_08", "") if dados else "")
 
-    ################## Etapa 9 - Início - container4 ##################
+    ################## Etapa 9 - Início  ##################
     st.markdown(':orange-background[Etapa 9 - Início]')
-    container4 = st.container(border=True)
-    with container4:
+    container9 = st.container(border=True)
+    with container9:
         col1, col2, col3, col4 = st.columns(4)
         with col1:
-            # st.markdown('<div style="text-align: center;"><h6>Pesagem Inicial(g)</h6></div>', unsafe_allow_html=True)
             st.markdown("""
             <div style="height: 280px; display: flex; justify-content: center; align-items: center;">
                 <div style="writing-mode: vertical-rl; transform: rotate(180deg); font-size: 20px;">
@@ -412,12 +498,12 @@ def formulario_padrao(dados=None, combo_clientes=None):
             </div>
         """, unsafe_allow_html=True)
         with col2:
-            pi_memb_1 = st.number_input('Membrana #1 PI:', format=format_3casas, 
-                                        value=float(dados.get("pi_memb_1", 0.0)) if dados else 0.0)   
-            pi_memb_2 = st.number_input('Membrana #2 PI:', format=format_3casas, 
-                                        value=float(dados.get("pi_memb_2", 0.0)) if dados else 0.0) 
-            pi_memb_3 = st.number_input('Membrana #3 PI:', format=format_3casas, 
-                                        value=float(dados.get("pi_memb_3", 0.0)) if dados else 0.0)
+            pi_memb_1_09 = st.number_input('Membrana #1 PI:', format=format_3casas, 
+                                        value=float(dados.get("pi_memb_1_09", 0.0)) if dados else 0.0)   
+            pi_memb_2_09 = st.number_input('Membrana #2 PI:', format=format_3casas, 
+                                        value=float(dados.get("pi_memb_2_09", 0.0)) if dados else 0.0) 
+            pi_memb_3_09 = st.number_input('Membrana #3 PI:', format=format_3casas, 
+                                        value=float(dados.get("pi_memb_3_09", 0.0)) if dados else 0.0)
         with col3:   
             st.markdown("""
             <div style="height: 280px; display: flex; justify-content: center; align-items: center;">
@@ -427,45 +513,45 @@ def formulario_padrao(dados=None, combo_clientes=None):
             </div>
         """, unsafe_allow_html=True)            
         with col4:   
-            fli_memb_1 = st.text_input('Membrana #1 FI:', max_chars= 5, placeholder='MM:SS', 
-                                       value=dados.get("fli_memb_1", "") if dados else "")
-            fli_memb_2 = st.text_input('Membrana #2 FI:', max_chars= 5, placeholder='MM:SS', 
-                                       value=dados.get("fli_memb_2", "") if dados else "")
-            fli_memb_3 = st.text_input('Membrana #3 FI:', max_chars= 5, placeholder='MM:SS', 
-                                       value=dados.get("fli_memb_3", "") if dados else "")
+            fli_memb_1_09 = st.text_input('Membrana #1 FI:', max_chars= 5, placeholder='MM:SS', 
+                                       value=dados.get("fli_memb_1_09", "") if dados else "")
+            fli_memb_2_09 = st.text_input('Membrana #2 FI:', max_chars= 5, placeholder='MM:SS', 
+                                       value=dados.get("fli_memb_2_09", "") if dados else "")
+            fli_memb_3_09 = st.text_input('Membrana #3 FI:', max_chars= 5, placeholder='MM:SS', 
+                                       value=dados.get("fli_memb_3_09", "") if dados else "")
 
         st.divider()
         st.markdown('<div style="text-align: center;"><h5>Teste de Integridade - Fluido Padrão</h5></div>', unsafe_allow_html=True)
 
         col1, col2, col3 = st.columns(3)
         with col1:
-            pb_padraowfi = st.number_input('PB Padrão Fluido Padrão (psi):', format=format_1casa, step=0.1, 
-                                            value=float(dados.get("pb_padraowfi", 0.0)) if dados else 0.0)
+            pb_padraowfi_09 = st.number_input('PB Padrão Fluido Padrão (psi):', format=format_1casa, step=0.1, 
+                                            value=float(dados.get("pb_padraowfi_09", 0.0)) if dados else 0.0)
         with col2:
-            wfi_res1 = st.number_input('Fluido Padrão Resultado #1:', format=format_1casa, step=0.1, 
-                                        value=float(dados.get("wfi_res1", 0.0)) if dados else 0.0)  
-            wfi_res2 = st.number_input('Fluido Padrão Resultado #2:', format=format_1casa, step=0.1, 
-                                        value=float(dados.get("wfi_res2", 0.0)) if dados else 0.0)
-            wfi_res3 = st.number_input('Fluido Padrão Resultado #3:', format=format_1casa, step=0.1, 
-                                        value=float(dados.get("wfi_res3", 0.0)) if dados else 0.0)
+            wfi_res1_09 = st.number_input('Fluido Padrão Resultado #1:', format=format_1casa, step=0.1, 
+                                        value=float(dados.get("wfi_res1_09", 0.0)) if dados else 0.0)  
+            wfi_res2_09 = st.number_input('Fluido Padrão Resultado #2:', format=format_1casa, step=0.1, 
+                                        value=float(dados.get("wfi_res2_09", 0.0)) if dados else 0.0)
+            wfi_res3_09 = st.number_input('Fluido Padrão Resultado #3:', format=format_1casa, step=0.1, 
+                                        value=float(dados.get("wfi_res3_09", 0.0)) if dados else 0.0)
         with col3:
-            wfi_id1 = st.text_input('Fluido Padrão ID #1:', max_chars= 20, value=dados.get("wfi_id1", "") if dados else "")  
-            wfi_id2 = st.text_input('Fluido Padrão ID #2:', max_chars= 20, value=dados.get("wfi_id2", "") if dados else "")
-            wfi_id3 = st.text_input('Fluido Padrão ID #3:', max_chars= 20, value=dados.get("wfi_id3", "") if dados else "")   
+            wfi_id1_09 = st.text_input('Fluido Padrão ID #1:', max_chars= 20, value=dados.get("wfi_id1_09", "") if dados else "")  
+            wfi_id2_09 = st.text_input('Fluido Padrão ID #2:', max_chars= 20, value=dados.get("wfi_id2_09", "") if dados else "")
+            wfi_id3_09 = st.text_input('Fluido Padrão ID #3:', max_chars= 20, value=dados.get("wfi_id3_09", "") if dados else "")   
 
         st.divider()
         st.markdown('<div style="text-align: left;"><h5>Tempo de contato com o produto (Inicial)</h5></div>', unsafe_allow_html=True)
 
         col1, col2, col3 = st.columns(3)
         with col1:
-            dt_wfi = st.text_input('Data:',placeholder='DD-MM-AAAA', value=dados.get("dt_wfi", "") if dados else "")
+            dt_wfi_09 = st.text_input('Data:',placeholder='DD-MM-AAAA', value=dados.get("dt_wfi_09", "") if dados else "")
         with col2:
-            hr_wfi = st.text_input('Hora:',placeholder='HH:MM', value=dados.get("hr_wfi", "") if dados else "")
+            hr_wfi_09 = st.text_input('Hora:',placeholder='HH:MM', value=dados.get("hr_wfi_09", "") if dados else "")
         
-    ################## Etapa 10 - Tempo de contato - container5 ##################   
+    ################## Etapa 10 - Tempo de contato  ##################   
     st.markdown(':orange-background[Etapa 10 - Tempo de contato]')
-    container5 = st.container(border=True)
-    with container5:
+    container10 = st.container(border=True)
+    with container10:
         texto1 = 'Realizar a análise visual.'
         texto2 = 'Registrar com fotográfico.'
         st.warning(f' :warning: ATENÇÃO !\n###### :point_right: {texto1} \n###### :point_right: {texto2} ')
@@ -474,66 +560,64 @@ def formulario_padrao(dados=None, combo_clientes=None):
         
         col1, col2, col3 = st.columns(3)
         with col1:
-            dt_wfip = st.text_input('Data Final:',placeholder='DD-MM-AAAA', 
-                                    value=dados.get("dt_wfip", "") if dados else "")
+            dt_wfip_10 = st.text_input('Data Final:',placeholder='DD-MM-AAAA', 
+                                    value=dados.get("dt_wfip_10", "") if dados else "")
         with col2:
-            hr_wfip = st.text_input('Hora Final:',placeholder='HH:MM', value=dados.get("hr_wfip", "") if dados else "")
+            hr_wfip_10 = st.text_input('Hora Final:',placeholder='HH:MM', value=dados.get("hr_wfip_10", "") if dados else "")
         
-        if dt_wfi and hr_wfi and dt_wfip and hr_wfip:
-            data1 = corrige_formato_dthr(dt_wfi  + ' ' + hr_wfi)
-            data2 = corrige_formato_dthr(dt_wfip + ' ' + hr_wfip)
+        if dt_wfi_09 and hr_wfi_09 and dt_wfip_10 and hr_wfip_10:
+            data1 = corrige_formato_dthr(dt_wfi_09  + ' ' + hr_wfi_09)
+            data2 = corrige_formato_dthr(dt_wfip_10 + ' ' + hr_wfip_10)
 
         with col3:
-            if dt_wfi and hr_wfi and dt_wfip and hr_wfip:
-                horas_contato, condicao = validar_datas_e_calcular_horas(data1, data2)
+            if dt_wfi_09 and hr_wfi_09 and dt_wfip_10 and hr_wfip_10:
+                horas_contato_10, condicao = validar_datas_e_calcular_horas(data1, data2)
             else:
-                horas_contato = '00:00'    
-            contato_wfip = st.text_input('Total de Horas:',value= str(horas_contato), disabled= True, 
+                horas_contato_10 = '00:00'    
+            contato_wfip = st.text_input('Total de Horas:',value= str(horas_contato_10), disabled= True, 
                                         help='Diferença entre hora do teste Fluido Padrão e hora do teste de integridade do produto')
 
 
-        # # texto1 = 'Inserir ponto de bolha referencial aqui'
-        # # st.info(f'\n###### :point_right: {texto1}')
         st.markdown('<div style="text-align: center;"><h5>Teste de Integridade - PRODUTO</h5></div>', unsafe_allow_html=True)
         col1, col2, col3 = st.columns(3)
         with col1:
-            pb_refproduto = st.number_input('PB Referencial (psi):', format=format_1casa, 
-                                            value=float(dados.get("pb_refproduto", 0.0)) if dados else 0.0, 
+            pb_refproduto_10 = st.number_input('PB Referencial (psi):', format=format_1casa, 
+                                            value=float(dados.get("pb_refproduto_10", 0.0)) if dados else 0.0, 
                                             help= 'Usar teste Referencial', step=0.1)
         with col2:
-            prd_res1 = st.number_input('PB-P #1', format=format_1casa, step=0.1, 
-                                        value=float(dados.get("prd_res1", 0.0)) if dados else 0.0)  
-            prd_res2 = st.number_input('PB-P #2', format=format_1casa, step=0.1, 
-                                        value=float(dados.get("prd_res2", 0.0)) if dados else 0.0)
-            prd_res3 = st.number_input('PB-P #3', format=format_1casa, step=0.1, 
-                                        value=float(dados.get("prd_res3", 0.0)) if dados else 0.0)
+            prd_res1_10 = st.number_input('PB-P #1', format=format_1casa, step=0.1, 
+                                        value=float(dados.get("prd_res1_10", 0.0)) if dados else 0.0)  
+            prd_res2_10 = st.number_input('PB-P #2', format=format_1casa, step=0.1, 
+                                        value=float(dados.get("prd_res2_10", 0.0)) if dados else 0.0)
+            prd_res3_10 = st.number_input('PB-P #3', format=format_1casa, step=0.1, 
+                                        value=float(dados.get("prd_res3_10", 0.0)) if dados else 0.0)
         with col3:
-            prd_id1 = st.text_input('ID #1 Produto:', max_chars= 20, value=dados.get("prd_id1", "") if dados else "")  
-            prd_id2 = st.text_input('ID #2 Produto:', max_chars= 20, value=dados.get("prd_id2", "") if dados else "")
-            prd_id3 = st.text_input('ID #3 Produto:', max_chars= 20, value=dados.get("prd_id3", "") if dados else "")   
+            prd_id1_10 = st.text_input('ID #1 Produto:', max_chars= 20, value=dados.get("prd_id1_10", "") if dados else "")  
+            prd_id2_10 = st.text_input('ID #2 Produto:', max_chars= 20, value=dados.get("prd_id2_10", "") if dados else "")
+            prd_id3_10 = st.text_input('ID #3 Produto:', max_chars= 20, value=dados.get("prd_id3_10", "") if dados else "")   
 
-    ################## Etapa 11 - Cálculo da Vazão Final - container6 ##################
+    ################## Etapa 11 - Cálculo da Vazão Final  ##################
     st.markdown(':orange-background[Etapa 11 - Cálculo da Vazão Final]')
-    container6 = st.container(border=True)
-    with container6:
+    container11 = st.container(border=True)
+    with container11:
         # texto1 = 'Enxaguar as membranas para o medir vazão final'
         # st.warning(f' :warning: AVISO\n###### :point_right: {texto1} ')
         st.markdown('<div style="text-align: left;"><h5>Fluxo Final (min)</h5></div>', unsafe_allow_html=True)
         col1, col2, col3 = st.columns(3)
         with col1:
-            flf_memb_1 = st.text_input('Tempo Final #1', max_chars= 5, placeholder='MM:SS', 
-                                       value=dados.get("flf_memb_1", "") if dados else "")
+            tmp_final1_11 = st.text_input('Tempo Final #1', max_chars= 5, placeholder='MM:SS', 
+                                       value=dados.get("tmp_final1_11", "") if dados else "")
         with col2:   
-            flf_memb_2 = st.text_input('Tempo Final #2', max_chars= 5, placeholder='MM:SS', 
-                                       value=dados.get("flf_memb_2", "") if dados else "")
+            tmp_final2_11 = st.text_input('Tempo Final #2', max_chars= 5, placeholder='MM:SS', 
+                                       value=dados.get("tmp_final2_11", "") if dados else "")
         with col3: 
-            flf_memb_3 = st.text_input('Tempo Final #3', max_chars= 5, placeholder='MM:SS', 
-                                       value=dados.get("flf_memb_3", "") if dados else "")
+            tmp_final3_11 = st.text_input('Tempo Final #3', max_chars= 5, placeholder='MM:SS', 
+                                       value=dados.get("tmp_final3_11", "") if dados else "")
 
-    ################## Etapa 12 - Teste de Integridade com Fluido Padrao - Final - container7 ##################           
+    ################## Etapa 12 - Teste de Integridade com Fluido Padrao - Final  ##################           
     st.markdown(':orange-background[Etapa 12 - Teste de Integridade com Fluido Padrao - Final]')
-    container7 = st.container(border=True)
-    with container7:
+    container12 = st.container(border=True)
+    with container12:
         texto1 = 'Enxaguar as membranas para teste de Integridade com Fluido Padrão Final'
         st.warning(f' :warning: AVISO\n###### :point_right: {texto1} ')
 
@@ -541,59 +625,59 @@ def formulario_padrao(dados=None, combo_clientes=None):
 
         col1, col2, col3 = st.columns(3)
         with col1:
-            texto = f'PB Referencial : {pb_refproduto:.1f}'
+            texto = f'PB Referencial : {pb_refproduto_10:.1f}'
             st.markdown(f"<div style='color: orange; font-size: 22px; font-weight: bold;'>{texto}</div>", unsafe_allow_html=True)
 
         with col2:
-            wfif_res1 = st.number_input('Resultado #1:', format=format_1casa, step=0.1, 
-                                        value=float(dados.get("wfif_res1", 0.0)) if dados else 0.0)  
-            wfif_res2 = st.number_input('Resultado #2:', format=format_1casa, step=0.1, 
-                                        value=float(dados.get("wfif_res2", 0.0)) if dados else 0.0)
-            wfif_res3 = st.number_input('Resultado #3:', format=format_1casa, step=0.1, 
-                                        value=float(dados.get("wfif_res3", 0.0)) if dados else 0.0)
+            res_padr1_12 = st.number_input('Resultado #1:', format=format_1casa, step=0.1, 
+                                        value=float(dados.get("res_padr1_12", 0.0)) if dados else 0.0)  
+            res_padr2_12 = st.number_input('Resultado #2:', format=format_1casa, step=0.1, 
+                                        value=float(dados.get("res_padr2_12", 0.0)) if dados else 0.0)
+            res_padr3_12 = st.number_input('Resultado #3:', format=format_1casa, step=0.1, 
+                                        value=float(dados.get("res_padr3_12", 0.0)) if dados else 0.0)
         with col3:
-            wfif_id1 = st.text_input('ID #1:', max_chars= 20, value=dados.get("wfif_id1", "") if dados else "")  
-            wfif_id2 = st.text_input('ID #2:', max_chars= 20, value=dados.get("wfif_id2", "") if dados else "")
-            wfif_id3 = st.text_input('ID #3:', max_chars= 20, value=dados.get("wfif_id3", "") if dados else "") 
+            id_padr1_12 = st.text_input('ID #1:', max_chars= 20, value=dados.get("id_padr1_12", "") if dados else "")  
+            id_padr2_12 = st.text_input('ID #2:', max_chars= 20, value=dados.get("id_padr2_12", "") if dados else "")
+            id_padr3_12 = st.text_input('ID #3:', max_chars= 20, value=dados.get("id_padr3_12", "") if dados else "") 
 
 
-    ################## Etapa 13 - Aferiçao de Massa Final - container8 ##################
+    ################## Etapa 13 - Aferiçao de Massa Final  ##################
     st.markdown(':orange-background[Etapa 13 - Aferiçao de Massa Final]')
-    container8 = st.container(border=True)
-    with container8:
+    container13 = st.container(border=True)
+    with container13:
         texto1 = 'Secar as membranas antes da pesagem'
         st.warning(f' :warning: ATENÇÃO !\n###### :point_right: {texto1} ')
 
         st.markdown('<div style="text-align: left;"><h5>Pesagem Final (g)</h5></div>', unsafe_allow_html=True)
         col1, col2, col3 = st.columns(3)
         with col1: 
-            pf_memb_1 = st.number_input('Peso Final #1:', format=format_3casas, step=0.01, 
-                                        value=float(dados.get("pf_memb_1", 0.0)) if dados else 0.0)
+            pf_memb_1_13 = st.number_input('Peso Final #1:', format=format_3casas, step=0.01, 
+                                        value=float(dados.get("pf_memb_1_13", 0.0)) if dados else 0.0)
         with col2:   
-            pf_memb_2 = st.number_input('Peso Final #2:', format=format_3casas, step=0.01, 
-                                        value=float(dados.get("pf_memb_2", 0.0)) if dados else 0.0) 
+            pf_memb_2_13 = st.number_input('Peso Final #2:', format=format_3casas, step=0.01, 
+                                        value=float(dados.get("pf_memb_2_13", 0.0)) if dados else 0.0) 
         with col3: 
-            pf_memb_3 = st.number_input('Peso Final #3:', format=format_3casas, step=0.01, 
-                                        value=float(dados.get("pf_memb_3", 0.0)) if dados else 0.0)
+            pf_memb_3_13 = st.number_input('Peso Final #3:', format=format_3casas, step=0.01, 
+                                        value=float(dados.get("pf_memb_3_13", 0.0)) if dados else 0.0)
 
-    ################## Etapa 14 - Teste de Integridade - Dispositivo - container9 ##################        
+    ################## Etapa 14 - Teste de Integridade - Dispositivo  ##################        
     st.markdown(':orange-background[Etapa 14 - Teste de Integridade - Dispositivo]')
-    container9 = st.container(border=True)
-    with container9:
+    container14 = st.container(border=True)
+    with container14:
         col1, col2 = st.columns(2)
         with col1:
-            estimado, erro = CalculaPBEstimado(prd_res1, prd_res2, prd_res3,
-                      wfi_res1, wfi_res2, wfi_res3, pb_padraowfi)
+            peso_calc_14, erro = CalculaPBEstimado(prd_res1_10, prd_res2_10, prd_res3_10,
+                      wfi_res1_09, wfi_res2_09, wfi_res3_09, pb_padraowfi_09)
 
             if erro == 0:
-                texto = f'PB Calculado: {estimado}'
+                texto = f'PB Calculado: {peso_calc_14}'
                 st.info(f' ###### :point_right: {texto}')
             else:
                 if erro >= 14 and erro <= 19:
                     message, etapa = ShowErro(erro=erro)
                     st.warning(f' ###### :point_right: {message} \n:warning: INVÁLIDO ! \n :mag_right: ETAPA :point_right: {etapa}') 
         with col2:
-            if estimado < pb_padraowfi:
+            if peso_calc_14 < pb_padraowfi_09:
                 st.warning('PB Produto abaixo do valor esperado')
 
         col1, col2, col3 = st.columns(3)
@@ -602,106 +686,155 @@ def formulario_padrao(dados=None, combo_clientes=None):
             st.info(f' ###### :material/Clock_Loader_40: {texto}')
 
         with col2:
-            dis_res1 = st.number_input('Resultado #1 Dispositivo:', format=format_1casa, step=0.1, 
-                                       value=float(dados.get("dis_res1", 0.0)) if dados else 0.0)  
-            dis_res2 = st.number_input('Resultado #2 Dispositivo:', format=format_1casa, step=0.1, 
-                                       value=float(dados.get("dis_res2", 0.0)) if dados else 0.0)
+            dis_res1_14 = st.number_input('Resultado #1 Dispositivo:', format=format_1casa, step=0.1, 
+                                       value=float(dados.get("dis_res1_14", 0.0)) if dados else 0.0)  
+            dis_res2_14 = st.number_input('Resultado #2 Dispositivo:', format=format_1casa, step=0.1, 
+                                       value=float(dados.get("dis_res2_14", 0.0)) if dados else 0.0)
 
         with col3:
-            dis_id1 = st.text_input('ID #1 Dispositivo:', max_chars= 20, value=dados.get("dis_id1", "") if dados else "")  
-            dis_id2 = st.text_input('ID #2 Dispositivo:', max_chars= 20, value=dados.get("dis_id2", "") if dados else "")
+            dis_id1_14 = st.text_input('ID #1 Dispositivo:', max_chars= 20, value=dados.get("dis_id1_14", "") if dados else "")  
+            dis_id2_14 = st.text_input('ID #2 Dispositivo:', max_chars= 20, value=dados.get("dis_id2_14", "") if dados else "")
         
     
-    ################## Etapa 15 - Critérios de Avaliação - container10 ##################
+    ################## Etapa 15 - Critérios de Avaliação  ##################
     st.markdown(':orange-background[Etapa 15 - Critérios de Avaliação]')    
-    container10 = st.container(border=True)
-    with container10:
+    container15 = st.container(border=True)
+    with container15:
         coluna_1, coluna_2 = st.columns([1,1])
         col1, col2 = st.columns(2)
         with col1:
-            crit_var_peso = st.number_input('Variação de Peso <= (%):', format=format_1casa, step=0.1, 
-                                            value=float(dados.get("crit_var_peso", 0.0)) if dados else 10.0) 
-            volume_ref = st.number_input('Volume referencial (ml):', format='%d', step=10, 
-                                            value=int(dados.get("volume_ref", 0)) if dados else 100)
+            crit_var_peso_15 = st.number_input('Variação de Peso <= (%):', format=format_1casa, step=0.1, 
+                                            value=float(dados.get("crit_var_peso_15", 0.0)) if dados else 10.0) 
+            volume_ref_15 = st.number_input('Volume referencial (ml):', format='%d', step=10, 
+                                            value=int(dados.get("volume_ref_15", 0)) if dados else 100)
         with col2:   
-            crit_var_vazao = st.number_input('Variação de Vazão <= (%):', format=format_1casa, step=0.1,
-                                             value=float(dados.get("crit_var_vazao", 0.0)) if dados else 10.0)
+            crit_var_vazao_15 = st.number_input('Variação de Vazão <= (%):', format=format_1casa, step=0.1,
+                                             value=float(dados.get("crit_var_vazao_15", 0.0)) if dados else 10.0)
     
     return {
         'relatorio': relatorio,
-        "cliente": cliente,
-        'local_teste': local_teste,
-        'pessoa_local': pessoa_local,
-        'id_local': id_local,
-        'dt_chegada': dt_chegada, # dchegada,
-        'hr_chegada': hr_chegada, # hchegada,
-        'id_local': id_local,
-        "linha": linha,
-        "fabricante": fabricante,
-        "cat_membr": cat_membr,
-        "poro_cat_membr":poro_cat_membr,
-        "temp_filtra": temp_filtra,
-        "tmp_contato": tmp_contato,
-        "armaz": armaz,
-        "tara": tara,
-        'tempera_local':tempera_local,
-        'umidade':umidade,
-        "produto": produto,
-        'lote':lote,
-        'volume':volume,
-        'lotem1':lotem1,
-        'lotem2':lotem2,
-        'lotem3':lotem3,
-        'lotes1':lotes1,
-        'lotes2':lotes2,
-        'lotes3':lotes3,
-        'cat_disp':cat_disp,
-        'lote_disp':lote_disp,
-        'serial_cat_disp':serial_cat_disp,
-        'pi_memb_1':pi_memb_1,
-        'pi_memb_2':pi_memb_2,
-        'pi_memb_3':pi_memb_3,
-        'fli_memb_1':fli_memb_1,  # string_para_float(fli_memb_1),
-        'fli_memb_2':fli_memb_2,  # string_para_float(fli_memb_2),
-        'fli_memb_3':fli_memb_3,  # string_para_float(fli_memb_3),
-        "pb_padraowfi": pb_padraowfi,
-        'wfi_res1':wfi_res1,
-        'wfi_res2':wfi_res2,
-        'wfi_res3':wfi_res3,
-        'wfi_id1':str(wfi_id1),
-        'wfi_id2':str(wfi_id2),
-        'wfi_id3':str(wfi_id3),
-        'dt_wfi':dt_wfi, # dwfi,
-        'hr_wfi': hr_wfi, # hwfi,
-        'dt_wfip':dt_wfip, # dwfip,
-        'hr_wfip': hr_wfip, # hwfip,
-        'contato_wfip':contato_wfip,
-        'pb_refproduto':pb_refproduto,
-        "prd_res1": prd_res1,
-        "prd_res2": prd_res2,
-        "prd_res3": prd_res3,
-        'prd_id1':str(prd_id1),
-        'prd_id2':str(prd_id2),
-        'prd_id3':str(prd_id3),
-        'wfif_res1':wfif_res1,
-        'wfif_res2':wfif_res2,
-        'wfif_res3':wfif_res3,
-        'wfif_id1':str(wfif_id1),
-        'wfif_id2':str(wfif_id2),
-        'wfif_id3':str(wfif_id3),
-        'flf_memb_1': flf_memb_1,  # string_para_float(flf_memb_1),
-        'flf_memb_2': flf_memb_2,  # string_para_float(flf_memb_2),
-        'flf_memb_3': flf_memb_3,  # string_para_float(flf_memb_3),
-        'pf_memb_1':pf_memb_1,
-        'pf_memb_2':pf_memb_2,
-        'pf_memb_3':pf_memb_3,
-        'estimado': estimado,
-        'dis_res1':dis_res1,
-        'dis_res2':dis_res2,
-        'dis_id1':dis_id1,
-        'dis_id2':dis_id2,
-        'crit_var_peso':crit_var_peso,
-        'crit_var_vazao':crit_var_vazao,
-        'volume_ref':volume_ref
+        'status_rel_01': status_rel_01,
+        'dt_agendada_01': dt_agendada_01,
+        'motivo_01': motivo_01 ,
+        'dt_emissao_01': dt_emissao_01 ,
+        'cliente': nome_empresa, #cliente,
+        'local_teste_02': local_teste_02,
+        'pessoa_local_02': pessoa_local_02,
+        'id_local_02': id_local_02,
+        'dt_chegada_02': dt_chegada_02, 
+        'hr_chegada_02': hr_chegada_02, 
+        'pedido_02': pedido_02,
+        'local_realizado_03': local_realizado_03,
+        'endereco_03': endereco_03,
+        'cidade_03': cidade_03,
+        'setor_03': setor_03,
+        'uf_03': uf_03,
+        'id_sala_03': id_sala_03,
+        'cargo_03': cargo_03,
+        'tel_03': tel_03,
+        'email_03': email_03,
+        'coment_03': coment_03,
+        'ckl_ponto_04': ckl_ponto_04,
+        'ckl_espaco_04': ckl_espaco_04,
+        'ckl_tomada_04': ckl_tomada_04,
+        'ckl_balan_04': ckl_balan_04,
+        'ckl_agua_04': ckl_agua_04,
+        'ckl_conex_04': ckl_conex_04,
+        'ckl_veda_04': ckl_veda_04,
+        'ckl_freez_04': ckl_freez_04,
+        'coment_04': coment_04,
+        "linha_05": linha_05,
+        "fabricante_05": fabricante_05,
+        "cat_membr_05": cat_membr_05,
+        "poro_cat_membr_05":poro_cat_membr_05,
+        "temp_filtra_05": temp_filtra_05,
+        "tara_05": tara_05,
+        "produto_05": produto_05,
+        'area_mem_05': area_mem_05,
+        "tmp_contato_05": tmp_contato_05,
+        'tempera_local_05':tempera_local_05,
+        'lote_05':lote_05,
+        'area_dis_05':area_dis_05,
+        "armaz_05": armaz_05,
+        'umidade_05':umidade_05,
+        'volume_05':volume_05,
+        'tipo_gas_05': tipo_gas_05,
+        'lotem1_06':lotem1_06,
+        'lotes1_06':lotes1_06,
+        'cat_disp_06':cat_disp_06,
+        'lotem2_06':lotem2_06,
+        'lotes2_06':lotes2_06,
+        'lote_disp_06':lote_disp_06,
+        'lotem3_06':lotem3_06,
+        'lotes3_06':lotes3_06,
+        'serial_cat_disp_06':serial_cat_disp_06,
+        'form_01_07': form_01_07,
+        'conc_01_07': conc_01_07,
+        'form_02_07': form_02_07,
+        'conc_02_07': conc_02_07,
+        'form_03_07': form_03_07,
+        'conc_03_07': conc_03_07,
+        'form_04_07': form_04_07,
+        'conc_04_07': conc_04_07,
+        'form_05_07': form_05_07,
+        'conc_05_07': conc_05_07,
+        'form_06_07': form_06_07,
+        'conc_06_07': conc_06_07,
+        'form_07_07': form_07_07,
+        'conc_07_07': conc_07_07,
+        'form_08_07': form_08_07,
+        'conc_08_07': conc_08_07,
+        'form_09_07': form_09_07,
+        'conc_09_07': conc_09_07,
+        'form_10_07': form_10_07,
+        'conc_10_07': conc_10_07,
+        'ckl_mat_08': ckl_mat_08,
+        'ckl_sens_08': ckl_sens_08,
+        'estab_08': estab_08,
+        'pi_memb_1_09':pi_memb_1_09,
+        'pi_memb_2_09':pi_memb_2_09,
+        'pi_memb_3_09':pi_memb_3_09,
+        'fli_memb_1_09':fli_memb_1_09,  # string_para_float(fli_memb_1_09),
+        'fli_memb_2_09':fli_memb_2_09,  # string_para_float(fli_memb_2_09),
+        'fli_memb_3_09':fli_memb_3_09,  # string_para_float(fli_memb_3_09),
+        "pb_padraowfi_09": pb_padraowfi_09,
+        'wfi_res1_09':wfi_res1_09,
+        'wfi_res2_09':wfi_res2_09,
+        'wfi_res3_09':wfi_res3_09,
+        'wfi_id1_09':str(wfi_id1_09),
+        'wfi_id2_09':str(wfi_id2_09),
+        'wfi_id3_09':str(wfi_id3_09),
+        'dt_wfi_09':dt_wfi_09, # dwfi,
+        'hr_wfi_09': hr_wfi_09, # hwfi,
+        'dt_wfip_10':dt_wfip_10, # dwfip,
+        'hr_wfip_10': hr_wfip_10, # hwfip,
+        'horas_contato_10': horas_contato_10, 
+        'pb_refproduto_10':pb_refproduto_10,
+        "prd_res1_10": prd_res1_10,
+        "prd_res2_10": prd_res2_10,
+        "prd_res3_10": prd_res3_10,
+        'prd_id1_10':str(prd_id1_10),
+        'prd_id2_10':str(prd_id2_10),
+        'prd_id3_10':str(prd_id3_10),
+        'tmp_final1_11': tmp_final1_11,  # string_para_float(tmp_final1_11),
+        'tmp_final2_11': tmp_final2_11,  # string_para_float(tmp_final2_11),
+        'tmp_final3_11': tmp_final3_11,  # string_para_float(tmp_final3_11),
+        'res_padr1_12':res_padr1_12,
+        'res_padr2_12':res_padr2_12,
+        'res_padr3_12':res_padr3_12,
+        'id_padr1_12':str(id_padr1_12),
+        'id_padr2_12':str(id_padr2_12),
+        'id_padr3_12':str(id_padr3_12),
+        'pf_memb_1_13':pf_memb_1_13,
+        'pf_memb_2_13':pf_memb_2_13,
+        'pf_memb_3_13':pf_memb_3_13,
+        'peso_calc_14': peso_calc_14,
+        'dis_res1_14':dis_res1_14,
+        'dis_res2_14':dis_res2_14,
+        'dis_id1_14':dis_id1_14,
+        'dis_id2_14':dis_id2_14,
+        'crit_var_peso_15':crit_var_peso_15,
+        'volume_ref_15':volume_ref_15,
+        'crit_var_vazao_15':crit_var_vazao_15
     }, condicao
 

@@ -33,24 +33,24 @@ def stringtime_para_seg(tempo_str):
     
 def Previsao_Relat(dados):
 
-    rpb_membr_1 = dados['prd_res1'] / dados['wfi_res1'] 
-    rpb_membr_2 = dados['prd_res2'] / dados['wfi_res2']
-    rpb_membr_3 = dados['prd_res3'] / dados['wfi_res3']
+    rpb_membr_1 = dados['prd_res1_10'] / dados['wfi_res1_09'] 
+    rpb_membr_2 = dados['prd_res2_10'] / dados['wfi_res2_09']
+    rpb_membr_3 = dados['prd_res3_10'] / dados['wfi_res3_09']
 
     rpb_media = (rpb_membr_1 + rpb_membr_2 + rpb_membr_3) / 3   # ETAPA 7	
 
 
     # PB Estimado	=PB Padrão / Média		ETAPA 8		2 casas
-    pb_estimado = dados['pb_padraowfi'] * rpb_media
+    pb_estimado = dados['pb_padraowfi_09'] * rpb_media
 
-    var_peso_perc_memb_1 = abs(((dados['pi_memb_1'] - dados['pf_memb_1']) / dados['pi_memb_1']) * 100)
-    var_peso_perc_memb_2 = abs(((dados['pi_memb_2'] - dados['pf_memb_2']) / dados['pi_memb_2']) * 100)
-    var_peso_perc_memb_3 = abs(((dados['pi_memb_3'] - dados['pf_memb_3']) / dados['pi_memb_3']) * 100)
+    var_peso_perc_memb_1 = abs(((dados['pi_memb_1_09'] - dados['pf_memb_1_13']) / dados['pi_memb_1_09']) * 100)
+    var_peso_perc_memb_2 = abs(((dados['pi_memb_2_09'] - dados['pf_memb_2_13']) / dados['pi_memb_2_09']) * 100)
+    var_peso_perc_memb_3 = abs(((dados['pi_memb_3_09'] - dados['pf_memb_3_13']) / dados['pi_memb_3_09']) * 100)
     var_peso_media = (var_peso_perc_memb_1 + var_peso_perc_memb_2 + var_peso_perc_memb_3) / 3
     
    
     # Critério : < 10 %
-    criterio_peso = dados['crit_var_peso']
+    criterio_peso = dados['crit_var_peso_15']
 
     var_peso_result_mem_1 = '     Peso 1     '
     var_peso_result_mem_2 = '     Peso 2     '
@@ -60,15 +60,15 @@ def Previsao_Relat(dados):
     else:
         status_peso = 'REPROVADO'
 
-    inic_1 = stringtime_para_seg(dados['fli_memb_1'])
-    inic_2 = stringtime_para_seg(dados['fli_memb_2'])
-    inic_3 = stringtime_para_seg(dados['fli_memb_3'])
+    inic_1 = stringtime_para_seg(dados['fli_memb_1_09'])
+    inic_2 = stringtime_para_seg(dados['fli_memb_2_09'])
+    inic_3 = stringtime_para_seg(dados['fli_memb_3_09'])
 
-    final_1 = stringtime_para_seg(dados['flf_memb_1'])
-    final_2 = stringtime_para_seg(dados['flf_memb_2'])
-    final_3 = stringtime_para_seg(dados['flf_memb_3'])
+    final_1 = stringtime_para_seg(dados['tmp_final1_11'])
+    final_2 = stringtime_para_seg(dados['tmp_final2_11'])
+    final_3 = stringtime_para_seg(dados['tmp_final3_11'])
 
-    volume_ref = dados['volume_ref']
+    volume_ref = dados['volume_ref_15']
 
     # var_vazao_perc_memb_1 = abs((inic_1 - final_1 ) / inic_1) * 100
     # var_vazao_perc_memb_2 = abs((inic_2 - final_2 ) / inic_2) * 100
@@ -123,7 +123,7 @@ def Previsao_Relat(dados):
 # --------------------------------------------------------------------
 
     # Critério : < 10 %
-    criterio_vazao = dados['crit_var_vazao']
+    criterio_vazao = dados['crit_var_vazao_15']
         
     var_vazao_result_mem_1 = '    Fluxo 1    '
     var_vazao_result_mem_2 = '    Fluxo 2    '
@@ -143,7 +143,7 @@ def Previsao_Relat(dados):
         'RPB Membrana 3': str(round(rpb_membr_3,6)),
         'RPB': str(round(rpb_media,5)),
         'PB Estimado (PBMe)': str(round(pb_estimado,1)),
-        'PB Padrão': dados['pb_padraowfi'],
+        'PB Padrão': dados['pb_padraowfi_09'],
 
         '% Variação Peso - Membrana 1': str(round(var_peso_perc_memb_1,1)) + '%',
         'Critério Peso': criterio_peso,
@@ -155,7 +155,7 @@ def Previsao_Relat(dados):
         'Perc Variação Massa (PVM)': str(round(var_peso_media,2)) + '%',
         'Status Peso': status_peso,
 
-        'PB Referencial' : str(dados['pb_refproduto']),
+        'PB Referencial' : str(dados['pb_refproduto_10']),
 
         '% Variação Vazao - Membrana 1': str(round(var_vazao_perc_memb_1,1)) + '%',
         'Critério Vazão': criterio_vazao,

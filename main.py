@@ -107,17 +107,17 @@ dados_usuario = {
 
 pg = st.navigation(
     {              
-        'SA SOLUTION':[st.Page('homepage.py',      title='Home',                  icon=':material/filter_alt:')],
+        'SA SOLUTION':[st.Page('homepage.py',   title='Home',                  icon=':material/filter_alt:')],
         'Planilhas':  [
-                       st.Page('gerenciar.py',  title='Gerenciar Relatórios',    icon=':material/thumb_up:'),
-                       # st.Page('previa.py',        title='Planilhas Finalizadas', icon=':material/article:')
+                       st.Page('gerenciar.py',  title='Gerenciar Relatórios',  icon=':material/thumb_up:'),
                       ],
-        'Clientes':   [st.Page('clientes.py',      title='Clientes Cadastrados',  icon=':material/groups:')],   
+        'Clientes':   [st.Page('clientes.py',   title='Clientes Cadastrados',  icon=':material/groups:')],   
           
 
 
     }
 )
+
 pg.run()
 
 
