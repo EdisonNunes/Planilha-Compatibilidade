@@ -1,5 +1,3 @@
-# https://streamlit-emoji-shortcodes-streamlit-app-gwckff.streamlit.app/
-
 import streamlit as st
 from supabase import create_client, Client
 # import uuid
@@ -437,73 +435,7 @@ if st.session_state.ger_aba == "Listar":
                 st.session_state.ger_pagina += 1
                 st.rerun()
 
-    with st.expander("⬇️ Exportar Registros", expanded=False):
-        if 'confirmar_exportar' not in st.session_state:
-            st.session_state.confirmar_exportar = False
-        if 'cancelar_exportar' not in st.session_state:
-            st.session_state.cancelar_exportar = False
-
-        if resultado is not None:
-            selecionados = resultado[resultado["Selecionar"] == True]
-
-            if len(selecionados) == 1:
-                nome_relatorio = selecionados.iloc[0]["relatorio"]
-                st.warning(f'Deseja exportar o relatório: **{nome_relatorio}** ?')
-                col1, col2 = st.columns(2)
-                with col1:
-                    if st.button("✅ Confirmar Exportação"):
-                        st.session_state.confirmar_exportar = True
-                with col2:
-                    if st.button("❌ Cancelar"):
-                        st.session_state.confirmar_exportar = False
-                        st.rerun()
-
-                if st.session_state.confirmar_exportar:
-                    id_sel = selecionados.iloc[0]["id"]
-                    registro_completo = next((r for r in listar_todos_registros() if r["id"] == id_sel), None)
-                    if registro_completo:
-                        df_sel = pd.DataFrame([registro_completo])
-                        # Sim — dá para usar um caractere invisível para que o Excel continue interpretando como texto, 
-                        # mas sem que apareça algo visível no resultado.
-                        # O truque é usar um caractere de largura zero (Zero-Width Space — \u200B) ou um tabulação oculta (\t) 
-                        # antes do valor.
-                        for campo in ['wfi_id1_09','wfi_id2_09','wfi_id3_09',
-                                    'prd_id1_10','prd_id2_10','prd_id3_10',
-                                    'id_padr1_12','id_padr2_12','id_padr3_12'
-                                    ]:
-                            if campo in df_sel.columns:
-                                df_sel[campo] = df_sel[campo].apply(lambda x: f"\u200B{x}" if pd.notnull(x) and x != '' else '')
-
-                        csv_bytes = ('\ufeff' + df_sel.to_csv(index=False, sep=';')).encode("utf-8")
-                        st.download_button("📁 Baixar CSV (1 item completo)", data=csv_bytes, 
-                                        file_name=f"{registro_completo['relatorio']}.csv", mime="text/csv")
     
-                        st.session_state.confirmar_exportar = False
-
-            elif len(selecionados) == 0:
-                st.warning("Nenhum item selecionado. Deseja exportar TODOS os registros?")
-                col1, col2 = st.columns(2)
-                with col1:
-                    if st.button("✅ Exportar Todos"):
-                        st.session_state.confirmar_exportar = True
-                with col2:
-                    if st.button("❌ Cancelar"):
-                        st.session_state.confirmar_exportar = False
-                        st.rerun()
-
-                if st.session_state.confirmar_exportar:
-                    registros_todos = listar_todos_registros()
-                    df_all = pd.DataFrame(registros_todos)
-                    csv_bytes = ('\ufeff' + df_all.to_csv(index=False, sep=';')).encode("utf-8")
-                    st.download_button("📁 Baixar CSV (todos)", data=csv_bytes, file_name="planilha_completa.csv", mime="text/csv")
-                    st.session_state.confirmar_exportar = False
-
-            else:
-                st.error("Selecione apenas 1 item para exportar individualmente.")
-        else:
-            st.info("Nenhuma tabela carregada para exportação.")        
-
-
     with st.container():
         col1, col2, col3, col4 = st.columns(4)
         if col1.button("Mostrar"):

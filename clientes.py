@@ -123,14 +123,6 @@ if st.session_state.aba == "Listar":
                 st.session_state.pagina += 1
                 st.rerun()
 
-    csv_data = exportar_clientes_para_csv()
-    st.download_button(
-        label="⬇️ Exportar todos os clientes para CSV",
-        data=csv_data,
-        file_name="clientes.csv",
-        mime="text/csv"
-    )
-
     with st.container():
         col1, col2, col3, col4 = st.columns(4)
         if col1.button("Listar"):

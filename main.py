@@ -111,9 +111,10 @@ pg = st.navigation(
         'Planilhas':  [
                        st.Page('gerenciar.py',  title='Gerenciar Relatórios',  icon=':material/thumb_up:'),
                       ],
-        'Clientes':   [st.Page('clientes.py',   title='Clientes Cadastrados',  icon=':material/groups:')],   
-          
-
+        'Clientes':   [st.Page('clientes.py',   title='Clientes Cadastrados',  icon=':material/groups:')], 
+        'Exportar para CSV': [st.Page('exporta_rel.py',    title='Exporta Relatório', icon=':material/file_export:'),
+                           st.Page('exporta_cli.py',    title='Exporta Clientes',  icon=':material/file_export:'),
+                          ],  
 
     }
 )
@@ -121,3 +122,6 @@ pg = st.navigation(
 pg.run()
 
 
+# https://streamlit-emoji-shortcodes-streamlit-app-gwckff.streamlit.app/
+# Google's Material Symbols font library
+# https://fonts.google.com/icons

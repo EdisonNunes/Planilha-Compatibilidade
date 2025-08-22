@@ -1,0 +1,37 @@
+Para criar uma mala direta no Word a partir de dados de um ficheiro CSV (Excel): no Word, vá à aba "Correspondências", 
+clique em "Iniciar Mala Direta", selecione "Assistente de Mala Direta Passo a Passo".
+
+1. Preparar o ficheiro CSV
+Organização: Certifique-se de que a primeira linha do ficheiro contém os cabeçalhos de cada coluna (ex: Nome, Morada, Cidade) e que 
+cada linha subsequente contém informações de um único destinatário. 
+Sem linhas em branco: Não devem existir linhas em branco no meio dos seus dados. 
+Formato dos dados: Certifique-se de que dados como códigos postais e números de moeda estão formatados corretamente, 
+para que o Word os possa ler corretamente. 
+
+2. Configurar o documento do Word 
+Iniciar a mala direta: No Word, clique na aba Correspondências e depois em Iniciar Mala Direta.
+Selecionar o tipo de documento: Escolha a opção correspondente, como "Diretório"
+
+
+3. Ligar à fonte de dados (o seu ficheiro CSV)
+Selecionar destinatários: Na aba Correspondências, clique em Selecionar Destinatários e 
+escolha "Usar com base em documento existente". (Escolher o template do relatório) ou
+"usar o documento atual" pra gerar o template
+
+Encontrar o ficheiro: 
+Selecione os destinatários: Usar uma lista existente 
+   D:\_Programas\SA_Solution\Planilha Compatibilidade\Reuniao\14_08_2025\20250820-105807.csv
+   codificação: Unicode (UTF-8) 
+Configurar a ligação: O Word pode pedir para confirmar o delimitador de registo (como um ponto e vírgula) para separar os dados do seu ficheiro. 
+
+4. Inserir os campos de mesclagem 
+Adicionar os campos:
+No documento do Word, clique em Correspondências > Inserir Campo de Mesclagem.
+Escolher os campos:
+Selecione os campos (como Nome, Morada) da sua lista de destinatários e insira-os onde pretende que a informação personalizada 
+apareça no documento.
+
+5. Concluir a mala direta
+Visualizar e concluir: Clique em Visualizar Resultados para ver como os campos de mesclagem aparecem no seu documento. 
+Salvar: Clique em Ficheiro > Salvar para guardar o seu documento. 
+Concluir a mesclagem: Clique em Concluir e Mesclar para gerar os documentos individuais para cada um dos seus destinatários. 
