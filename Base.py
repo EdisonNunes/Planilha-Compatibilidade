@@ -205,6 +205,13 @@ def formulario_padrao(dados=None, combo_clientes=None):
     container1 = st.container(border=True)
     with container1:
         opcoes = ['Pendente', 'Agendado', 'Cancelado', 'Parcial', 'Concluído']
+        ajuda = '''
+            🕗 Pendente: Aguardando pedido do cliente\n
+            📅 Agendado: Preenchimento de dados não envolvidos com cálculos\n
+            ❌ Cancelado: Relatório suspenso\n
+            📝 Parcial: Preenchimento parcial dos dados de campo\n
+            ✅ Concluído: Relatório concluído - Não disponível para edição.
+        '''
         try:
             valor_status_rel01  = dados.get("status_rel_01", "")
         except:
@@ -212,7 +219,8 @@ def formulario_padrao(dados=None, combo_clientes=None):
 
         idx_status_rel_01  = opcoes.index(valor_status_rel01)  if valor_status_rel01 in opcoes  else 1 
 
-        status_rel_01 = st.radio('Status Atual', options=opcoes, index=idx_status_rel_01, horizontal=True)
+        status_rel_01 = st.radio('Status Atual', options=opcoes, index=idx_status_rel_01, horizontal=True,
+                                 help=ajuda)
         if status_rel_01 == 'Agendado':
             dt_agendada_01 = st.text_input('Data Agendada:',placeholder='DD-MM-AAAA',
                                        value=dados.get("dt_agendada_01", "") if dados else "")
@@ -229,18 +237,29 @@ def formulario_padrao(dados=None, combo_clientes=None):
 
     container2 = st.container(border=True)
     with container2:
+        #st.write(dados)
         cliente_valor = dados.get("cliente", "") if dados else ""
+        #print('cliente_valor = ', cliente_valor)
+        cidade_valor = dados.get("cidade_03", "") if dados else ""
+        #print('cidade_valor = ', cidade_valor)
+
         # Encontra índice com tolerância a erros
         cliente_default = 0
         for i, nome in enumerate(combo_clientes):
-             if nome.strip().lower() == cliente_valor.strip().lower():
+             #print('i= ',i, '   Nome: ', nome) 
+             #if nome.strip().lower() == cliente_valor.strip().lower():
+             if nome.split(' - ')[0] == cliente_valor.strip():
                  cliente_default = i
+                 # print('cliente_default = ', cliente_default) 
                  break
+            
         cliente = st.selectbox("Empresa:", combo_clientes, index=cliente_default)
+
         nome_empresa = f"{cliente.split('-')[0].strip()}"
-        resposta = supabase.table("clientes").select("*").eq("empresa", nome_empresa).execute()
+        cidade = f"{cliente.split('-')[1].strip()}"
+
+        resposta = supabase.table("clientes").select("*").eq("empresa", nome_empresa).eq("cidade", cidade).execute()
         empresa = resposta.data[0]
-        # print('empresa = ', empresa)
 
         col1, col2 = st.columns(2)
         with col1:
@@ -712,127 +731,127 @@ def formulario_padrao(dados=None, combo_clientes=None):
                                              value=float(dados.get("crit_var_vazao_15", 0.0)) if dados else 10.0)
     
     return {
-        'relatorio': relatorio,
-        'status_rel_01': status_rel_01,
-        'dt_agendada_01': dt_agendada_01,
+        'relatorio': relatorio.strip(),
+        'status_rel_01': status_rel_01.strip(),
+        'dt_agendada_01': dt_agendada_01.strip(),
         'motivo_01': motivo_01 ,
         'dt_emissao_01': dt_emissao_01 ,
-        'cliente': nome_empresa, #cliente,
-        'local_teste_02': local_teste_02,
-        'pessoa_local_02': pessoa_local_02,
-        'id_local_02': id_local_02,
-        'dt_chegada_02': dt_chegada_02, 
-        'hr_chegada_02': hr_chegada_02, 
-        'pedido_02': pedido_02,
-        'local_realizado_03': local_realizado_03,
-        'endereco_03': endereco_03,
-        'cidade_03': cidade_03,
-        'setor_03': setor_03,
-        'uf_03': uf_03,
-        'id_sala_03': id_sala_03,
-        'cargo_03': cargo_03,
-        'tel_03': tel_03,
-        'email_03': email_03,
-        'coment_03': coment_03,
-        'ckl_ponto_04': ckl_ponto_04,
-        'ckl_espaco_04': ckl_espaco_04,
-        'ckl_tomada_04': ckl_tomada_04,
-        'ckl_balan_04': ckl_balan_04,
-        'ckl_agua_04': ckl_agua_04,
-        'ckl_conex_04': ckl_conex_04,
-        'ckl_veda_04': ckl_veda_04,
-        'ckl_freez_04': ckl_freez_04,
-        'coment_04': coment_04,
-        "linha_05": linha_05,
-        "fabricante_05": fabricante_05,
-        "cat_membr_05": cat_membr_05,
-        "poro_cat_membr_05":poro_cat_membr_05,
-        "temp_filtra_05": temp_filtra_05,
-        "tara_05": tara_05,
-        "produto_05": produto_05,
-        'area_mem_05': area_mem_05,
-        "tmp_contato_05": tmp_contato_05,
-        'tempera_local_05':tempera_local_05,
-        'lote_05':lote_05,
-        'area_dis_05':area_dis_05,
-        "armaz_05": armaz_05,
-        'umidade_05':umidade_05,
-        'volume_05':volume_05,
-        'tipo_gas_05': tipo_gas_05,
-        'lotem1_06':lotem1_06,
-        'lotes1_06':lotes1_06,
-        'cat_disp_06':cat_disp_06,
-        'lotem2_06':lotem2_06,
-        'lotes2_06':lotes2_06,
-        'lote_disp_06':lote_disp_06,
-        'lotem3_06':lotem3_06,
-        'lotes3_06':lotes3_06,
-        'serial_cat_disp_06':serial_cat_disp_06,
-        'form_01_07': form_01_07,
-        'conc_01_07': conc_01_07,
-        'form_02_07': form_02_07,
-        'conc_02_07': conc_02_07,
-        'form_03_07': form_03_07,
-        'conc_03_07': conc_03_07,
-        'form_04_07': form_04_07,
-        'conc_04_07': conc_04_07,
-        'form_05_07': form_05_07,
-        'conc_05_07': conc_05_07,
-        'form_06_07': form_06_07,
-        'conc_06_07': conc_06_07,
-        'form_07_07': form_07_07,
-        'conc_07_07': conc_07_07,
-        'form_08_07': form_08_07,
-        'conc_08_07': conc_08_07,
-        'form_09_07': form_09_07,
-        'conc_09_07': conc_09_07,
-        'form_10_07': form_10_07,
-        'conc_10_07': conc_10_07,
-        'ckl_mat_08': ckl_mat_08,
-        'ckl_sens_08': ckl_sens_08,
-        'estab_08': estab_08,
+        'cliente': nome_empresa.strip(), #cliente,
+        'local_teste_02': local_teste_02.strip(),
+        'pessoa_local_02': pessoa_local_02.strip(),
+        'id_local_02': id_local_02.strip(),
+        'dt_chegada_02': dt_chegada_02.strip(), 
+        'hr_chegada_02': hr_chegada_02.strip(), 
+        'pedido_02': pedido_02.strip(),
+        'local_realizado_03': local_realizado_03.strip(),
+        'endereco_03': endereco_03.strip(),
+        'cidade_03': cidade_03.strip(),
+        'setor_03': setor_03.strip(),
+        'uf_03': uf_03.strip(),
+        'id_sala_03': id_sala_03.strip(),
+        'cargo_03': cargo_03.strip(),
+        'tel_03': tel_03.strip(),
+        'email_03': email_03.strip(),
+        'coment_03': coment_03.strip(),
+        'ckl_ponto_04': ckl_ponto_04.strip(),
+        'ckl_espaco_04': ckl_espaco_04.strip(),
+        'ckl_tomada_04': ckl_tomada_04.strip(),
+        'ckl_balan_04': ckl_balan_04.strip(),
+        'ckl_agua_04': ckl_agua_04.strip(),
+        'ckl_conex_04': ckl_conex_04.strip(),
+        'ckl_veda_04': ckl_veda_04.strip(),
+        'ckl_freez_04': ckl_freez_04.strip(),
+        'coment_04': coment_04.strip(),
+        "linha_05": linha_05.strip(),
+        "fabricante_05": fabricante_05.strip(),
+        "cat_membr_05": cat_membr_05.strip(),
+        "poro_cat_membr_05":poro_cat_membr_05.strip(),
+        "temp_filtra_05": temp_filtra_05.strip(),
+        "tara_05": tara_05.strip(),
+        "produto_05": produto_05.strip(),
+        'area_mem_05': area_mem_05.strip().strip(),
+        "tmp_contato_05": tmp_contato_05.strip(),
+        'tempera_local_05':tempera_local_05.strip(),
+        'lote_05':lote_05.strip(),
+        'area_dis_05':area_dis_05.strip(),
+        "armaz_05": armaz_05.strip(),
+        'umidade_05':umidade_05.strip(),
+        'volume_05':volume_05.strip(),
+        'tipo_gas_05': tipo_gas_05.strip(),
+        'lotem1_06':lotem1_06.strip(),
+        'lotes1_06':lotes1_06.strip(),
+        'cat_disp_06':cat_disp_06.strip(),
+        'lotem2_06':lotem2_06.strip(),
+        'lotes2_06':lotes2_06.strip(),
+        'lote_disp_06':lote_disp_06.strip(),
+        'lotem3_06':lotem3_06.strip(),
+        'lotes3_06':lotes3_06.strip(),
+        'serial_cat_disp_06':serial_cat_disp_06.strip(),
+        'form_01_07': form_01_07.strip(),
+        'conc_01_07': conc_01_07.strip(),
+        'form_02_07': form_02_07.strip(),
+        'conc_02_07': conc_02_07.strip(),
+        'form_03_07': form_03_07.strip(),
+        'conc_03_07': conc_03_07.strip(),
+        'form_04_07': form_04_07.strip(),
+        'conc_04_07': conc_04_07.strip(),
+        'form_05_07': form_05_07.strip(),
+        'conc_05_07': conc_05_07.strip(),
+        'form_06_07': form_06_07.strip(),
+        'conc_06_07': conc_06_07.strip(),
+        'form_07_07': form_07_07.strip(),
+        'conc_07_07': conc_07_07.strip(),
+        'form_08_07': form_08_07.strip(),
+        'conc_08_07': conc_08_07.strip(),
+        'form_09_07': form_09_07.strip(),
+        'conc_09_07': conc_09_07.strip(),
+        'form_10_07': form_10_07.strip(),
+        'conc_10_07': conc_10_07.strip(),
+        'ckl_mat_08': ckl_mat_08.strip(),
+        'ckl_sens_08': ckl_sens_08.strip(),
+        'estab_08': estab_08.strip(),
         'pi_memb_1_09':pi_memb_1_09,
         'pi_memb_2_09':pi_memb_2_09,
         'pi_memb_3_09':pi_memb_3_09,
-        'fli_memb_1_09':fli_memb_1_09,  # string_para_float(fli_memb_1_09),
-        'fli_memb_2_09':fli_memb_2_09,  # string_para_float(fli_memb_2_09),
-        'fli_memb_3_09':fli_memb_3_09,  # string_para_float(fli_memb_3_09),
+        'fli_memb_1_09':fli_memb_1_09.strip(),  # string_para_float(fli_memb_1_09),
+        'fli_memb_2_09':fli_memb_2_09.strip(),  # string_para_float(fli_memb_2_09),
+        'fli_memb_3_09':fli_memb_3_09.strip(),  # string_para_float(fli_memb_3_09),
         "pb_padraowfi_09": pb_padraowfi_09,
         'wfi_res1_09':wfi_res1_09,
         'wfi_res2_09':wfi_res2_09,
         'wfi_res3_09':wfi_res3_09,
-        'wfi_id1_09':str(wfi_id1_09),
-        'wfi_id2_09':str(wfi_id2_09),
-        'wfi_id3_09':str(wfi_id3_09),
-        'dt_wfi_09':dt_wfi_09, # dwfi,
-        'hr_wfi_09': hr_wfi_09, # hwfi,
-        'dt_wfip_10':dt_wfip_10, # dwfip,
-        'hr_wfip_10': hr_wfip_10, # hwfip,
-        'horas_contato_10': horas_contato_10, 
+        'wfi_id1_09':str(wfi_id1_09).strip(),
+        'wfi_id2_09':str(wfi_id2_09).strip(),
+        'wfi_id3_09':str(wfi_id3_09).strip(),
+        'dt_wfi_09':dt_wfi_09.strip(), # dwfi,
+        'hr_wfi_09': hr_wfi_09.strip(), # hwfi,
+        'dt_wfip_10':dt_wfip_10.strip(), # dwfip,
+        'hr_wfip_10': hr_wfip_10.strip(), # hwfip,
+        'horas_contato_10': horas_contato_10.strip(), 
         'pb_refproduto_10':pb_refproduto_10,
         "prd_res1_10": prd_res1_10,
         "prd_res2_10": prd_res2_10,
         "prd_res3_10": prd_res3_10,
-        'prd_id1_10':str(prd_id1_10),
-        'prd_id2_10':str(prd_id2_10),
-        'prd_id3_10':str(prd_id3_10),
-        'tmp_final1_11': tmp_final1_11,  # string_para_float(tmp_final1_11),
-        'tmp_final2_11': tmp_final2_11,  # string_para_float(tmp_final2_11),
-        'tmp_final3_11': tmp_final3_11,  # string_para_float(tmp_final3_11),
+        'prd_id1_10':str(prd_id1_10).strip(),
+        'prd_id2_10':str(prd_id2_10).strip(),
+        'prd_id3_10':str(prd_id3_10).strip(),
+        'tmp_final1_11': tmp_final1_11.strip(),  # string_para_float(tmp_final1_11),
+        'tmp_final2_11': tmp_final2_11.strip(),  # string_para_float(tmp_final2_11),
+        'tmp_final3_11': tmp_final3_11.strip(),  # string_para_float(tmp_final3_11),
         'res_padr1_12':res_padr1_12,
         'res_padr2_12':res_padr2_12,
         'res_padr3_12':res_padr3_12,
-        'id_padr1_12':str(id_padr1_12),
-        'id_padr2_12':str(id_padr2_12),
-        'id_padr3_12':str(id_padr3_12),
+        'id_padr1_12':str(id_padr1_12).strip(),
+        'id_padr2_12':str(id_padr2_12).strip(),
+        'id_padr3_12':str(id_padr3_12).strip(),
         'pf_memb_1_13':pf_memb_1_13,
         'pf_memb_2_13':pf_memb_2_13,
         'pf_memb_3_13':pf_memb_3_13,
         'peso_calc_14': peso_calc_14,
         'dis_res1_14':dis_res1_14,
         'dis_res2_14':dis_res2_14,
-        'dis_id1_14':dis_id1_14,
-        'dis_id2_14':dis_id2_14,
+        'dis_id1_14':dis_id1_14.strip(),
+        'dis_id2_14':dis_id2_14.strip(),
         'crit_var_peso_15':crit_var_peso_15,
         'volume_ref_15':volume_ref_15,
         'crit_var_vazao_15':crit_var_vazao_15

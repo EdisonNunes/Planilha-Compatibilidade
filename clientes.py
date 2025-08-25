@@ -142,17 +142,17 @@ elif st.session_state.aba == "Incluir":
     st.subheader("Incluir Novo Cliente")
     with st.form("form_incluir"):
         dados = {
-            "empresa": st.text_input("Empresa"),
-            "cnpj": st.text_input("CNPJ"),
-            "cep": st.text_input("CEP"),
-            "endereco": st.text_input("Endereço"),
-            "cidade": st.text_input("Cidade"),
-            "uf": st.text_input("UF"),
-            "contato": st.text_input("Contato"),
-            "departamento": st.text_input("Departamento"),
-            "telefone": st.text_input("Telefone"),
-            "mobile": st.text_input("Celular"),
-            "email": st.text_input("Email"),
+            "empresa": st.text_input("Empresa").strip(),  # retira espaçoes da string
+            "cnpj": st.text_input("CNPJ").strip(),
+            "cep": st.text_input("CEP").strip(),
+            "endereco": st.text_input("Endereço").strip(),
+            "cidade": st.text_input("Cidade").strip(),
+            "uf": st.text_input("UF").strip(),
+            "contato": st.text_input("Contato").strip(),
+            "departamento": st.text_input("Departamento").strip(),
+            "telefone": st.text_input("Telefone").strip(),
+            "mobile": st.text_input("Celular").strip(),
+            "email": st.text_input("Email").strip(),
         }
         col1, col2 = st.columns(2)
         with col1:
