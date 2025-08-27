@@ -186,9 +186,9 @@ def formulario_padrao(dados=None, combo_clientes=None):
     format_2casas='%0.2f'
     format_3casas='%0.3f'
     # Exemplo de chamada da função de inicialização de campos
-    motivo_01 = None
-    dt_agendada_01 = None
-    dt_emissao_01 = None
+    motivo_01 = ""
+    dt_agendada_01 = ""
+    dt_emissao_01 = ""
 
     if dados:       # Alterar
         relatorio= dados['relatorio']
@@ -237,20 +237,15 @@ def formulario_padrao(dados=None, combo_clientes=None):
 
     container2 = st.container(border=True)
     with container2:
-        #st.write(dados)
         cliente_valor = dados.get("cliente", "") if dados else ""
-        #print('cliente_valor = ', cliente_valor)
-        cidade_valor = dados.get("cidade_03", "") if dados else ""
-        #print('cidade_valor = ', cidade_valor)
+        cidade_valor = dados.get("cidade_02", "") if dados else ""
 
         # Encontra índice com tolerância a erros
         cliente_default = 0
         for i, nome in enumerate(combo_clientes):
              #print('i= ',i, '   Nome: ', nome) 
-             #if nome.strip().lower() == cliente_valor.strip().lower():
              if nome.split(' - ')[0] == cliente_valor.strip():
                  cliente_default = i
-                 # print('cliente_default = ', cliente_default) 
                  break
             
         cliente = st.selectbox("Empresa:", combo_clientes, index=cliente_default)
@@ -261,72 +256,66 @@ def formulario_padrao(dados=None, combo_clientes=None):
         resposta = supabase.table("clientes").select("*").eq("empresa", nome_empresa).eq("cidade", cidade).execute()
         empresa = resposta.data[0]
 
-        col1, col2 = st.columns(2)
+        opcoes = ['SIM', 'NÃO']
+        local_realizado_02 = st.radio('O local de realização é o mesmo do cadastro?', options=opcoes, horizontal=True)
+        if local_realizado_02 == 'SIM':
+            endereco_02  = st.text_input('Endereço:', max_chars= 100, value= empresa['endereco'], disabled=True)
+        else:
+            endereco_02  = st.text_input('Endereço:', max_chars= 100, 
+                                         value= dados.get("endereco_02", "") if dados else '', disabled=False)
+
+        col1, col2, col3 = st.columns(3)
         with col1:
-            local_teste_02  = st.text_input('Local de Teste:', max_chars= 20, 
-                                         value=dados.get("local_teste_02", "") if dados else "")
-            pessoa_local_02 = st.text_input('Pessoa Local:', max_chars= 20, 
-                                         value=dados.get("pessoa_local_02", "") if dados else "")
-            id_local_02 = st.text_input('ID da Sala:', max_chars= 12, 
-                                     value=dados.get("id_local_02", "") if dados else "")
-        with col2:   
-            dt_chegada_02 = st.text_input('Data e Hora - Chegada ao Local:',placeholder='DD-MM-AAAA HH:MM',
-                                       value=dados.get("dt_chegada_02", "") if dados else "")
-            hr_chegada_02 = st.text_input('Data e Hora - Chegada da Pessoa:',placeholder='DD-MM-AAAA HH:MM',
-                                       value=dados.get("hr_chegada_02", "") if dados else "")
-            pedido_02 = st.text_input('Número do Pedido:',
-                                       value=dados.get("pedido_02", "") if dados else "")
-            # ### Pedido pelo Leandro
-            # if valor_status_rel01 == 'Pendente':
-            #     if pedido_02 != '':
-            #         valor_status_rel01.index = 1 # 'Agendado'
+            if local_realizado_02 == 'SIM':
+                cidade_02 = st.text_input('Cidade:', max_chars= 50, value= empresa['cidade'], disabled=True)
+                cnpj_02 = st.text_input('CNPJ:', max_chars= 20, value= empresa['cnpj'], disabled=True)
+            else:    
+                cidade_02 = st.text_input('Cidade:', max_chars= 50, 
+                                          value= dados.get("cidade_02", "") if dados else '', disabled=False)
+                cnpj_02 = st.text_input('CNPJ:', max_chars= 50, 
+                                      value= dados.get("cnpj_02", "") if dados else '', disabled=False)
+        with col2:  
+            if local_realizado_02 == 'SIM':
+                uf_02 = st.text_input('UF:', max_chars= 50, value= empresa['uf'], disabled=True) 
+                tel_02 = st.text_input('Telefone:', max_chars= 50, value= empresa['telefone'],  disabled=True)
+            else:
+                uf_02 = st.text_input('UF:', max_chars= 50, 
+                                      value= dados.get("uf_02", "") if dados else '', disabled=False)  
+                tel_02 = st.text_input('Telefone:', max_chars= 50, 
+                                       value= dados.get("tel_02", "") if dados else '', disabled=False)   
+           
+        with col3:  
+            if local_realizado_02 == 'SIM':
+                cep_02 = st.text_input('CEP:', max_chars= 12, value= empresa['cep'], disabled=True)
+                email_02 = st.text_input('E-mail:', max_chars= 50, value= empresa['email'],  disabled=True) 
+            else:
+                cep_02 = st.text_input('CEP:', max_chars= 50, 
+                                      value= dados.get("cep_02", "") if dados else '', disabled=False)
+                email_02 = st.text_input('E-mail:', max_chars= 50, 
+                                         value= dados.get("email_02", "") if dados else '', disabled=False)
+
 
     ################## Etapa 3 - Local de Realização dos Serviços  ##################
     st.markdown(':orange-background[Etapa 3 - Local de Realização dos Serviços]')
     container3 = st.container(border=True)
     with container3:
-        opcoes = ['SIM', 'NÃO']
-        local_realizado_03 = st.radio('O local de realização é o mesmo do cadastro?', options=opcoes, horizontal=True)
-        if local_realizado_03 == 'SIM':
-            endereco_03  = st.text_input('Endereço:', max_chars= 100, value= empresa['endereco'], disabled=True)
-        else:
-            endereco_03  = st.text_input('Endereço:', max_chars= 100, 
-                                         value= dados.get("endereco_03", "") if dados else '', disabled=False)
-
-        col1, col2, col3 = st.columns(3)
+        col1, col2 = st.columns(2)
         with col1:
-            if local_realizado_03 == 'SIM':
-                cidade_03 = st.text_input('Cidade:', max_chars= 50, value= empresa['cidade'], disabled=True)
-            else:    
-                cidade_03 = st.text_input('Cidade:', max_chars= 50, 
-                                          value= dados.get("cidade_03", "") if dados else '', disabled=False)
+            local_teste_03  = st.text_input('Local de Teste:', max_chars= 20, 
+                                         value=dados.get("local_teste_03", "") if dados else "")
+            pessoa_local_03 = st.text_input('Pessoa Local:', max_chars= 20, 
+                                         value=dados.get("pessoa_local_03", "") if dados else "")
             setor_03 = st.text_input('Setor:', max_chars= 30, value= dados.get("setor_03", "") if dados else "")
-        with col2:  
-            if local_realizado_03 == 'SIM':
-                uf_03 = st.text_input('UF:', max_chars= 50, value= empresa['uf'], disabled=True) 
-            else:
-                uf_03 = st.text_input('UF:', max_chars= 50, 
-                                      value= dados.get("uf_03", "") if dados else '', disabled=False)     
-            id_sala_03 = st.text_input('ID da Sala:', value= id_local_02, disabled=True)
-        with col3:  
-            pessoa_03 = st.text_input('Pessoa Local:', value= pessoa_local_02,      disabled=True)  
-            
-        col1, col2, col3 = st.columns(3)    
-        with col1:
+            id_sala_03 = st.text_input('ID da Sala:', max_chars= 12, 
+                                     value=dados.get("id_sala_03", "") if dados else "")
+        with col2:   
+            dt_chegada_03 = st.text_input('Data e Hora - Chegada ao Local:',placeholder='DD-MM-AAAA HH:MM',
+                                       value=dados.get("dt_chegada_03", "") if dados else "")
+            hr_chegada_03 = st.text_input('Data e Hora - Chegada da Pessoa:',placeholder='DD-MM-AAAA HH:MM',
+                                       value=dados.get("hr_chegada_03", "") if dados else "")
             cargo_03 = st.text_input('Cargo:',   max_chars= 50, value= dados.get("cargo_03", "") if dados else "")
-        with col2: 
-            if local_realizado_03 == 'SIM':
-                tel_03 = st.text_input('Telefone:', max_chars= 50, value= empresa['telefone'],  disabled=True)
-            else:
-                tel_03 = st.text_input('Telefone:', max_chars= 50, 
-                                       value= dados.get("tel_03", "") if dados else '', disabled=False)    
-        with col3:   
-            if local_realizado_03 == 'SIM': 
-                email_03 = st.text_input('E-mail:', max_chars= 50, value= empresa['email'],  disabled=True)
-            else:
-                email_03 = st.text_input('E-mail:', max_chars= 50, 
-                                         value= dados.get("email_03", "") if dados else '', disabled=False)    
-
+            pedido_03 = st.text_input('Número do Pedido:',
+                                       value=dados.get("pedido_03", "") if dados else "")
         coment_03  = st.text_area('Comentários:', value= dados.get("coment_03", "") if dados else "")    
     
     ################## Etapa 4 - Checklist do local  ##################
@@ -737,21 +726,22 @@ def formulario_padrao(dados=None, combo_clientes=None):
         'motivo_01': motivo_01 ,
         'dt_emissao_01': dt_emissao_01 ,
         'cliente': nome_empresa.strip(), #cliente,
-        'local_teste_02': local_teste_02.strip(),
-        'pessoa_local_02': pessoa_local_02.strip(),
-        'id_local_02': id_local_02.strip(),
-        'dt_chegada_02': dt_chegada_02.strip(), 
-        'hr_chegada_02': hr_chegada_02.strip(), 
-        'pedido_02': pedido_02.strip(),
-        'local_realizado_03': local_realizado_03.strip(),
-        'endereco_03': endereco_03.strip(),
-        'cidade_03': cidade_03.strip(),
+        'local_realizado_02': local_realizado_02.strip(),
+        'endereco_02': endereco_02.strip(),
+        'cidade_02': cidade_02.strip(),
+        'uf_02': uf_02.strip(),
+        'cep': cep_02.strip(),
+        'cnpj': cnpj_02.strip(),
+        'tel_02': tel_02.strip(),
+        'email_02': email_02.strip(),
+        'local_teste_03': local_teste_03.strip(),
+        'pessoa_local_03': pessoa_local_03.strip(),
+        'dt_chegada_03': dt_chegada_03.strip(), 
+        'hr_chegada_03': hr_chegada_03.strip(), 
         'setor_03': setor_03.strip(),
-        'uf_03': uf_03.strip(),
-        'id_sala_03': id_sala_03.strip(),
         'cargo_03': cargo_03.strip(),
-        'tel_03': tel_03.strip(),
-        'email_03': email_03.strip(),
+        'id_sala_03': id_sala_03.strip(),
+        'pedido_03': pedido_03.strip(),
         'coment_03': coment_03.strip(),
         'ckl_ponto_04': ckl_ponto_04.strip(),
         'ckl_espaco_04': ckl_espaco_04.strip(),
