@@ -2,6 +2,7 @@ import streamlit as st
 from data_loader import *
 
 # session_state dá a informação de quem está logado no navegador na hora de entrar no site
+
 sessao_usuario = st.session_state
 #st.write(sessao_usuario)
 nome_usuario = None
@@ -18,4 +19,5 @@ if nome_usuario:
 conteiner = coluna_direita.container(border=False)
 conteiner.image('logo.png') 
 
-
+if "ger_aba" in st.session_state:
+    st.session_state.ger_aba = "Listar"
