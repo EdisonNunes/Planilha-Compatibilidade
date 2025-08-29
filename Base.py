@@ -180,7 +180,23 @@ def string_para_float(tempo_str):
     except ValueError:
         return 0.0
         #raise ValueError("Formato inválido. A string deve estar no formato '#:##' ou '##:##'")
+
+def RetiraCRLF(texto: str) -> str:
+    if not isinstance(texto, str):
+        return texto  # caso venha None ou outro tipo
     
+    # 1. Remove CR/LF do início e do fim
+    texto = texto.strip("\r\n")
+    
+    # 2. Substitui qualquer CR ou LF restante por espaço
+    texto = texto.replace("\r", " ").replace("\n", " ")
+    
+    # Garante que múltiplos espaços não virem "buracos"
+    texto = " ".join(texto.split())
+    
+    return texto
+
+
 def formulario_padrao(dados=None, combo_clientes=None):
     format_1casa='%0.1f'
     format_2casas='%0.2f'
@@ -316,7 +332,7 @@ def formulario_padrao(dados=None, combo_clientes=None):
             cargo_03 = st.text_input('Cargo:',   max_chars= 50, value= dados.get("cargo_03", "") if dados else "")
             pedido_03 = st.text_input('Número do Pedido:',
                                        value=dados.get("pedido_03", "") if dados else "")
-        coment_03  = st.text_area('Comentários:', value= dados.get("coment_03", "") if dados else "")    
+        coment_03  = st.text_area('Comentários:', value= dados.get("coment_03", "") if dados else "")   
     
     ################## Etapa 4 - Checklist do local  ##################
     st.markdown(':orange-background[Etapa 4 - Checklist do local]')   
@@ -739,10 +755,10 @@ def formulario_padrao(dados=None, combo_clientes=None):
         'dt_chegada_03': dt_chegada_03.strip(), 
         'hr_chegada_03': hr_chegada_03.strip(), 
         'setor_03': setor_03.strip(),
-        'cargo_03': cargo_03.strip(),
-        'id_sala_03': id_sala_03.strip(),
-        'pedido_03': pedido_03.strip(),
-        'coment_03': coment_03.strip(),
+        'cargo_03': cargo_03,
+        'id_sala_03': id_sala_03,
+        'pedido_03': pedido_03,
+        'coment_03': RetiraCRLF(coment_03),
         'ckl_ponto_04': ckl_ponto_04.strip(),
         'ckl_espaco_04': ckl_espaco_04.strip(),
         'ckl_tomada_04': ckl_tomada_04.strip(),
@@ -751,7 +767,7 @@ def formulario_padrao(dados=None, combo_clientes=None):
         'ckl_conex_04': ckl_conex_04.strip(),
         'ckl_veda_04': ckl_veda_04.strip(),
         'ckl_freez_04': ckl_freez_04.strip(),
-        'coment_04': coment_04.strip(),
+        'coment_04': RetiraCRLF(coment_04),
         "linha_05": linha_05.strip(),
         "fabricante_05": fabricante_05.strip(),
         "cat_membr_05": cat_membr_05.strip(),

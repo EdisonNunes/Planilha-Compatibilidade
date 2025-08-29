@@ -515,7 +515,7 @@ if st.session_state.ger_aba == "Incluir":
             dadoscomrelatorio = novos_dados | st.session_state.ger_dict_rel
             # print('dadoscomrelatorio =' , dadoscomrelatorio)
             dadoscomrelatorio['status_rel_01'] = 'Concluído'
-            dadoscomrelatorio['conclusao'] = conclusao
+            dadoscomrelatorio['conclusao'] = RetiraCRLF(conclusao)
             incluir_registro(dados=dadoscomrelatorio )
             st.success("Planilha salva com sucesso!")
             st.session_state.ger_dict_rel = None
@@ -627,7 +627,7 @@ if st.session_state.ger_aba == "Alterar":
             dadoscomrelatorio = novos_dados | st.session_state.ger_dict_rel
             # print('dadoscomrelatorio =' , dadoscomrelatorio)
             dadoscomrelatorio['status_rel_01'] = 'Concluído'
-            dadoscomrelatorio['conclusao'] = conclusao
+            dadoscomrelatorio['conclusao'] = RetiraCRLF(conclusao)
             alterar_registro(id= registro['id'], dados=dadoscomrelatorio)   
             st.success("Planilha salva com sucesso!")
             st.session_state.ger_dict_rel = None
