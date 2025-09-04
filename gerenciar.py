@@ -98,33 +98,32 @@ def ShowWarning(dados, condicao):
     # Variaveis string que não necessariamente deverão ser preenchidas
     dict_warning = {}
 
-    if dados['local_teste_02'] == '':
-        dict_warning['Local de Teste']= 'Etapa 2'
-    if dados['pessoa_local_02'] == '' : 
-        dict_warning['Pessoa Local']= 'Etapa 2'  
-    if dados['id_local_02'] == '' : 
-        dict_warning['ID da Sala']= 'Etapa 2'  
-    if dados['dt_chegada_02'] == '' : 
-        dict_warning['Data e Hora - Chegada Local']= 'Etapa 2'  
-    if dados['hr_chegada_02'] == '' : 
-        dict_warning['Data e Hora - Chegada Pessoa']= 'Etapa 2' 
-
-    if dados['endereco_03'] == '':
-        dict_warning['Endereço']= 'Etapa 3'    
-    if dados['cidade_03'] == '':
-        dict_warning['Cidade']= 'Etapa 3'    
+    if dados['local_teste_03'] == '':
+        dict_warning['Local de Teste']= 'Etapa 3'
+    if dados['pessoa_local_03'] == '' : 
+        dict_warning['Pessoa Local']= 'Etapa 3'  
+    if dados['id_sala_03'] == '' : 
+        dict_warning['ID da Sala']= 'Etapa 3'  
+    if dados['dt_chegada_03'] == '' : 
+        dict_warning['Data e Hora - Chegada Local']= 'Etapa 3'  
+    if dados['hr_chegada_03'] == '' : 
+        dict_warning['Data e Hora - Chegada Pessoa']= 'Etapa 3' 
     if dados['setor_03'] == '':
         dict_warning['Setor']= 'Etapa 3'    
-    if dados['uf_03'] == '':
-        dict_warning['UF']= 'Etapa 3'    
-    if dados['id_sala_03'] == '':
-        dict_warning['ID da Sala']= 'Etapa 3'    
     if dados['cargo_03'] == '':
         dict_warning['Cargo']= 'Etapa 3'    
-    if dados['tel_03'] == '':
-        dict_warning['Telefone']= 'Etapa 3'    
-    if dados['email_03'] == '':
-        dict_warning['E-mail']= 'Etapa 3'    
+    
+
+    if dados['endereco_02'] == '':
+        dict_warning['Endereço']= 'Etapa 2'    
+    if dados['cidade_02'] == '':
+        dict_warning['Cidade']= 'Etapa 2'    
+    if dados['uf_02'] == '':
+        dict_warning['UF']= 'Etapa 2'    
+    if dados['tel_02'] == '':
+        dict_warning['Telefone']= 'Etapa 2'    
+    if dados['email_02'] == '':
+        dict_warning['E-mail']= 'Etapa 2'    
 
     if dados['linha_05'] == '' : 
         dict_warning['Linha do Filtro']= 'Etapa 5'
@@ -176,8 +175,8 @@ def ShowWarning(dados, condicao):
     if dados['serial_cat_disp_06'] == '' : 
         dict_warning['Serial Dispositivo']= 'Etapa 6'
 
-    if dados['estab_08'] == '' : 
-        dict_warning['Estabilidade do Produto']= 'Etapa 8'
+    # if dados['estab_08'] == '' : 
+    #     dict_warning['Estabilidade do Produto']= 'Etapa 8'
 
     if dados['wfi_res1_09'] == '' : 
         dict_warning['Fluido Padrão ID #1']= 'Etapa 9'
