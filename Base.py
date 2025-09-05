@@ -332,7 +332,7 @@ def formulario_padrao(dados=None, combo_clientes=None):
             cargo_03 = st.text_input('Cargo:',   max_chars= 50, value= dados.get("cargo_03", "") if dados else "")
             pedido_03 = st.text_input('Número do Pedido:',
                                        value=dados.get("pedido_03", "") if dados else "")
-        coment_03  = st.text_area('Comentários:', value= dados.get("coment_03", "") if dados else "")   
+        coment_03  = st.text_input('Complemento:', value= dados.get("coment_03", "") if dados else "")   
     
     ################## Etapa 4 - Checklist do local  ##################
     st.markdown(':orange-background[Etapa 4 - Checklist do local]')   
@@ -390,7 +390,7 @@ def formulario_padrao(dados=None, combo_clientes=None):
             ckl_freez_04 = st.radio('Geladeira/Freezer ou Estufas', 
                                     options=opcoes_ckl, index=idx_ckl_freez_04, horizontal=True)
 
-        coment_04  = st.text_area('Comentários Checklist:', value= dados.get("coment_03", "") if dados else "")
+        coment_04  = st.text_area('Comentários Checklist:', value= dados.get("coment_04", "") if dados else "")
 
     ################## Etapa 5 - Checklist do local  ##################
     st.markdown(':orange-background[Etapa 5 - Identificação do Material de Estudo]') 
@@ -758,7 +758,7 @@ def formulario_padrao(dados=None, combo_clientes=None):
         'cargo_03': cargo_03,
         'id_sala_03': id_sala_03,
         'pedido_03': pedido_03,
-        'coment_03': RetiraCRLF(coment_03),
+        'coment_03': coment_03,
         'ckl_ponto_04': ckl_ponto_04.strip(),
         'ckl_espaco_04': ckl_espaco_04.strip(),
         'ckl_tomada_04': ckl_tomada_04.strip(),
