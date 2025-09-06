@@ -220,13 +220,20 @@ def formulario_padrao(dados=None, combo_clientes=None):
     st.markdown(':orange-background[Etapa 1 - Status de pedido]')
     container1 = st.container(border=True)
     with container1:
-        opcoes = ['Pendente', 'Agendado', 'Cancelado', 'Parcial', 'Concluído']
+        # opcoes = ['Pendente', 'Agendado', 'Cancelado', 'Parcial', 'Concluído']
+        opcoes = ['Pendente', 'Agendado', 'Cancelado', 'Parcial']
+        # ajuda = '''
+        #     🕗 Pendente: Aguardando pedido do cliente\n
+        #     📅 Agendado: Preenchimento de dados não envolvidos com cálculos\n
+        #     ❌ Cancelado: Relatório suspenso\n
+        #     📝 Parcial: Preenchimento parcial dos dados de campo\n
+        #     ✅ Concluído: Relatório concluído - Não disponível para edição.
+        # '''
         ajuda = '''
             🕗 Pendente: Aguardando pedido do cliente\n
             📅 Agendado: Preenchimento de dados não envolvidos com cálculos\n
             ❌ Cancelado: Relatório suspenso\n
             📝 Parcial: Preenchimento parcial dos dados de campo\n
-            ✅ Concluído: Relatório concluído - Não disponível para edição.
         '''
         try:
             valor_status_rel01  = dados.get("status_rel_01", "")

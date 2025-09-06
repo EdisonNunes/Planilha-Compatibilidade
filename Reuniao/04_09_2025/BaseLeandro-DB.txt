@@ -1,0 +1,33 @@
+ID					L_01				L_02											L_03								L_04 L_05	
+R-CQ_20250902215603	44.734.671/0001-51	Cristália Produtos Químicos Farmacêuticos Ltda.	Rod. Itapira Lindoia S/N, KM 14	SP	 Itapira	
+
+L_05A		L_06								L_06A		L_07							L_08 L_08A		L_08B		L_09	L_09A	L_10	L_010A	
+13974-900	Estudo realizado na Unidade I - SP	01/09/2025	Sala para Lavagem de Frascos	NA	 **********	**********	24,6	23,8	61,3	50,9	
+
+L_11	L_12			L_13			L_14								L_15				L_16			L_16A							L_17	
+N/A		Ar Comprimido	Davidson Gomes	Analista de Garantia da Qualidade	Garantia  Qualidade	(19) 3843-9436 	davidson.gomes@cristalia.com.br	Davidson Gomes	
+
+L_18						L_19		L_20		L_21								L_22				L_23			L_24		L_25	
+Flávio A. Sanches Politi 	**********	**********	Analista de Garantia da Qualidade	Pesquisador - DNP	************	**********	Supor Prime	
+
+L_25A	L_26			L_27	L_28	L_29	L_30	L_31	L_32	L_33	L_34	L_35		L_36		L_37	L_38	L_39	L_40	L_41	
+
+Cytiva	MC200ASFP2AG	UC1268	042		PES		≈ 1"	0,2µm	HH		NI		60		48			Supor Prime	FTKASF	PES		47mm	0.2 µm	Holder 47mm	
+
+L_42	L_43	L_44	L_45	L_46	L_47	L_48	L_49	L_50	L_51	L_52					L_53	L_53A		L_54	L_55	L_56	L_57	
+NX0781	NX0781	NX0781	#1		#2		#3		N/A		N/A		WFI		19,7	Lipossomas de Resgate	0		LIP_HFL_021	0		1000	24		0,084	
+
+L_57A	L_57B	L_58	L_58A	L_58B		L_59	L_59A	L_59B		L_59C		L_60	L_61		L_61A		L_61B		L_61C		L_61D	L_62	
+0,084	0		0,083	0,085	0,024096386	0,083	0,084	0,012048193	0,012048193	100		00:00:28	214,2857143	00:00:42	142,8571429	33,33%	00:00:28	
+
+L_62A		L_62B		L_62C		L_62D	L_63		L_63A		L_63B		L_63C		L_63D	L_63F	L_64	L_64A			L_65	L_65A			
+214,2857143	00:00:39	153,8461538	28,21%	00:00:27	222,2222222	00:00:45	133,3333333	40,00%	33,85%	64,1	20250825095011	64,1	20250825100908	
+
+L_66	L_66A			L_67	L_67A			L_68	L_68A			L_69	L_69A			L_70	L_70A			L_71	L_71A			L_72	
+63,7	20250825103104	59,1	20250826135014	59,1	20250826140757	59		20250826142549	60,3	20250826165700	67,7	20250826163934	64,8	
+
+L_72A			L_73		L_73A		L_74		L_74A		L_74B	L_75	L_76	L_77	L_78	L_79	L_77A	L_79A	L_80	L_81	L_82	L_83
+20250826162259	25/08/2025	26/08/2025	11:15:00	13:40:00	26:25	60		55,404	55,6	042		NA		NA		NA		0,922	0,922	0,9262	0,9234
+
+L_84	L_85		L_86		L_87		L_88		L_89		L_90		L_91		L_92		L_93	L_94	L_95		L_96
+55,404	Aprovado	Reprovado	Aprovado	Aprovado	Aprovado	Aprovado	Aprovado	Aprovado	15		30		Ver. 1.1	LIP_HFL_021
